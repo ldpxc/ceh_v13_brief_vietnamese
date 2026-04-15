@@ -21,6 +21,7 @@ Cách mật khẩu được lưu trong SAM:
 - Lưu các giá trị băm LM hoặc NTLM (LM/NTLM)
 
 NTLM authentication (NTLM):
+
 NT LAN Manager (NTLM) — giao thức xác thực mặc định trên một số hệ thống cũ
 
 - Không dựa trên một đặc tả giao thức chính thức nên không có bảo đảm hoạt động hoàn toàn nhất quán
@@ -37,6 +38,7 @@ Công cụ trích xuất hash mật khẩu:
 - PyCrack
 
 Quy trình xác thực NTLM (tóm tắt):
+
 Client request access -> Server gửi challenge -> Client tính response -> Server xác thực (AD hoặc SAM)
 
 Kerberos authentication (Kerberos):
@@ -48,6 +50,7 @@ Kerberos authentication (Kerberos):
 - Nâng cấp so với NTLM
 
 Quy trình Kerberos (tóm tắt):
+
 Đăng nhập và yêu cầu ticket -> Nhận Ticket-Granting Ticket (TGT) -> Yêu cầu quyền truy cập dịch vụ -> Nhận Service ticket -> Truy cập dịch vụ
 
 Các phương án lấy mật khẩu / bẻ khóa:
@@ -170,7 +173,7 @@ Nguồn exploit:
 - MITRE CVE
 - Windows Exploit Suggester (WES-NG)
 
-Metasploit (Metasploit):
+## Metasploit (Metasploit):
 
 - Exploit module:
   1.  Cấu hình exploit
@@ -257,6 +260,7 @@ JIT spraying — lợi dụng JIT compilation (trên trình duyệt) để thự
 Exploit chaining — kết hợp nhiều exploit và lỗ hổng nối tiếp nhau
 
 AD Domain mapping — dùng BloodHound để ánh xạ AD domain (BloodHound)
+
 Post-AD enumeration — dùng PowerView để lấy users, groups, domains (PowerView)
 
 | Command                                          | Description                                                       |

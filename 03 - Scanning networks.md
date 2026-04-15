@@ -1,8 +1,8 @@
 ## Giới thiệu
 
-Công cụ — Metasploit, Nmap, Hping3
+### Công cụ — Metasploit, Nmap, Hping3
 
-TCP communication flags
+### TCP communication flags
 
 | SYN | Bắt đầu kết nối TCP; cờ `SYN` ban đầu                            |
 | --- | ---------------------------------------------------------------- |
@@ -12,11 +12,11 @@ TCP communication flags
 | PSH | Ép chuyển giao dữ liệu ngay lập tức                              |
 | URG | Đánh dấu dữ liệu là ưu tiên, gửi ngoài luồng (out‑of‑band)       |
 
-Colasoft Packet Builder
+- Colasoft Packet Builder
 
-Nmap
+- Nmap
 
-Hping3:
+- Hping3:
 
 ```bash
 hping3 -1 0.0.0.0      # ICMP ping sweep
@@ -45,12 +45,12 @@ hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood  # syn flood tới nạn nhâ
 | `--flood`      | Max rate send  |
 | `--traceroute` | TCP traceroute |
 
-Metasploit
-NetScanTools Pro — phát hiện thiết bị trên mạng
+- Metasploit
+- NetScanTools Pro — phát hiện thiết bị trên mạng
 
 ## Kỹ thuật quét để phát hiện host
 
-Host discovery techniques:
+### Host discovery techniques:
 
 - `nmap -sn` — chỉ phát hiện host (host discovery only).
 - Quét ARP (ARP ping scan) — chỉ trong mạng nội bộ (local only): `nmap -PR 192.168.1.0/24` hoặc `nmap -sn` với ARP request (không thể dùng `hping3` cho ARP).
@@ -62,7 +62,7 @@ Host discovery techniques:
 - TCP ACK ping — `nmap -PA` (mặc định dùng port 80; tăng khả năng vượt tường lửa).
 - IP protocol ping — `nmap -sn -PO` (gửi nhiều loại probe; bất kỳ phản hồi nào cho biết host trực tuyến).
 
-Công cụ ping sweep:
+### Công cụ ping sweep:
 
 - Angry IP Scanner
 - SolarWinds Engineer’s Toolset
@@ -73,20 +73,20 @@ Công cụ ping sweep:
 - Superscan
 - Pinkie
 
-Quét Nmap qua TOR
+### Quét Nmap qua TOR
 
 ARP — ánh xạ IP tới MAC trong mạng.
 Ví dụ ARP scan trong Nmap: `nmap -sn -PR 192.168.1.69`.
 
 ## Port và phát hiện dịch vụ
 
-MUST KNOW — Ports:
+### MUST KNOW — Ports:
 
 - Well‑known ports: 0–1023
 - Registered ports: 1024–49151
 - Dynamic/Private ports: 49152–65535
 
-Các port quan trọng:
+### Các port quan trọng:
 
 | Port number | Protocol | Transport protocol |
 | ----------- | -------- | ------------------ |
@@ -114,12 +114,12 @@ Các port quan trọng:
 | 3389        | RDP      | TCP                |
 | 5060        | SIP      | UDP/TCP            |
 
-Các kiểu quét cổng (Port scan types):
+### Các kiểu quét cổng (Port scan types):
 
 - TCP Connect / Full open scan — nếu cổng mở thì handshake thành công, nếu đóng sẽ nhận `RST`. Ví dụ: `nmap -sT -v`.
 - Stealth / Half‑open (SYN) scan — chỉ gửi `SYN`, không hoàn tất handshake: `nmap -sS` (thùy chọn ít bị chú ý hơn).
 - Inverse TCP scan — gửi các tổ hợp cờ TCP không chuẩn để né IDS (không hiệu quả trên Windows).
-  - Xmas scan — bật `FIN`, `URG`, `PSH`: `nmap -sX` (`-sF` là FIN, `-sN` là NULL scan).
+  - Xmas scan — bật `FIN`, `URG`, `PSH`: `nmap -sX` (`-sF` là FIN, `-sN` là NULL scan`).
   - TCP Maimon — gửi `FIN` và `ACK`: `nmap -sM`.
   - ACK flag probe — gửi `ACK` và xem TTL/Window để ước lượng trạng thái; dùng để kiểm tra firewall.
 - IDLE / IPID scan — gửi địa chỉ nguồn giả (spoof), dùng máy zombie làm trung gian: `nmap -sI zombieIP targetIP`.
@@ -128,7 +128,7 @@ Các kiểu quét cổng (Port scan types):
 
 Ví dụ nâng cao: `nmap -sS -A -f 172.17.15.12` có thể phân mảnh SYN scan trong khi vẫn fingerprint OS.
 
-Scan responses:
+### Scan responses:
 
 | Flag | open                      | closed                           | Filtered                          | Unfiltered (reachable path) |
 | ---- | ------------------------- | -------------------------------- | --------------------------------- | --------------------------- |
@@ -186,7 +186,7 @@ Scan responses:
 | -T4    | Parallel — nhanh              |
 | -T5    | Parallel — cực nhanh          |
 
-Hping3
+### Hping3
 
 ## Hping3 Scan & Mode Switches
 

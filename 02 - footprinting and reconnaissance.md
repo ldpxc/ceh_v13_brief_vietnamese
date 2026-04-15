@@ -19,7 +19,7 @@ Số thứ tự SYN (SYN sequence number) là ngẫu nhiên và tăng theo mỗi
 
 ![[Pasted image 20250930111156.png]]
 
-Công cụ tạo gói (Packet crafting tools):
+### Công cụ tạo gói (Packet crafting tools):
 
 - NetScanTools
 - Ostinato
@@ -129,6 +129,7 @@ Công cụ DNS:
 - MXToolbox — kiểm tra bản ghi MX và dịch vụ mail.
 
 Traceroute
+
 Công cụ:
 
 - NetScanToolsPro
@@ -220,7 +221,7 @@ Công cụ:
 - Advanced IP Scanner
 - Pinkie
 
-Quét Nmap qua TOR (Nmap scan through TOR).
+Quét Nmap qua TOR
 
 ARP
 
