@@ -12,11 +12,11 @@
 | PSH | Ép chuyển giao dữ liệu ngay lập tức                              |
 | URG | Đánh dấu dữ liệu là ưu tiên, gửi ngoài luồng (out‑of‑band)       |
 
-- Colasoft Packet Builder
+- **Colasoft Packet Builder**
 
-- Nmap
+- **Nmap**
 
-- Hping3:
+- **Hping3:**
 
 ```bash
 hping3 -1 0.0.0.0      # ICMP ping sweep
@@ -45,37 +45,37 @@ hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood  # syn flood tới nạn nhâ
 | `--flood`      | Max rate send  |
 | `--traceroute` | TCP traceroute |
 
-- Metasploit
-- NetScanTools Pro — phát hiện thiết bị trên mạng
+- **Metasploit**
+- **NetScanTools Pro** — phát hiện thiết bị trên mạng
 
 ## Kỹ thuật quét để phát hiện host
 
 ### Host discovery techniques:
 
-- `nmap -sn` — chỉ phát hiện host (host discovery only).
-- Quét ARP (ARP ping scan) — chỉ trong mạng nội bộ (local only): `nmap -PR 192.168.1.0/24` hoặc `nmap -sn` với ARP request (không thể dùng `hping3` cho ARP).
-- UDP ping scan — `nmap -sn -PU`.
-- ICMP Echo ping scan — `nmap -sn -P` (có thể điều chỉnh số lần ping với `-L` và timeout với `-T`).
-- ICMP Timestamp ping — `nmap -sn -PP` (lấy thời gian hiện tại từ máy mục tiêu).
-- ICMP Address mask ping — `nmap -sn -PM` (lấy subnet mask).
-- TCP SYN ping — `nmap -sn -PS` (phát hiện máy ONLINE mà không tạo kết nối đầy đủ).
-- TCP ACK ping — `nmap -PA` (mặc định dùng port 80; tăng khả năng vượt tường lửa).
-- IP protocol ping — `nmap -sn -PO` (gửi nhiều loại probe; bất kỳ phản hồi nào cho biết host trực tuyến).
+- **`nmap -sn`** — chỉ phát hiện host (host discovery only).
+- **Quét ARP (ARP ping scan)** — chỉ trong mạng nội bộ (local only): `nmap -PR 192.168.1.0/24` hoặc `nmap -sn` với ARP request (không thể dùng `hping3` cho ARP).
+- **UDP ping scan** — `nmap -sn -PU`.
+- **ICMP Echo ping scan** — `nmap -sn -P` (có thể điều chỉnh số lần ping với `-L` và timeout với `-T`).
+- **ICMP Timestamp ping** — `nmap -sn -PP` (lấy thời gian hiện tại từ máy mục tiêu).
+- **ICMP Address mask ping** — `nmap -sn -PM` (lấy subnet mask).
+- **TCP SYN ping** — `nmap -sn -PS` (phát hiện máy ONLINE mà không tạo kết nối đầy đủ).
+- **TCP ACK ping** — `nmap -PA` (mặc định dùng port 80; tăng khả năng vượt tường lửa).
+- **IP protocol ping** — `nmap -sn -PO` (gửi nhiều loại probe; bất kỳ phản hồi nào cho biết host trực tuyến).
 
 ### Công cụ ping sweep:
 
-- Angry IP Scanner
-- SolarWinds Engineer’s Toolset
-- NetScanTools Pro
-- Colasoft Ping Tool
-- Advanced IP Scanner
-- OpUtils
-- Superscan
-- Pinkie
+- **Angry IP Scanner**
+- **SolarWinds Engineer’s Toolset**
+- **NetScanTools Pro**
+- **Colasoft Ping Tool**
+- **Advanced IP Scanner**
+- **OpUtils**
+- **Superscan**
+- **Pinkie**
 
 ### Quét Nmap qua TOR
 
-ARP — ánh xạ IP tới MAC trong mạng.
+**ARP —** ánh xạ IP tới MAC trong mạng.
 Ví dụ ARP scan trong Nmap: `nmap -sn -PR 192.168.1.69`.
 
 ## Port và phát hiện dịch vụ
@@ -116,17 +116,17 @@ Ví dụ ARP scan trong Nmap: `nmap -sn -PR 192.168.1.69`.
 
 ### Các kiểu quét cổng (Port scan types):
 
-- TCP Connect / Full open scan — nếu cổng mở thì handshake thành công, nếu đóng sẽ nhận `RST`. Ví dụ: `nmap -sT -v`.
-- Stealth / Half‑open (SYN) scan — chỉ gửi `SYN`, không hoàn tất handshake: `nmap -sS` (thùy chọn ít bị chú ý hơn).
-- Inverse TCP scan — gửi các tổ hợp cờ TCP không chuẩn để né IDS (không hiệu quả trên Windows).
-  - Xmas scan — bật `FIN`, `URG`, `PSH`: `nmap -sX` (`-sF` là FIN, `-sN` là NULL scan`).
-  - TCP Maimon — gửi `FIN` và `ACK`: `nmap -sM`.
-  - ACK flag probe — gửi `ACK` và xem TTL/Window để ước lượng trạng thái; dùng để kiểm tra firewall.
-- IDLE / IPID scan — gửi địa chỉ nguồn giả (spoof), dùng máy zombie làm trung gian: `nmap -sI zombieIP targetIP`.
-- UDP scan — gửi datagram tới cổng; nếu không có phản hồi thường là mở, nếu ICMP unreachable thì đóng.
-- SSDP / UPnP scan — quét dịch vụ UPnP.
+- **TCP Connect / Full open scan** — nếu cổng mở thì handshake thành công, nếu đóng sẽ nhận `RST`. Ví dụ: `nmap -sT -v`.
+- **Stealth / Half‑open (SYN) scan** — chỉ gửi `SYN`, không hoàn tất handshake: `nmap -sS` (thùy chọn ít bị chú ý hơn).
+- **Inverse TCP scan** — gửi các tổ hợp cờ TCP không chuẩn để né IDS (không hiệu quả trên Windows).
+  - **Xmas scan** — bật `FIN`, `URG`, `PSH`: `nmap -sX` (`-sF` là FIN, `-sN` là NULL scan`).
+  - **TCP Maimon** — gửi `FIN` và `ACK`: `nmap -sM`.
+  - **ACK flag probe** — gửi `ACK` và xem TTL/Window để ước lượng trạng thái; dùng để kiểm tra firewall.
+- **IDLE / IPID scan** — gửi địa chỉ nguồn giả (spoof), dùng máy zombie làm trung gian: `nmap -sI zombieIP targetIP`.
+- **UDP scan** — gửi datagram tới cổng; nếu không có phản hồi thường là mở, nếu ICMP unreachable thì đóng.
+- **SSDP / UPnP scan** — quét dịch vụ UPnP.
 
-Ví dụ nâng cao: `nmap -sS -A -f 172.17.15.12` có thể phân mảnh SYN scan trong khi vẫn fingerprint OS.
+**Ví dụ nâng cao:** `nmap -sS -A -f 172.17.15.12` có thể phân mảnh SYN scan trong khi vẫn fingerprint OS.
 
 ### Scan responses:
 
@@ -213,54 +213,54 @@ Ví dụ nâng cao: `nmap -sS -A -f 172.17.15.12` có thể phân mảnh SYN sca
 | `-U`   | Set URG flag                     |
 | `-X`   | Set Xmas (FIN + PSH + URG) flags |
 
-Công cụ giả mạo gói (packet spoofing): Hping, Scapy, Komodia, Ettercap, Cain.
+**Công cụ giả mạo gói (packet spoofing):** Hping, Scapy, Komodia, Ettercap, Cain.
 
-`G-zapper` — xóa cookie tracking của Google.
+**`G-zapper`** xóa cookie tracking của Google.
 
-Phát hiện phiên bản dịch vụ (Service version discovery): `nmap -sV`.
+**Phát hiện phiên bản dịch vụ (Service version discovery):** `nmap -sV`.
 
 ## Phát hiện OS bằng banner grabbing
 
-Banner grabbing chủ động (Active banner grabbing)
+**Banner grabbing chủ động (Active banner grabbing)**
 
-Xác định theo TTL (giá trị TTL thường):
+**Xác định theo TTL (giá trị TTL thường):**
 
-- Linux: 64
-- Windows: 128
-- FreeBSD: 64
-- OpenBSD: 255
-- Cisco: 255
-- Solaris: 255
-- AIX: 255
+- **Linux: 64**
+- **Windows: 128**
+- **FreeBSD: 64**
+- **OpenBSD: 255**
+- **Cisco: 255**
+- **Solaris: 255**
+- **AIX: 255**
 
-Phát hiện OS với `nmap -O`.
-Sử dụng Nmap Scripting Engine: `--script` hoặc `-sC`.
-IPv6: `nmap -6 -O 69.69.69.69`.
+**Phát hiện OS với `nmap -O`.**
+**Sử dụng Nmap Scripting Engine:** `--script` hoặc `-sC`.
+**IPv6:** `nmap -6 -O 69.69.69.69`.
 
 ## Quét vượt qua tường lửa (Scanning beyond firewall)
 
-- Packet Fragmentation
-- Source Routing
-- Source Port Manipulation
-- IP Address Decoy
-- IP Address Spoofing
-- MAC Address Spoofing
-- Creating Custom Packets
-- Randomizing Host Order
-- Sending Bad Checksums
-- Proxy Servers
-- Anonymizers
+- **Packet Fragmentation**
+- **Source Routing**
+- **Source Port Manipulation**
+- **IP Address Decoy**
+- **IP Address Spoofing**
+- **MAC Address Spoofing**
+- **Creating Custom Packets**
+- **Randomizing Host Order**
+- **Sending Bad Checksums**
+- **Proxy Servers**
+- **Anonymizers**
 
-Phân mảnh gói:
+**Phân mảnh gói:**
 
 ```
 nmap -sS -t4 -A -f -v
 ```
 
-Giả mạo địa chỉ IP (IP address spoofing):
+**Giả mạo địa chỉ IP (IP address spoofing):**
 
 ```
 Hping3 www.certifiedhacker.com -a 7.7.7.7
 ```
 
-MIB info — cần kiểm tra.
+**MIB info —** cần kiểm tra.

@@ -22,9 +22,9 @@
 
 **Cách IDS phát hiện xâm nhập**
 
-- Nhận diện chữ ký (signature recognition) — phát hiện lạm dụng (misuse detection).
-- Phát hiện dị thường (anomaly detection) — dựa trên đặc trưng hành vi.
-- Phát hiện bất thường giao thức (protocol anomaly detection) — phát hiện sai lệch so với tiêu chuẩn giao thức đã thiết lập.
+- **Nhận diện chữ ký (signature recognition)** — phát hiện lạm dụng (misuse detection).
+- **Phát hiện dị thường (anomaly detection)** — dựa trên đặc trưng hành vi.
+- **Phát hiện bất thường giao thức (protocol anomaly detection)** — phát hiện sai lệch so với tiêu chuẩn giao thức đã thiết lập.
 
 ## Intrusion prevention system (IPS)
 
@@ -36,7 +36,7 @@ Hệ thống ngăn chặn xâm nhập (IPS) được coi là IDS chủ động (
 - Phát hiện và loại bỏ mối đe dọa nhanh chóng.
 - Nhận diện mối đe dọa chính xác để giảm các báo cáo dương tính giả (false positives).
 
-Phân loại IPS:
+**Phân loại IPS:**
 
 - Dựa trên máy chủ (host-based).
 - Dựa trên mạng (network-based).
@@ -71,7 +71,7 @@ IPS được coi là IDS chủ động; chúng vừa có tính năng phát hiệ
 - Phát hiện và loại bỏ mối đe dọa nhanh chóng.
 - Nhận diện mối đe dọa với độ chính xác cao nhằm giảm báo cáo dương tính giả.
 
-Phân loại IPS:
+**Phân loại IPS:**
 
 - Dựa trên máy chủ (Host-based IPS).
 - Dựa trên mạng (Network-based IPS).
@@ -86,7 +86,7 @@ Phân loại IPS:
 
 - Bastion host:
   - Được thiết kế để bảo vệ mạng khỏi các cuộc tấn công. Hoạt động như bộ trung gian giữa vùng an toàn và vùng không an toàn.
-  - Có hai giao diện — một công khai nối trực tiếp ra Internet, một riêng tư nối vào mạng nội bộ.
+  - **Có hai giao diện** — một công khai nối trực tiếp ra Internet, một riêng tư nối vào mạng nội bộ.
 - Screened subnet (DMZ):
   - Tạo bằng cách dùng hai hoặc ba tường lửa có nhiều interface (multi-homed) phía sau một tường lửa lọc.
     - Multi-homed firewall - nút có nhiều NIC kết nối tới các đoạn mạng khác nhau.
@@ -119,35 +119,35 @@ Phân loại IPS:
 
 YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based):
 
-- `condition` — điều kiện khi nào một quy tắc cho kết quả true với một file.
-- `strings` — định nghĩa các chuỗi cần tìm trong file.
-- `metadata` — phần thông tin chung trong quy tắc YARA.
+- **`condition`** — điều kiện khi nào một quy tắc cho kết quả true với một file.
+- **`strings`** — định nghĩa các chuỗi cần tìm trong file.
+- **`metadata`** — phần thông tin chung trong quy tắc YARA.
 - Công cụ tham khảo: yarGen.
 
 ## Công cụ IDS
 
-- Snort — phân tích lưu lượng và ghi log gói.
-- Suricata — IDS thời gian thực, có thể chạy inline như IPS, hỗ trợ network security monitoring và xử lý pcap offline.
+- **Snort** — phân tích lưu lượng và ghi log gói.
+- **Suricata** — IDS thời gian thực, có thể chạy inline như IPS, hỗ trợ network security monitoring và xử lý pcap offline.
 
 ## Công cụ IPS
 
-- Trellix IPS — phát hiện botnet, worm và các cuộc dò tìm.
-- Check Point Quantum IPS.
-- McAfee IPS.
+- **Trellix IPS** — phát hiện botnet, worm và các cuộc dò tìm.
+- **Check Point Quantum IPS.**
+- **McAfee IPS.**
 
 ## IDS and Firewall evasion techniques
 
 **Xác định mục tiêu (Identification):**
 
 - Quét cổng (Port scanning).
-- Firewalking — dùng giá trị TTL để xác định các ACL trên gateway và lập bản đồ mạng, hoạt động tương tự traceroute.
-- Banner grabbing — thu thập thông tin banner dịch vụ.
+- **Firewalking** — dùng giá trị TTL để xác định các ACL trên gateway và lập bản đồ mạng, hoạt động tương tự traceroute.
+- **Banner grabbing** — thu thập thông tin banner dịch vụ.
 
 **IP spoofing, source routing và fragmentation**
 
-- IP address spoofing — giả mạo địa chỉ IP nguồn, tạo gói với địa chỉ nguồn giả mạo (có thể dùng `hping` để tạo gói).
-- Source routing — chỉ định tuyến đường đi của gói qua các đoạn mạng khác, có thể tránh các thiết bị giám sát.
-- Tiny fragments — tấn công bằng cách chia gói thành các mảnh rất nhỏ, buộc một số thông tin header TCP nằm trong mảnh tiếp theo.
+- **IP address spoofing** — giả mạo địa chỉ IP nguồn, tạo gói với địa chỉ nguồn giả mạo (có thể dùng `hping` để tạo gói).
+- **Source routing** — chỉ định tuyến đường đi của gói qua các đoạn mạng khác, có thể tránh các thiết bị giám sát.
+- **Tiny fragments** — tấn công bằng cách chia gói thành các mảnh rất nhỏ, buộc một số thông tin header TCP nằm trong mảnh tiếp theo.
 
 **Bypassing FW/IDS using a proxy server**
 
@@ -209,10 +209,10 @@ YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based
 
 **Bypassing WAF**
 
-- HTTP header spoofing — giả mạo header và cú pháp.
-- Phát hiện blacklist — xác định các từ khóa bị blacklist (ví dụ SQL).
-- Fuzzing/brute forcing — dùng wordlists.
-- Lạm dụng cipher SSL/TLS — dùng `sslscan` để kiểm tra cipher.
+- **HTTP header spoofing** — giả mạo header và cú pháp.
+- **Phát hiện blacklist** — xác định các từ khóa bị blacklist (ví dụ SQL).
+- **Fuzzing/brute forcing** — dùng wordlists.
+- **Lạm dụng cipher SSL/TLS** — dùng `sslscan` để kiểm tra cipher.
 
 **HTML smuggling**
 
@@ -226,48 +226,48 @@ YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based
 
 **Các kỹ thuật né tránh khác**
 
-- Insertion attack — làm rối IDS bằng cách buộc nó đọc các gói không hợp lệ.
-- Evasion — IDS bỏ qua một số gói nhưng host đích vẫn chấp nhận chúng (vấn đề tại lớp IP/TCP và trạng thái kết nối).
-- DoS — tiêu thụ tài nguyên để khiến thiết bị không thể xử lý cảnh báo.
-- Obfuscation — chỉ đích nhận biết được nội dung, IDS không thể giải mã.
-- False positive generation — tạo nhiều cảnh báo giả để che dấu cuộc tấn công thực sự.
-- Session splicing — chia traffic thành nhiều gói nhỏ để IDS không khớp mẫu trước khi reconstruct session.
-- Unicode evasion technique — nhiều biểu diễn cho cùng một ký tự (UTF‑16, UTF‑8), khiến lọc ký tự không nhất quán.
-- Fragmentation attack — nếu MTU bị vượt, gói bị phân mảnh; kẻ tấn công lợi dụng để né lọc.
-- Time to live (TTL) attacks — khai thác kiến thức về topology để khiến gói bị drop trước khi tới IDS.
-- Urgent (URG) flag — TCP có con trỏ URG; một số IDS không xử lý chính xác tính năng này.
-- Invalid RST packets — gửi RST với checksum không hợp lệ.
-- Polymorphic shellcode — mã độc thay đổi biểu diễn để né signature-based NIDS.
-- ASCII shellcode — chỉ dùng ký tự ASCII để né một số lọc.
-- Application layer attacks — lợi dụng file media (ảnh, audio, video) và sai sót trong giải nén/compression.
-- Desynchronization — gửi SYN trước khi kết nối thật được thiết lập hoặc dùng sequence numbers khác nhau để làm rối việc reconstruct.
-- Domain Generation Algorithms (DGA) — tạo nhiều domain động để thay đổi nhanh điểm C2.
+- **Insertion attack** — làm rối IDS bằng cách buộc nó đọc các gói không hợp lệ.
+- **Evasion** — IDS bỏ qua một số gói nhưng host đích vẫn chấp nhận chúng (vấn đề tại lớp IP/TCP và trạng thái kết nối).
+- **DoS** — tiêu thụ tài nguyên để khiến thiết bị không thể xử lý cảnh báo.
+- **Obfuscation** — chỉ đích nhận biết được nội dung, IDS không thể giải mã.
+- **False positive generation** — tạo nhiều cảnh báo giả để che dấu cuộc tấn công thực sự.
+- **Session splicing** — chia traffic thành nhiều gói nhỏ để IDS không khớp mẫu trước khi reconstruct session.
+- **Unicode evasion technique** — nhiều biểu diễn cho cùng một ký tự (UTF‑16, UTF‑8), khiến lọc ký tự không nhất quán.
+- **Fragmentation attack** — nếu MTU bị vượt, gói bị phân mảnh; kẻ tấn công lợi dụng để né lọc.
+- **Time to live (TTL) attacks** — khai thác kiến thức về topology để khiến gói bị drop trước khi tới IDS.
+- **Urgent (URG) flag** — TCP có con trỏ URG; một số IDS không xử lý chính xác tính năng này.
+- **Invalid RST packets** — gửi RST với checksum không hợp lệ.
+- **Polymorphic shellcode** — mã độc thay đổi biểu diễn để né signature-based NIDS.
+- **ASCII shellcode** — chỉ dùng ký tự ASCII để né một số lọc.
+- **Application layer attacks** — lợi dụng file media (ảnh, audio, video) và sai sót trong giải nén/compression.
+- **Desynchronization** — gửi SYN trước khi kết nối thật được thiết lập hoặc dùng sequence numbers khác nhau để làm rối việc reconstruct.
+- **Domain Generation Algorithms (DGA)** — tạo nhiều domain động để thay đổi nhanh điểm C2.
 
 **NAC và né tránh bảo mật điểm cuối (endpoint security)**
 
-Network Access Control (NAC):
+**Network Access Control (NAC):**
 
-- VLAN hopping — chiếm quyền truy cập Dynamic Trunking Protocol (DTP) để thay đổi chế độ switch; công cụ: `VLANPWN`.
-- Dùng thiết bị đã xác thực (pre‑authenticated device) — lợi dụng thiết bị đã được cho phép (ví dụ Raspberry Pi) để smuggle gói vào mạng.
+- **VLAN hopping** — chiếm quyền truy cập Dynamic Trunking Protocol (DTP) để thay đổi chế độ switch; công cụ: `VLANPWN`.
+- **Dùng thiết bị đã xác thực (pre‑authenticated device)** — lợi dụng thiết bị đã được cho phép (ví dụ Raspberry Pi) để smuggle gói vào mạng.
 
 **Bypass endpoint security**
 
-- Ghostwriting — thay đổi cấu trúc nhị phân mà không làm thay đổi chức năng để né AV (ghostwriting.sh).
-- Application whitelisting bypass — DLL hijacking đặt DLL độc hại với tên hợp lệ.
-- Dechaining macros — spawn qua ShellCOM, sử dụng VBA/XMLDOM để tải mã trong tiến trình Office.
-- Clearing memory hooks — tìm DLL liên quan tới syscall, dùng `x64dbg` để xác định và ghi đè hook bộ nhớ.
-- Process injection — chèn mã vào không gian tiến trình đang chạy (sử dụng API như `VirtualAllocEx()`, `WriteProcessMemory()`, `CreateRemoteThread()`).
-- Living‑Off‑The‑Land binaries (LoL bins) — dùng công cụ sẵn có trên hệ thống; ví dụ dùng `rundll32` để thực thi payload.
-- CPL side‑loading — giả mạo applet CPL để ẩn mã độc, dùng `CPLResourceRunner`.
+- **Ghostwriting** — thay đổi cấu trúc nhị phân mà không làm thay đổi chức năng để né AV (ghostwriting.sh).
+- **Application whitelisting bypass** — DLL hijacking đặt DLL độc hại với tên hợp lệ.
+- **Dechaining macros** — spawn qua ShellCOM, sử dụng VBA/XMLDOM để tải mã trong tiến trình Office.
+- **Clearing memory hooks** — tìm DLL liên quan tới syscall, dùng `x64dbg` để xác định và ghi đè hook bộ nhớ.
+- **Process injection** — chèn mã vào không gian tiến trình đang chạy (sử dụng API như `VirtualAllocEx()`, `WriteProcessMemory()`, `CreateRemoteThread()`).
+- **Living‑Off‑The‑Land binaries (LoL bins)** — dùng công cụ sẵn có trên hệ thống; ví dụ dùng `rundll32` để thực thi payload.
+- **CPL side‑loading** — giả mạo applet CPL để ẩn mã độc, dùng `CPLResourceRunner`.
 - Sử dụng mẫu Metasploit (`msfvenom`) và kiểm tra tỉ lệ phát hiện bằng VirusTotal (`VirusTotal`).
-- AMSI bypass — hạ cấp PowerShell, obfuscation hoặc khai thác lỗi để né AMSI (`AMSI`).
-- Fast‑flux DNS — thay đổi nhanh IP và tên domain để né blacklist và che giấu C&C.
+- **AMSI bypass** — hạ cấp PowerShell, obfuscation hoặc khai thác lỗi để né AMSI (`AMSI`).
+- **Fast‑flux DNS** — thay đổi nhanh IP và tên domain để né blacklist và che giấu C&C.
 - Các kỹ thuật khác: shellcode encryption, giảm entropy nhị phân, thoát sandbox, tắt event tracing, giả mạo call stack, mã hóa beacon trong bộ nhớ.
 
 **Công cụ né tránh IDS/Firewall**
 
-- Traffic IQ Professional
-- Colasoft Packet Builder
+- **Traffic IQ Professional**
+- **Colasoft Packet Builder**
 
 ## Honeypots
 
@@ -277,41 +277,41 @@ Network Access Control (NAC):
 
 **Các loại honeypots:**
 
-- Low‑interaction — mô phỏng một số dịch vụ/các ứng dụng cơ bản (ví dụ tiny‑ssh‑honeypot, KFSensor, honeytrap).
-- Medium‑interaction — mô phỏng hệ điều hành, ứng dụng và dịch vụ ở mức trung bình.
-- High‑interaction — mô phỏng đầy đủ dịch vụ và ứng dụng của mạng mục tiêu.
-- Pure honeypot — mô phỏng mạng sản xuất thực tế.
-- Production honeypots — triển khai trong môi trường sản xuất, chỉ thu thập thông tin hạn chế (thường low‑interaction).
-- Research honeypots — triển khai bởi các viện nghiên cứu.
-- Malware honeypots — dùng để bẫy chiến dịch mã độc, giả lập API cũ/vulnerable (ví dụ SMBv1).
+- **Low‑interaction** — mô phỏng một số dịch vụ/các ứng dụng cơ bản (ví dụ tiny‑ssh‑honeypot, KFSensor, honeytrap).
+- **Medium‑interaction** — mô phỏng hệ điều hành, ứng dụng và dịch vụ ở mức trung bình.
+- **High‑interaction** — mô phỏng đầy đủ dịch vụ và ứng dụng của mạng mục tiêu.
+- **Pure honeypot** — mô phỏng mạng sản xuất thực tế.
+- **Production honeypots** — triển khai trong môi trường sản xuất, chỉ thu thập thông tin hạn chế (thường low‑interaction).
+- **Research honeypots** — triển khai bởi các viện nghiên cứu.
+- **Malware honeypots** — dùng để bẫy chiến dịch mã độc, giả lập API cũ/vulnerable (ví dụ SMBv1).
 - Database honeypots, spam honeypots (open mail relays), email honeypots (email giả), spider honeypots (bẫy web crawlers).
-- Honeynets — mạng gồm nhiều honeypot.
+- **Honeynets** — mạng gồm nhiều honeypot.
 
 **Công cụ:**
 
-- HoneyBOT (medium interaction)
-- Blumira
-- NeroSwarm
+- **HoneyBOT (medium interaction)**
+- **Blumira**
+- **NeroSwarm**
 
 **Phát hiện honeypot:**
 
-- Fingerprint dịch vụ đang chạy — dùng `nmap -sV -p 80 <ip>`.
-- Phân tích thời gian phản hồi — đo độ trễ (ví dụ `nmap --scan-delay 1s --max-retries 5 <ip>`).
-- Kiểm tra MAC để tìm các OUI bất thường — `arp-scan --interface=eth0 --localnet`.
-- Liệt kê các port mở bất thường — `nmap -p <ports> <ip>`.
-- Phân tích cấu hình hệ thống và metadata — kiểm tra cấu hình mặc định, banner lỗi thời, sự không nhất quán thông tin hệ thống.
+- **Fingerprint dịch vụ đang chạy** — dùng `nmap -sV -p 80 <ip>`.
+- **Phân tích thời gian phản hồi** — đo độ trễ (ví dụ `nmap --scan-delay 1s --max-retries 5 <ip>`).
+- **Kiểm tra MAC để tìm các OUI bất thường** — `arp-scan --interface=eth0 --localnet`.
+- **Liệt kê các port mở bất thường** — `nmap -p <ports> <ip>`.
+- **Phân tích cấu hình hệ thống và metadata** — kiểm tra cấu hình mặc định, banner lỗi thời, sự không nhất quán thông tin hệ thống.
 
 **Phát hiện và vô hiệu hóa honeypot**
 
-- Layer 7 tar pits — tương tự honeypot, làm chậm các nỗ lực trái phép (phát hiện qua độ trễ phản hồi).
-- Layer 4 tar pits — thao tác TCP/IP stack để làm chậm sự lây lan của worm/backdoor (ví dụ đặt zero‑window để chặn dữ liệu).
-- Layer 2 tar pits — bảo vệ chống tấn công trong cùng mạng.
-- Honeypot chạy trên VMware — phát hiện qua MAC address.
-- Honeyd — daemon honeypot, tạo phản hồi SMTP giả; có thể phát hiện bằng TCP fingerprinting dựa trên thời gian.
+- **Layer 7 tar pits** — tương tự honeypot, làm chậm các nỗ lực trái phép (phát hiện qua độ trễ phản hồi).
+- **Layer 4 tar pits** — thao tác TCP/IP stack để làm chậm sự lây lan của worm/backdoor (ví dụ đặt zero‑window để chặn dữ liệu).
+- **Layer 2 tar pits** — bảo vệ chống tấn công trong cùng mạng.
+- **Honeypot chạy trên VMware** — phát hiện qua MAC address.
+- **Honeyd** — daemon honeypot, tạo phản hồi SMTP giả; có thể phát hiện bằng TCP fingerprinting dựa trên thời gian.
 - Kiểm tra `/proc` (proc/mounts, proc/interrupts, proc/cmdline) khi honeypot chạy ở user‑mode UML.
-- `snort_inline` — có khả năng thao tác gói (packet manipulation) và rewrite rules trong `iptables`.
-- Bait and switch — chuyển hướng toàn bộ traffic tới honeypot.
+- **`snort_inline`** — có khả năng thao tác gói (packet manipulation) và rewrite rules trong `iptables`.
+- **Bait and switch** — chuyển hướng toàn bộ traffic tới honeypot.
 
 **Công cụ phát hiện honeypot:**
 
-- send safe honeypot hunter
+- **send safe honeypot hunter**

@@ -1,6 +1,6 @@
 ## Session hijacking
 
-Cướp phiên (Session hijacking) — chiếm quyền điều khiển một phiên giao tiếp TCP hợp lệ (valid TCP communication session).
+**Cướp phiên (Session hijacking)** — chiếm quyền điều khiển một phiên giao tiếp TCP hợp lệ (valid TCP communication session).
 
 Hầu hết quá trình xác thực chỉ xảy ra khi phiên TCP (TCP session) bắt đầu; nếu kẻ tấn công lấy được session ID hợp lệ (session ID) thì có thể sử dụng nó để xác thực với server.
 
@@ -15,27 +15,27 @@ Hầu hết quá trình xác thực chỉ xảy ra khi phiên TCP (TCP session) 
 
 ## Các pha của cướp phiên
 
-- Theo dõi kết nối (Tracking the connection) — dùng sniffer để theo dõi nạn nhân, dùng `nmap` để tìm các chuỗi số thứ tự TCP dễ dự đoán
-- Phá đồng bộ kết nối (Desynchronizing connection) — thay đổi số thứ tự SEQ/ACK của server; gửi dữ liệu null hoặc gói reset
-- Tiêm gói tin của kẻ tấn công (Injecting attacker packets) — chèn dữ liệu vào mạng hoặc tham gia như MITM (Man-in-the-Middle)
+- **Theo dõi kết nối (Tracking the connection)** — dùng sniffer để theo dõi nạn nhân, dùng `nmap` để tìm các chuỗi số thứ tự TCP dễ dự đoán
+- **Phá đồng bộ kết nối (Desynchronizing connection)** — thay đổi số thứ tự SEQ/ACK của server; gửi dữ liệu null hoặc gói reset
+- **Tiêm gói tin của kẻ tấn công (Injecting attacker packets)** — chèn dữ liệu vào mạng hoặc tham gia như MITM (Man-in-the-Middle)
 
 Phân tích gói tin trong cướp phiên cục bộ: cần biết số thứ tự tiếp theo (Next Sequence Number — NSN).
 
-Cướp phiên thụ động (Passive session hijacking) — chỉ quan sát và ghi lại traffic, thu thập session IDs và mật khẩu.
+**Cướp phiên thụ động (Passive session hijacking)** — chỉ quan sát và ghi lại traffic, thu thập session IDs và mật khẩu.
 
-Cướp phiên chủ động (Active session hijacking) — chiếm phiên bằng cách phá kết nối hoặc tham gia tích cực (ví dụ MITM); đôi khi cần đoán số thứ tự trước khi mục tiêu trả lời server.
+**Cướp phiên chủ động (Active session hijacking)** — chiếm phiên bằng cách phá kết nối hoặc tham gia tích cực (ví dụ MITM); đôi khi cần đoán số thứ tự trước khi mục tiêu trả lời server.
 
-Giả mạo (Spoofing) — mạo danh người dùng hoặc máy khác, khởi tạo phiên mới bằng thông tin đăng nhập bị đánh cắp.
+**Giả mạo (Spoofing)** — mạo danh người dùng hoặc máy khác, khởi tạo phiên mới bằng thông tin đăng nhập bị đánh cắp.
 
-Chiếm (Hijacking) — chiếm quyền kiểm soát phiên đang hoạt động, phụ thuộc vào việc người dùng đã tạo kết nối trước.
+**Chiếm (Hijacking)** — chiếm quyền kiểm soát phiên đang hoạt động, phụ thuộc vào việc người dùng đã tạo kết nối trước.
 
 ## Application-level Hijacking
 
-- Stealing — nhiều kỹ thuật để đánh cắp session IDs
-- Guessing — đoán session ID bằng cách quan sát biến phiên
-- Brute forcing — thử tất cả hoán vị có thể của session ID
+- **Stealing** — nhiều kỹ thuật để đánh cắp session IDs
+- **Guessing** — đoán session ID bằng cách quan sát biến phiên
+- **Brute forcing** — thử tất cả hoán vị có thể của session ID
 
-Session sniffing — lấy header của yêu cầu HTTP (cookie) hoặc nội dung body của HTTP request.
+**Session sniffing** — lấy header của yêu cầu HTTP (cookie) hoặc nội dung body của HTTP request.
 
 ## Dự đoán token phiên
 
@@ -72,25 +72,25 @@ Man-in-the-Browser / Manipulator in the browser (tấn công trình duyệt):
 
 ## Lợi dụng client-side để chiếm session ID
 
-Cross-Site Scripting (XSS) — chiếm token phiên bằng cách chèn mã độc vào trang (ví dụ: `<SCRIPT>alert(document.cookie);</SCRIPT>`). Điều này xảy ra khi webapp không xử lý đầu vào đúng cách.
+**Cross-Site Scripting (XSS)** — chiếm token phiên bằng cách chèn mã độc vào trang (ví dụ: `<SCRIPT>alert(document.cookie);</SCRIPT>`). Điều này xảy ra khi webapp không xử lý đầu vào đúng cách.
 
-Mã JavaScript độc hại (Malicious JS) có thể lấy cookie/session token và gửi về server của kẻ tấn công.
+**Mã JavaScript độc hại (Malicious JS)** có thể lấy cookie/session token và gửi về server của kẻ tấn công.
 
-Trojan có thể đọc cookie hoặc bộ nhớ trình duyệt.
+**Trojan** có thể đọc cookie hoặc bộ nhớ trình duyệt.
 
-Cross-Site Request Forgery (CSRF) — tấn công "một cú nhấp" (one-click session riding) khai thác niềm tin của server vào session đang xác thực; cần token chống CSRF để ngăn chặn.
+**Cross-Site Request Forgery (CSRF)** — tấn công "một cú nhấp" (one-click session riding) khai thác niềm tin của server vào session đang xác thực; cần token chống CSRF để ngăn chặn.
 
-Session replay attack — nghe lén (sniff) giao tiếp giữa user và server, ghi lại token xác thực và phát lại (replay) yêu cầu.
+**Session replay attack** — nghe lén (sniff) giao tiếp giữa user và server, ghi lại token xác thực và phát lại (replay) yêu cầu.
 
-Session fixation — kẻ tấn công thiết lập trước session ID; khi nạn nhân đăng nhập, session đó được xác thực và kẻ tấn công sử dụng session đã biết.
+**Session fixation** — kẻ tấn công thiết lập trước session ID; khi nạn nhân đăng nhập, session đó được xác thực và kẻ tấn công sử dụng session đã biết.
 
-Session hijacking qua proxy — dùng proxy giả, thu nhận và replay token.
+**Session hijacking qua proxy** — dùng proxy giả, thu nhận và replay token.
 
-CRIME attack — tấn công phía client lợi dụng nén dữ liệu trong SSL/TLS/SPDY/HTTPS để suy đoán cookie (Compression Ratio Info-leak Made Easy).
+**CRIME attack** — tấn công phía client lợi dụng nén dữ liệu trong SSL/TLS/SPDY/HTTPS để suy đoán cookie (Compression Ratio Info-leak Made Easy).
 
-Forbidden / FREAK-like attacks — lợi dụng tái sử dụng nonce trong TLS hoặc ép ép downgrade crypto; sau khi chiếm session HTTP, attacker tiêm mã độc hoặc nội dung giả mạo (ví dụ ảnh hưởng tới AES-GCM khi nonce bị tái sử dụng).
+**Forbidden / FREAK-like attacks** — lợi dụng tái sử dụng nonce trong TLS hoặc ép ép downgrade crypto; sau khi chiếm session HTTP, attacker tiêm mã độc hoặc nội dung giả mạo (ví dụ ảnh hưởng tới AES-GCM khi nonce bị tái sử dụng).
 
-Session donation attack — attacker đăng nhập trước, nạn nhân bấm link, attacker có thể truy cập thông tin nạn nhân do session bị chia sẻ/ghép nối.
+**Session donation attack** — attacker đăng nhập trước, nạn nhân bấm link, attacker có thể truy cập thông tin nạn nhân do session bị chia sẻ/ghép nối.
 
 ## Ghi nhớ (memorization)
 
@@ -185,33 +185,33 @@ LAN Poisoning → ARP Spoofing
 
 **Công cụ cướp phiên (Session hijacking tools):**
 
-- Hetty — MITM proxy, HTTP client để tạo và replay request
-- Caido — security auditing toolkit
-- bettercap — framework MITM viết bằng Go
+- **Hetty** — MITM proxy, HTTP client để tạo và replay request
+- **Caido** — security auditing toolkit
+- **bettercap** — framework MITM viết bằng Go
 
 **Công cụ phát hiện cướp phiên:**
 
-- USM Anywhere
-- Wireshark
+- **USM Anywhere**
+- **Wireshark**
 
 **Ngăn chặn cướp phiên:**
 
-- HTTP Strict Transport Security (HSTS)
-- Token Binding
+- **HTTP Strict Transport Security (HSTS)**
+- **Token Binding**
 - Công cụ hỗ trợ: Checkmarx One (SAST), Fiddler
 
 **Ngăn MITM:**
 
-- DNS over HTTPS (DoH)
-- WPA3
-- VPN
-- Xác thực hai yếu tố (2FA)
-- Password manager
-- Zero-trust architecture
-- PKI và quản lý chứng chỉ
-- Phân đoạn mạng (network segmentation)
+- **DNS over HTTPS (DoH)**
+- **WPA3**
+- **VPN**
+- **Xác thực hai yếu tố (2FA)**
+- **Password manager**
+- **Zero-trust architecture**
+- **PKI và quản lý chứng chỉ**
+- **Phân đoạn mạng (network segmentation)**
 
 **IPsec** — các mode:
 
-- Transport — mã hoá chỉ payload của gói IP
-- Tunnel — IPsec đóng gói toàn bộ gói IP
+- **Transport** — mã hoá chỉ payload của gói IP
+- **Tunnel** — IPsec đóng gói toàn bộ gói IP
