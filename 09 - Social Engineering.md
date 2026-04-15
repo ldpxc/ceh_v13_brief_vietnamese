@@ -24,16 +24,16 @@
 
 - Lừa qua kết quả tìm kiếm (Search engine phishing) — thao túng kết quả công cụ tìm kiếm để dẫn người dùng tới trang giả mạo.
 
-Công cụ tấn công lừa đảo (Phishing tools):
+## Công cụ tấn công lừa đảo (Phishing tools)
 
 - ShellPhish — nhắm mạng xã hội và nền tảng trực tuyến.
 - Social-Engineer Toolkit (Social Engineering Toolkit) — hỗ trợ tấn công qua email, web và USB.
 
-Công cụ Deepfake/AI (AI Deepfake tools):
+## Công cụ Deepfake/AI (AI Deepfake tools)
 
 - Vidnaz, Deepfakesweb, Synthesia, DeepBrain AI, Hoodem, Deepfake Lab
 
-Công cụ nhân bản giọng nói bằng AI (AI voice cloning tools):
+## Công cụ nhân bản giọng nói bằng AI (AI voice cloning tools)
 
 - VEED.IO, Murf.AI, Resemble.AI, ElevenLabs, PlayHT, voice.ai
 
@@ -43,11 +43,11 @@ Công cụ nhân bản giọng nói bằng AI (AI voice cloning tools):
 
 - QR code jacking (QRL jacking) — dùng mã QR giả (ví dụ: QRTiger) để lừa người dùng quét và bị dẫn tới payload độc hại.
 
-Thanh công cụ chống lừa đảo (Anti-phishing toolbar):
+## Thanh công cụ chống lừa đảo (Anti-phishing toolbar)
 
 - Netcraft
 - PhishTank
 
-Công cụ mô phỏng lừa đảo (Phishing simulation tool):
+## Công cụ mô phỏng lừa đảo (Phishing simulation tool)
 
 - OhPhish

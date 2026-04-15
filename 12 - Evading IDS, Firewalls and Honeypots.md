@@ -41,18 +41,18 @@ Phân loại IPS:
 - Dựa trên máy chủ (host-based).
 - Dựa trên mạng (network-based).
 
-**Network based IDS (NIDS)**
+## Network based IDS (NIDS)
 
 - Là một "black box" đặt trên mạng ở chế độ promiscuous (promiscuous mode), lắng nghe các mẫu lưu lượng.
 - Có thể phát hiện các sự kiện như DDoS (DDoS).
 
-**Host based intrusion detection systems (HIDS)**
+## Host based intrusion detection systems (HIDS)
 
 - Cài đặt trên một máy chủ cụ thể.
 - Không phổ biến do tiêu tốn nhiều tài nguyên.
 - Có thể phát hiện nhiều thứ hơn NIDS, ví dụ như thay đổi tập tin.
 
-Types of IDS alerts
+## Types of IDS alerts
 
 | Loại (Type)                     | Hành động (Action)  | Giải thích (Explanation)                        |
 | ------------------------------- | ------------------- | ----------------------------------------------- |
@@ -115,7 +115,8 @@ Phân loại IPS:
 | Application-Level Firewall (Proxy) | L7        | Kiểm tra dữ liệu ứng dụng          | Deep packet inspection |
 | Next-Generation Firewall (NGFW)    | L3–L7     | DPI + IDS/IPS + nhận diện ứng dụng | Application awareness  |
 
-**Phát hiện xâm nhập bằng quy tắc YARA**
+## Phát hiện xâm nhập bằng quy tắc YARA
+
 YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based):
 
 - `condition` — điều kiện khi nào một quy tắc cho kết quả true với một file.
@@ -123,12 +124,12 @@ YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based
 - `metadata` — phần thông tin chung trong quy tắc YARA.
 - Công cụ tham khảo: yarGen.
 
-**Công cụ IDS:**
+## Công cụ IDS
 
 - Snort — phân tích lưu lượng và ghi log gói.
 - Suricata — IDS thời gian thực, có thể chạy inline như IPS, hỗ trợ network security monitoring và xử lý pcap offline.
 
-**Công cụ IPS:**
+## Công cụ IPS
 
 - Trellix IPS — phát hiện botnet, worm và các cuộc dò tìm.
 - Check Point Quantum IPS.
@@ -243,6 +244,7 @@ YARA là công cụ nghiên cứu mã độc dựa trên quy tắc (rule‑based
 - Domain Generation Algorithms (DGA) — tạo nhiều domain động để thay đổi nhanh điểm C2.
 
 **NAC và né tránh bảo mật điểm cuối (endpoint security)**
+
 Network Access Control (NAC):
 
 - VLAN hopping — chiếm quyền truy cập Dynamic Trunking Protocol (DTP) để thay đổi chế độ switch; công cụ: `VLANPWN`.

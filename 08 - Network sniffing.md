@@ -1,14 +1,20 @@
+## Ghi nhận gói tin
+
 Ghi nhận gói tin (Packet sniffing) — giám sát và bắt các gói dữ liệu đi qua một mạng xác định bằng phần mềm hoặc thiết bị phần cứng.
 
 Cho phép quan sát và tấn công toàn bộ mạng từ bất kỳ điểm nào.
 
 Kẻ tấn công có thể chuyển card mạng (NIC) sang chế độ promiscuous (promiscuous mode) để lắng nghe mọi dữ liệu trên phân đoạn của nó.
 
+## Các loại môi trường Ethernet
+
 Các loại môi trường Ethernet:
 
 - Ethernet chia sẻ (Shared Ethernet) — một bus đơn kết nối tất cả host, chia sẻ băng thông (hub).
 
 - Ethernet chuyển mạch (Switched Ethernet) — switch duy trì bảng ARP (ARP table) để biết MAC nào nối với cổng nào, nên máy chỉ gửi gói tới đúng đích; do đó việc đặt NIC ở chế độ promiscuous không luôn hiệu quả, nhưng vẫn có các phương pháp khác.
+
+## Phương pháp sniffing cho mạng chuyển mạch
 
 Phương pháp sniffing cho mạng chuyển mạch:
 
@@ -26,6 +32,8 @@ Phương pháp sniffing cho mạng chuyển mạch:
 
 - ICMP Router Discovery Protocol (IRDP) spoofing (ICMP Router Discovery Protocol spoofing) — cho phép host phát hiện IP của router hoạt động trên subnet.
 
+## VLAN hopping
+
 VLAN hopping (VLAN hopping):
 
 - Switch spoofing — gắn một switch giả (rogue switch) để tạo trunk giữa switch hợp lệ và rogue; chỉ có thể khi interface được cấu hình `dynamic auto`, `dynamic desirable` hoặc chế độ trunk.
@@ -37,11 +45,15 @@ VLAN hopping (VLAN hopping):
 - STP attack (STP attack) — chèn rogue switch có priority thấp (cấp thấp hơn) để chiếm vị trí root bridge trong Spanning Tree Protocol (STP), khiến mọi traffic đi qua rogue switch.
   - Phòng ngừa: BPDU Guard, Root Guard, Loop Guard, UDLD (Unidirectional Link Detection)
 
+## Các kiểu sniffing
+
 Các kiểu sniffing:
 
 - Passive sniffing (Passive sniffing) — không gửi packet nào (chỉ lắng nghe).
 - Active sniffing (Active sniffing) — tìm kiếm/thu hút traffic bằng cách chủ động tiêm traffic vào mạng.
   - Ví dụ: MAC flooding, DNS poisoning, ARP poisoning, DHCP attacks, switch port stealing, spoofing attacks.
+
+## Các giao thức dễ bị sniffing
 
 Các giao thức dễ bị sniffing:
 
@@ -56,14 +68,20 @@ Các giao thức dễ bị sniffing:
 - IMAP (IMAP)
 - TFTP (TFTP)
 
+## Thiết bị/thiết bị phân tích giao thức phần cứng
+
 Thiết bị/thiết bị phân tích giao thức phần cứng (hardware protocol analyzers / sniffers):
 
 - Xgig 1000 32/128G — inline, non-intrusive capture, auto negotiation, link training, forward error correction
 - SierraNet M1288 — fiber channel fabrics analyzer
 
+## SPAN port
+
 SPAN port:
 
 - SPAN (Switched Port Analyzer, còn gọi là port mirroring) — tính năng của Cisco; nếu kẻ tấn công kết nối vào SPAN port thì có thể thu được toàn bộ lưu lượng mirrored và đe dọa mạng.
+
+## Wiretapping / telephone tapping
 
 Wiretapping / telephone tapping:
 
@@ -79,6 +97,8 @@ Ví dụ lệnh công cụ: `macof -i eth0` (MAC flooding)
 
 Switch port stealing — gửi ARP forged dùng MAC của nạn nhân để chiếm giữ port.
 
+## DHCP attacks
+
 DHCP attacks:
 
 - DHCP starvation (DHCP starvation) — gửi số lượng lớn request tới DHCP server để cạn pool địa chỉ, khiến server không cấp cấu hình cho client mới. Công cụ: Yersinia, `dhcpStarvation.py`, Metasploit.
@@ -86,6 +106,8 @@ DHCP attacks:
 
 - Rogue DHCP server attack — dạng MITM: kẻ tấn công dựng DHCP server giả, trả gói trước server hợp lệ; có thể gán gateway/ DNS độc hại cho client.
   - Hạn chế: đánh dấu interface kết nối tới rogue là untrusted (ví dụ trên switch). Công cụ: `mitm6`, `ettercap`, `gobbler`.
+
+## Các kỹ thuật DNS poisoning
 
 Các kỹ thuật DNS poisoning:
 
@@ -95,6 +117,8 @@ Các kỹ thuật DNS poisoning:
 - DNS cache poisoning — thêm hoặc sửa bản ghi DNS giả trên resolver (SAD DNS attack).
   - Công cụ: `DerpNSpoof`, `deserter`, `PolarDNS`, `Ettercap`, `Evilgrade`, `DNS Goisoner`
   - Phòng ngừa: DNSSEC (DNSSEC), HTTPS/SSL (SSL)
+
+## Công cụ sniffing/DNS sniffing
 
 Công cụ sniffing/DNS sniffing:
 
@@ -116,10 +140,14 @@ Công cụ sniffing/DNS sniffing:
 | Hiển thị SMTP (port 25) và ICMP                 | `tcp.port == 25 or icmp`                                                                       |     |
 | Hiển thị traffic LAN giữa workstation và server | `ip.src == 192.168.0.0/16 and ip.dst == 192.168.0.0/16`                                        |     |
 
+## Công cụ sniffing phổ biến
+
 Công cụ sniffing phổ biến:
 
 - Capsa Portable Network Analyzer
 - Omnipeek
+
+## Biện pháp chống sniffing
 
 Biện pháp chống sniffing:
 
@@ -128,6 +156,8 @@ Biện pháp chống sniffing:
 - Thêm MAC vào ARP cache / binding table
 - Sử dụng DHCP snooping, Dynamic ARP Inspection, IP Source Guard
 - Sử dụng VLAN segmentation, port security
+
+## Cách phát hiện sniffing
 
 Cách phát hiện sniffing:
 

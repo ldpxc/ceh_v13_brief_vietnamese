@@ -1,8 +1,10 @@
+## Session hijacking
+
 Cướp phiên (Session hijacking) — chiếm quyền điều khiển một phiên giao tiếp TCP hợp lệ (valid TCP communication session).
 
 Hầu hết quá trình xác thực chỉ xảy ra khi phiên TCP (TCP session) bắt đầu; nếu kẻ tấn công lấy được session ID hợp lệ (session ID) thì có thể sử dụng nó để xác thực với server.
 
-Tại sao cướp phiên thành công:
+## Tại sao cướp phiên thành công
 
 - Không có cơ chế khoá tài khoản khi nhiều lần thử sai hoặc không xử lý session ID không hợp lệ
 - Thuật toán sinh session-ID yếu hoặc kích thước session ID nhỏ
@@ -11,7 +13,7 @@ Tại sao cướp phiên thành công:
 - Hầu hết hệ thống chạy trên TCP/IP đều dễ tổn thương
 - Nhiều biện pháp đối phó không có hiệu quả nếu không sử dụng mã hóa
 
-Các pha của cướp phiên:
+## Các pha của cướp phiên
 
 - Theo dõi kết nối (Tracking the connection) — dùng sniffer để theo dõi nạn nhân, dùng `nmap` để tìm các chuỗi số thứ tự TCP dễ dự đoán
 - Phá đồng bộ kết nối (Desynchronizing connection) — thay đổi số thứ tự SEQ/ACK của server; gửi dữ liệu null hoặc gói reset
@@ -35,6 +37,8 @@ Chiếm (Hijacking) — chiếm quyền kiểm soát phiên đang hoạt động
 
 Session sniffing — lấy header của yêu cầu HTTP (cookie) hoặc nội dung body của HTTP request.
 
+## Dự đoán token phiên
+
 Dự đoán token phiên (Predicting session token):
 
 - Token tuần tự (sequential tokens)
@@ -42,10 +46,12 @@ Dự đoán token phiên (Predicting session token):
 - Không gian token nhỏ (small token space)
 - Bộ sinh số ngẫu nhiên yếu (weak PRNG) và thiếu rate limiting
 
-Dùng MITM (split TCP connection):
+## Dùng MITM (split TCP connection)
 
 - client ↔ attacker ↔ server (khi đó attacker có thể sửa/sử dụng lại các thông tin trong phiên)
 - Trong giao dịch HTTP, kết nối TCP trở thành mục tiêu để tấn công
+
+## Man-in-the-Browser / Manipulator in the browser
 
 Man-in-the-Browser / Manipulator in the browser (tấn công trình duyệt):
 
@@ -85,6 +91,8 @@ CRIME attack — tấn công phía client lợi dụng nén dữ liệu trong SS
 Forbidden / FREAK-like attacks — lợi dụng tái sử dụng nonce trong TLS hoặc ép ép downgrade crypto; sau khi chiếm session HTTP, attacker tiêm mã độc hoặc nội dung giả mạo (ví dụ ảnh hưởng tới AES-GCM khi nonce bị tái sử dụng).
 
 Session donation attack — attacker đăng nhập trước, nạn nhân bấm link, attacker có thể truy cập thông tin nạn nhân do session bị chia sẻ/ghép nối.
+
+## Ghi nhớ (memorization)
 
 Ghi nhớ (memorization):
 CODE → XSS, Malicious JS

@@ -8,26 +8,34 @@ Các phương pháp botnet tìm máy dễ bị tổn thương:
 - Quét trong mạng con cục bộ (Local subnet scanning) - quét các host trong cùng subnet
 - Quét hoán vị (Permutation scanning) - sử dụng danh sách hoán vị giả ngẫu nhiên của địa chỉ IP (ví dụ block cipher 32-bit và key được chọn trước)
 
-Lan truyền mã độc (Malicious code propagation):
+## Lan truyền mã độc (Malicious code propagation)
 
 - Truyền từ nguồn tập trung (Central source propagation) — kẻ tấn công đặt toolkit tấn công trên một nguồn trung tâm, sao chép mã, lặp lại
 - Lan truyền theo chuỗi ngược (Back-chaining propagation) — ví dụ qua TFTP từ máy kẻ tấn công
 - Lan truyền tự trị (Autonomous propagation) — máy bị tấn công tự chuyển toolkit tấn công khi nó bị xâm nhập (attacker → victim → victim)
 
+## Nghiên cứu trường hợp DDoS
+
 Nghiên cứu trường hợp DDoS: HTTP/2 "Rapid Reset" — cuộc tấn công vào Google Cloud (2023) khai thác stream multiplexing, sử dụng ~100 luồng sống qua một kết nối TCP duy nhất.
 
 ## Tấn công từ chối dịch vụ (DDoS)
+
+### Tấn công dung lượng (Volumetric attacks)
 
 Tấn công dung lượng (Volumetric attacks) — làm cạn băng thông, thường nhắm vào dịch vụ không giữ trạng thái như NTP hoặc SSDP (NTP, SSDP):
 
 - Flood attack (tấn công tràn) — lượng lớn traffic
 - Amplification attack (tấn công khuếch đại) — lợi dụng dịch vụ phản hồi lớn khi gửi yêu cầu nhỏ tới broadcast/reflector
 
+### Tấn công giao thức (Protocol attack)
+
 Tấn công giao thức (Protocol attack) — không chỉ cạn băng thông mà còn tấn công bảng trạng thái kết nối (connection state tables)
+
+### Tấn công lớp ứng dụng (Application layer attacks)
 
 Tấn công lớp ứng dụng (Application layer attacks) — tràn lưu lượng web bằng traffic hợp lệ, khóa truy cập bằng nhiều lần đăng nhập sai, truy vấn SQL dài/nhỏ giọt; ví dụ Slowloris (giữ nhiều kết nối HTTP nửa mở)
 
-Kỹ thuật DoS/DDoS:
+## Kỹ thuật DoS/DDoS
 
 - UDP flood (UDP flood attack) — gửi gói UDP giả mạo ở tốc độ rất cao tới các cổng ngẫu nhiên
 - ICMP flood (ICMP flood attack) — lượng lớn ICMP Echo requests
@@ -48,7 +56,7 @@ Kỹ thuật DoS/DDoS:
 - Distributed Reflection DDoS (DRDoS) — tấn công giả mạo nguồn, lợi dụng nhiều reflector/relay trung gian
 - Ransom DDoS — tấn công tống tiền bằng DDoS
 
-Bộ công cụ tấn công (Attack toolkits):
+## Bộ công cụ tấn công (Attack toolkits)
 
 - ISB (I'm So Bored) — hỗ trợ flood HTTP, UDP, TCP, ICMP
 - UltraDDOS-v2
@@ -56,12 +64,12 @@ Bộ công cụ tấn công (Attack toolkits):
 - Slowloris
 - UFO-Net
 
-Biện pháp giảm nhẹ (Countermeasures):
+## Biện pháp giảm nhẹ (Countermeasures)
 
 - Activity profiling — thiết lập baseline cho lưu lượng trung bình
 - Sequential change-point detection — phát hiện thay đổi theo thời gian/flow, lọc theo địa chỉ IP
 - Wavelet-based signal analysis — phân tích thành phần phổ của lưu lượng mạng
 
-Các giải pháp phát hiện/né tránh (Evasion / detection):
+## Các giải pháp phát hiện/né tránh (Evasion / detection)
 
 - Một số honeypot và hệ thống cảnh báo (ví dụ Blumira) giúp phát hiện và thu thập mẫu tấn công
