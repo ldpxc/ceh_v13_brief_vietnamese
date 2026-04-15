@@ -1,32 +1,35 @@
-## Intro
+## Giới thiệu
 
-Tools - metasploit, nmap, hping3
+Công cụ — Metasploit, Nmap, Hping3
 
 TCP communication flags
 
-| SYN | Bắt đầu kết nối TCP; cờ khởi tạo (thuộc `three-way handshake`) |
-| --- | -------------------------------------------------------------- |
-| ACK | Xác nhận cờ SYN; được đặt trên mọi segment sau SYN ban đầu     |
-| FIN | Đóng kết nối một cách trơn tru                                 |
-| RST | Ép kết thúc kết nối                                            |
-| PSH | Ép giao dữ liệu được đẩy ngay                                  |
-| URG | Đánh dấu dữ liệu là ưu tiên, gửi ngoài băng thông chính        |
+| SYN | Bắt đầu kết nối TCP; cờ `SYN` ban đầu                            |
+| --- | ---------------------------------------------------------------- |
+| ACK | Xác nhận cờ `SYN`; được đặt trên mọi phân đoạn sau `SYN` ban đầu |
+| FIN | Đóng kết nối một cách nhẹ nhàng                                  |
+| RST | Buộc chấm dứt liên lạc                                           |
+| PSH | Ép chuyển giao dữ liệu ngay lập tức                              |
+| URG | Đánh dấu dữ liệu là ưu tiên, gửi ngoài luồng (out‑of‑band)       |
 
 Colasoft Packet Builder
 
 Nmap
 
 Hping3:
-hping3 -1 0.0.0.0 ping sweep | ICMP ping
-hping3 -A 10.10.10.10 -p 80 ACK scan on port 80
-hping3 -2 0.0.0.0 -p 80 UDP scan port 80
-hping3 10.10.10.10 -Q -p 139 Collecting initial sequence number
-hping3 -S 10.10.10.10 -p 80 --tcp--timestamp
-hping3 -8 50-60 -S 10.10.10.10 -V SYN scan on port 50-60
-hping3 -F -P -U 10.10.10.10 -P 80 fin, push and urg scan
-hping3 -1 10.0.1.x --rand-dest -I eth0 scan entire subnet for live host
-hping3 -9 HTTP -I eth0 Intercept traffic containing http signature
-hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood syn flood a victim
+
+```bash
+hping3 -1 0.0.0.0      # ICMP ping sweep
+hping3 -A 10.10.10.10 -p 80   # ACK scan trên port 80
+hping3 -2 0.0.0.0 -p 80      # UDP scan port 80
+hping3 10.10.10.10 -Q -p 139 # Thu thập initial sequence number
+hping3 -S 10.10.10.10 -p 80 --tcp-timestamp
+hping3 -8 50-60 -S 10.10.10.10 -V  # SYN scan trên port 50-60
+hping3 -F -P -U 10.10.10.10 -p 80  # FIN, PSH và URG scan
+hping3 -1 10.0.1.x --rand-dest -I eth0  # quét toàn subnet để tìm host sống
+hping3 -9 HTTP -I eth0    # lắng nghe lưu lượng có chữ ký HTTP
+hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood  # syn flood tới nạn nhân
+```
 
 | Flag           | Meaning        |
 | -------------- | -------------- |
@@ -34,7 +37,7 @@ hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood syn flood a victim
 | `-A`           | ACK            |
 | `-F`           | FIN            |
 | `-R`           | RST            |
-| `-P`           | PUSH           |
+| `-P`           | PSH            |
 | `-U`           | URG            |
 | `-p`           | Port           |
 | `-c`           | Packet count   |
@@ -42,103 +45,102 @@ hping3 -S 10.10.1.1 -a 192.168.1.254 -p 22 --flood syn flood a victim
 | `--flood`      | Max rate send  |
 | `--traceroute` | TCP traceroute |
 
-Metasploit,
-NetScanTools Pro - discover devices on network
+Metasploit
+NetScanTools Pro — phát hiện thiết bị trên mạng
 
-## Scanning techniques for host discovery
+## Kỹ thuật quét để phát hiện host
 
-Host discovery Techniques
-nmap -sn !!host discovery only
-ARP ping scan - local only
-nmap -PR 192.168.1.0/24 or nmap -sn (-Pr ARP request)
-(can't use hping3)
+Host discovery techniques:
 
-UDP ping scan - nmap -sn -PU
+- `nmap -sn` — chỉ phát hiện host (host discovery only).
+- Quét ARP (ARP ping scan) — chỉ trong mạng nội bộ (local only): `nmap -PR 192.168.1.0/24` hoặc `nmap -sn` với ARP request (không thể dùng `hping3` cho ARP).
+- UDP ping scan — `nmap -sn -PU`.
+- ICMP Echo ping scan — `nmap -sn -P` (có thể điều chỉnh số lần ping với `-L` và timeout với `-T`).
+- ICMP Timestamp ping — `nmap -sn -PP` (lấy thời gian hiện tại từ máy mục tiêu).
+- ICMP Address mask ping — `nmap -sn -PM` (lấy subnet mask).
+- TCP SYN ping — `nmap -sn -PS` (phát hiện máy ONLINE mà không tạo kết nối đầy đủ).
+- TCP ACK ping — `nmap -PA` (mặc định dùng port 80; tăng khả năng vượt tường lửa).
+- IP protocol ping — `nmap -sn -PO` (gửi nhiều loại probe; bất kỳ phản hồi nào cho biết host trực tuyến).
 
-ICMP ECHO Ping scan - nmap -sn -P (-L number of pings, -T ping timeout)
+Công cụ ping sweep:
 
-ICMP Timestamp ping scan - nmap -sn -PP get current time from machine
+- Angry IP Scanner
+- SolarWinds Engineer’s Toolset
+- NetScanTools Pro
+- Colasoft Ping Tool
+- Advanced IP Scanner
+- OpUtils
+- Superscan
+- Pinkie
 
-ICMP address masking ping scan - nmap -sn -PM get subnet mask
+Quét Nmap qua TOR
 
-TCP SYN scan - nmap -sn -PS scan paralleled machines, can detect ONLINE MACHINE WITHOUT CREATING CONNECTION
+ARP — ánh xạ IP tới MAC trong mạng.
+Ví dụ ARP scan trong Nmap: `nmap -sn -PR 192.168.1.69`.
 
-TCP ACK ping scan - nmap -PA - uses default port 80; dùng để tăng cơ hội vượt qua firewall
+## Port và phát hiện dịch vụ
 
-IP protocol ping scan - nmap -sn -PO sends different probe packets; bất kỳ phản hồi nào cũng chỉ rằng host đang online
+MUST KNOW — Ports:
 
-Ping sweep tools:
+- Well‑known ports: 0–1023
+- Registered ports: 1024–49151
+- Dynamic/Private ports: 49152–65535
 
-Angry IP Scanner
-SolarWinds Engineer’s Toolset (https://www.solarwinds.com) ▪ NetScanTools Pro (https://www.netscantools.com) ▪ Colasoft Ping Tool (https://www.colasoft.com) ▪ Advanced IP Scanner (https://www.advanced-ip-scanner.com) ▪ OpUtils (https://www.manageengine.com)
+Các port quan trọng:
 
-## Port and service discovery
+| Port number | Protocol | Transport protocol |
+| ----------- | -------- | ------------------ |
+| 20/21       | FTP      | TCP                |
+| 22          | SSH      | TCP                |
+| 23          | Telnet   | TCP                |
+| 25          | SMTP     | TCP                |
+| 53          | DNS      | TCP & UDP          |
+| 67/68       | DHCP     | UDP                |
+| 69          | TFTP     | UDP                |
+| 80          | HTTP     | TCP                |
+| 110         | POP3     | TCP                |
+| 123         | NTP      | UDP                |
+| 135         | MS RPC   | TCP                |
+| 137–139     | NetBIOS  | TCP/UDP            |
+| 143         | IMAP     | TCP                |
+| 161/162     | SNMP     | UDP                |
+| 389         | LDAP     | TCP/UDP            |
+| 443         | HTTPS    | TCP                |
+| 445         | SMB      | TCP                |
+| 500         | ISAKMP   | UDP                |
+| 514         | Syslog   | UDP/TCP            |
+| 1433        | MSSQL    | TCP                |
+| 3306        | MySQL    | TCP                |
+| 3389        | RDP      | TCP                |
+| 5060        | SIP      | UDP/TCP            |
 
-MUST KNOW
-Ports
-Well known ports 0-1023
-Registered ports 1024-49,141
-Dynamic ports 49,152-65,535
+Các kiểu quét cổng (Port scan types):
 
-20/21 FTP  
-22 SSH  
-23 Telnet  
-25 SMTP  
-53 DNS  
-67/68 DHCP  
-69 TFTP  
-80 HTTP  
-110 POP3  
-123 NTP  
-135 RPC  
-137–139 NetBIOS  
-143 IMAP  
-161 SNMP  
-389 LDAP  
-443 HTTPS  
-445 SMB  
-500 ISAKMP  
-514 Syslog  
-1433 MSSQL  
-3306 MySQL  
-3389 RDP  
-5060 SIP
+- TCP Connect / Full open scan — nếu cổng mở thì handshake thành công, nếu đóng sẽ nhận `RST`. Ví dụ: `nmap -sT -v`.
+- Stealth / Half‑open (SYN) scan — chỉ gửi `SYN`, không hoàn tất handshake: `nmap -sS` (thùy chọn ít bị chú ý hơn).
+- Inverse TCP scan — gửi các tổ hợp cờ TCP không chuẩn để né IDS (không hiệu quả trên Windows).
+  - Xmas scan — bật `FIN`, `URG`, `PSH`: `nmap -sX` (`-sF` là FIN, `-sN` là NULL scan).
+  - TCP Maimon — gửi `FIN` và `ACK`: `nmap -sM`.
+  - ACK flag probe — gửi `ACK` và xem TTL/Window để ước lượng trạng thái; dùng để kiểm tra firewall.
+- IDLE / IPID scan — gửi địa chỉ nguồn giả (spoof), dùng máy zombie làm trung gian: `nmap -sI zombieIP targetIP`.
+- UDP scan — gửi datagram tới cổng; nếu không có phản hồi thường là mở, nếu ICMP unreachable thì đóng.
+- SSDP / UPnP scan — quét dịch vụ UPnP.
 
-Port scan types:
-
-TCP Connect/full open scan -> nếu cổng mở, handshake hoàn tất; nếu đóng sẽ nhận RST. `nmap -sT -v`
-
-Stealth scan (half open scan) - reset kết nối TCP một cách đột ngột, không hoàn thành handshake
-`nmap -sS` (thanh thản hơn so với `-sT`)
-
-Inverse TCP scan: gửi tổ hợp TCP flags không tiêu chuẩn để tránh IDS (không hiệu quả trên Windows; thường dùng trên Unix)
-
-- Xmas scan: đặt FIN, URG và PSH (sử dụng `nmap -sX`; tương tự `-sF` và `-sN` cho FIN và NULL scan)
-
-- TCP maimon: gửi FIN và ACK; nếu cổng đóng sẽ trả về RST (`nmap -sM`)
-
-- ACK flag probe scan - gửi cờ ACK và xem TTL; nếu RST có TTL < 64 thì cổng được cho là mở; phương pháp Window: nếu Window size khác 0 thì cổng được cho là mở. (Cũng dùng để kiểm tra firewall: nếu nhận RST thì không có firewall)
-
-- !important! IDLE/IPID scan - dùng spoofed source address; sử dụng một máy zombie trung gian (`nmap -sI zombieIP targetIP`) (zombie là host "nhàn rỗi")
-
-- UDP scan - gửi datagram tới cổng; nếu phản hồi ICMP unreachable (type 3 code 3) thì cổng đóng; không có phản hồi nhiều khi chỉ ra cổng mở hoặc được lọc
-
-- SSDP scan - UpnP scan
-
-`nmap -sS -A -f 172.17.15.12` có thể phân mảnh một SYN scan (vừa thực hiện OS fingerprinting)
+Ví dụ nâng cao: `nmap -sS -A -f 172.17.15.12` có thể phân mảnh SYN scan trong khi vẫn fingerprint OS.
 
 Scan responses:
-| Flag | open | closed | Filtered | Unfiltered (reachable path) |
-| ---- | ----------------------------------- | ------------------------------- | ------------------------------- | --------------------------- |
-| -sT | SYN-ACK | RST | No reply/ICMP unreachable | |
-| -sS | SYN-ACK | RST | No reply/ICMP unreachable | |
-| -sA | | | No Reply | RST |
-| -sI | IPID increases (RST sent by zombie) | IPID unchanged | unclear/ odd changes | |
-| -sU | no response | ICMP unreachable, type 3 code 3 | other icmp unreachable/no reply | |
-| -sN | no response | RST | ICMP | |
-| -sF | no response | RST | ICMP | |
-| -sX | no response | RST | ICMP | |
-| -sM | no response | RST | ICMP | |
+
+| Flag | open                      | closed                           | Filtered                          | Unfiltered (reachable path) |
+| ---- | ------------------------- | -------------------------------- | --------------------------------- | --------------------------- |
+| -sT  | SYN-ACK                   | RST                              | No reply / ICMP unreachable       |                             |
+| -sS  | SYN-ACK                   | RST                              | No reply / ICMP unreachable       |                             |
+| -sA  |                           |                                  | No Reply                          | RST                         |
+| -sI  | IPID tăng (RST từ zombie) | IPID không đổi                   | Thay đổi không rõ ràng            |                             |
+| -sU  | no response               | ICMP unreachable (type 3 code 3) | other icmp unreachable / no reply |                             |
+| -sN  | no response               | RST                              | ICMP                              |                             |
+| -sF  | no response               | RST                              | ICMP                              |                             |
+| -sX  | no response               | RST                              | ICMP                              |                             |
+| -sM  | no response               | RST                              | ICMP                              |                             |
 
 ## Nmap Scan Types
 
@@ -150,21 +152,21 @@ Scan responses:
 | -sL    | List (DNS resolution only) scan |
 | -sN    | NULL scan                       |
 | -sO    | Protocol scan                   |
-| -sP    | Ping scan _(old, now -sn)_      |
+| -sP    | Ping scan _(cũ, nay là `-sn`)_  |
 | -sR    | RPC scan                        |
-| -sS    | SYN (Stealth/Half-open) scan    |
+| -sS    | SYN (Stealth / Half-open) scan  |
 | -sT    | TCP Connect scan                |
 | -sW    | Window scan                     |
 | -sX    | XMAS scan                       |
 
 ## Host Discovery (Ping Types)
 
-| Switch | Description                        |
-| ------ | ---------------------------------- |
-| -PI    | ICMP Echo ping                     |
-| -PS    | TCP SYN ping                       |
-| -PT    | TCP ping                           |
-| -PO    | IP Protocol ping (no TCP/UDP/ICMP) |
+| Switch | Description                                |
+| ------ | ------------------------------------------ |
+| -PI    | ICMP Echo ping                             |
+| -PS    | TCP SYN ping                               |
+| -PT    | TCP ping                                   |
+| -PO    | IP Protocol ping (không dùng TCP/UDP/ICMP) |
 
 ## Output Options
 
@@ -175,27 +177,27 @@ Scan responses:
 
 ## Timing Templates
 
-| Switch | Description                |
-| ------ | -------------------------- |
-| -T0    | Serial — slowest, paranoid |
-| -T1    | Serial — very slow         |
-| -T2    | Serial — polite            |
-| -T3    | Parallel — normal speed    |
-| -T4    | Parallel — fast            |
-| -T5    | Parallel — insane speed    |
+| Switch | Description                   |
+| ------ | ----------------------------- |
+| -T0    | Serial — chậm nhất, paranoid  |
+| -T1    | Serial — rất chậm             |
+| -T2    | Serial — thận trọng           |
+| -T3    | Parallel — tốc độ bình thường |
+| -T4    | Parallel — nhanh              |
+| -T5    | Parallel — cực nhanh          |
 
 Hping3
 
 ## Hping3 Scan & Mode Switches
 
-| Switch    | Description                                                                                                                       |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `-1`      | ICMP mode (ICMP ping). Example: `hping3 -1 172.17.15.12`                                                                          |
-| `-2`      | UDP mode. Example: `hping3 -2 192.168.12.55 -p 80`                                                                                |
-| `-8`      | Scan mode (port scan). Accepts single, range, or `all`. Example: `hping3 -8 20-100`                                               |
-| `-9`      | Listen mode. Triggers on a signature. Example: `hping3 -9 HTTP -I eth0`                                                           |
-| `--flood` | Sends packets as fast as possible (no reply display). Useful for DoS simulation. Example: `hping3 -S 192.168.10.10 -p 22 --flood` |
-| `-Q`      | Collect TCP sequence numbers to analyze predictability. Example: `hping3 172.17.15.12 -Q -p 139 -s`                               |
+| Switch    | Description                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------- |
+| `-1`      | ICMP mode (ICMP ping). Ví dụ: `hping3 -1 172.17.15.12`                                                                |
+| `-2`      | UDP mode. Ví dụ: `hping3 -2 192.168.12.55 -p 80`                                                                      |
+| `-8`      | Scan mode (port scan). Chấp nhận single, range, hoặc `all`. Ví dụ: `hping3 -8 20-100`                                 |
+| `-9`      | Listen mode. Kích hoạt khi phát hiện chữ ký. Ví dụ: `hping3 -9 HTTP -I eth0`                                          |
+| `--flood` | Gửi gói nhanh nhất có thể (không hiển thị trả lời). Dùng mô phỏng DoS. Ví dụ: `hping3 -S 192.168.10.10 -p 22 --flood` |
+| `-Q`      | Thu thập sequence number TCP để phân tích khả năng đoán. Ví dụ: `hping3 172.17.15.12 -Q -p 139 -s`                    |
 
 ---
 
@@ -211,37 +213,54 @@ Hping3
 | `-U`   | Set URG flag                     |
 | `-X`   | Set Xmas (FIN + PSH + URG) flags |
 
-Spoofing packets tools: Hping, Scapy, Komodia, Ettercap, Cain.
+Công cụ giả mạo gói (packet spoofing): Hping, Scapy, Komodia, Ettercap, Cain.
 
-G-zapper - remove Google tracking cookie
-Service version discovery
+`G-zapper` — xóa cookie tracking của Google.
 
----
+Phát hiện phiên bản dịch vụ (Service version discovery): `nmap -sV`.
 
-`nmap -sV`
+## Phát hiện OS bằng banner grabbing
 
-## OS Discovery banner grabbing
+Banner grabbing chủ động (Active banner grabbing)
 
-Active banner grabbing
+Xác định theo TTL (giá trị TTL thường):
 
-Identify by TTL (giá trị TTL mặc định thường thấy)
-Linux 64
-Windows 128
-FreeBSD 64
-OpenBSD 255
-Cisco 255
-Solaris 255
-AIX 255
+- Linux: 64
+- Windows: 128
+- FreeBSD: 64
+- OpenBSD: 255
+- Cisco: 255
+- Solaris: 255
+- AIX: 255
 
-OS discovery with `nmap -O`
-Using nmap script engine `--script` or `-sC`
-IPv6 nmap `-6 -O 69.69.69.69`
+Phát hiện OS với `nmap -O`.
+Sử dụng Nmap Scripting Engine: `--script` hoặc `-sC`.
+IPv6: `nmap -6 -O 69.69.69.69`.
 
-## Scanning beyond firewall
+## Quét vượt qua tường lửa (Scanning beyond firewall)
 
-Packet Fragmentation ▪ Source Routing ▪ Source Port Manipulation ▪ IP Address Decoy ▪ IP Address Spoofing ▪ MAC Address Spoofing ▪ Creating Custom Packets ▪ Randomizing Host Order ▪ Sending Bad Checksums ▪ Proxy Servers ▪ Anonymizers
+- Packet Fragmentation
+- Source Routing
+- Source Port Manipulation
+- IP Address Decoy
+- IP Address Spoofing
+- MAC Address Spoofing
+- Creating Custom Packets
+- Randomizing Host Order
+- Sending Bad Checksums
+- Proxy Servers
+- Anonymizers
 
-packet fragmentation:
-`nmap -sS -t4 -A -f -v`
+Phân mảnh gói:
 
-ip address spoofing: `hping3 www.certifiedhacker.com -a 7.7.7.7`
+```
+nmap -sS -t4 -A -f -v
+```
+
+Giả mạo địa chỉ IP (IP address spoofing):
+
+```
+Hping3 www.certifiedhacker.com -a 7.7.7.7
+```
+
+MIB info — cần kiểm tra.
