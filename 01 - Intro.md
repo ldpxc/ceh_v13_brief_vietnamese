@@ -30,7 +30,7 @@
 
 ### Quy trình cơ bản:
 
-- **Chuẩn bị (Preparation)**
+- **Chuẩn bị (Preparation)**: Giai đoạn này bao gồm việc kiểm toán các tài nguyên và tài sản để xác định mục đích bảo mật, đồng thời xác định các quy tắc, chính sách và quy trình định hướng cho toàn bộ quy trình ứng phó sự cố. Nó cũng bao gồm việc xây dựng và đào tạo đội ngũ ứng phó sự cố, thiết lập các quy trình sẵn sàng, thu thập các công cụ cần thiết và đào tạo nhân viên để họ biết cách bảo vệ hệ thống và tài khoản của mình
 - **Ghi nhận và phân công (Recording and assignment)**
 - **Phân loại ưu tiên (Triage)**
 - **Thông báo (Notification)**
