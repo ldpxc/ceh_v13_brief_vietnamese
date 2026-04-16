@@ -51,6 +51,17 @@ Thu thập dấu vết (Footprinting) là quá trình thu thập thông tin về
 - **Thụ động (Passive Footprinting):** Thu thập thông tin mà không có sự tương tác trực tiếp với mục tiêu, rất hữu ích khi kẻ tấn công không muốn bị phát hiện. Phương pháp này bao gồm: thu thập tình báo nguồn mở (OSINT), sử dụng cơ sở dữ liệu độc quyền hoặc dịch vụ trả phí, và chia sẻ thông tin tình báo với các nhóm hoặc tổ chức đối tác.
 - **Chủ động (Active Footprinting):** Đòi hỏi sự tương tác trực tiếp với mục tiêu. Hệ thống mục tiêu có thể phát hiện quá trình này vì kẻ tấn công tương tác công khai với mạng lưới. Phương pháp bao gồm: tra cứu/truy vấn DNS, social engineering, quét mạng/cổng (network/port scanning), và liệt kê dịch vụ/người dùng.
 
+### Thông tin thu thập được từ Footprinting (Trang 127 - 128)
+
+- **Thông tin tổ chức (Organization Information)**: Chi tiết nhân viên (tên, chức vụ, kinh nghiệm, địa chỉ liên hệ, điện thoại), thông tin chi nhánh, đối tác, liên kết web, lịch sử tổ chức, công nghệ web, thông cáo báo chí, tài liệu pháp lý, bằng sáng chế và nhãn hiệu.
+- **Thông tin mạng (Network Information)**: Tên miền, domain phụ, khối mạng (network blocks), cấu trúc liên kết mạng (network topology), thông tin router/firewall tin cậy, địa chỉ IP của các hệ thống có thể tiếp cận, bản ghi Whois và bản ghi DNS.
+- **Thông tin hệ thống (System Information)**: Hệ điều hành máy chủ web (Web server OS), vị trí máy chủ web, địa chỉ email công khai, tên người dùng và mật khẩu (usernames/passwords).
+
+### Mục tiêu và Mối đe dọa của Footprinting (Trang 128 - 129)
+
+- **Mục tiêu**: Xây dựng chiến lược tấn công, tìm ra điểm yếu nhất trong hệ thống bảo mật (weakest link) và xây dựng cơ sở dữ liệu thông tin về mục tiêu.
+- **Mối đe dọa (Footprinting Threats)**: Kỹ nghệ xã hội (Social Engineering), Tấn công hệ thống và mạng (System and Network Attacks), Rò rỉ thông tin (Information Leakage), Mất quyền riêng tư (Privacy Loss), Gián điệp doanh nghiệp (Corporate Espionage), Thất thoát doanh thu (Business Loss).
+
 ### Google advanced search operators (Toán tử tìm kiếm nâng cao của Google) (Trang 132 - 134)
 
 Kẻ tấn công sử dụng các toán tử này để tạo ra các truy vấn phức tạp nhằm trích xuất thông tin nhạy cảm hoặc bị ẩn.
@@ -65,6 +76,38 @@ Kẻ tấn công sử dụng các toán tử này để tạo ra các truy vấn
 - `allinurl:` Giới hạn kết quả trả về chỉ những trang có chứa tất cả các từ khóa tìm kiếm nằm trong URL.
 - `inurl:` Giới hạn kết quả trả về chỉ những tài liệu có chứa từ khóa được chỉ định trong URL.
 - `location:` Tìm thông tin cho một vị trí địa lý cụ thể.
+- `filetype:` Tìm kiếm kết quả dựa trên một phần mở rộng tệp tin cụ thể (ví dụ: `filetype:pdf`).
+- `source:` Hiển thị thông tin từ một trang web cụ thể trên Google News.
+- `phonebook:` Tìm số điện thoại dân cư và doanh nghiệp của một cá nhân hoặc tổ chức.
+- `before:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản trước một ngày nhất định (ví dụ: `before:2020-06-29`).
+- `after:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản sau một ngày nhất định.
+
+### Hacker có thể làm gì với Google Hacking? (Trang 135)
+
+Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phát hiện các trang web và máy chủ dễ bị tấn công (SQL injection, buffer overflow) và trích xuất thông tin nhạy cảm. Các thông tin có thể thu thập gồm:
+
+- Thông báo lỗi chứa thông tin nhạy cảm, tệp chứa mật khẩu, các thư mục nhạy cảm.
+- Các trang chứa cổng đăng nhập (logon portals).
+- Dữ liệu cấu hình, log tường lửa, IDS.
+- Mã nguồn ứng dụng web, thông tin phiên bản phần mềm.
+- Thiết bị IoT và bảng điều khiển (control panels) không được bảo vệ.
+- Các trang web bị ẩn (Intranet, dịch vụ VPN).
+
+### Footprinting bằng AI & Cơ sở dữ liệu Google Hacking (GHDB) (Trang 137 - 143)
+
+- **Khai thác Google Hacking với AI**: Kẻ tấn công có thể sử dụng các công nghệ AI (như ChatGPT hoặc ShellGPT) để tự động hóa việc tìm kiếm. Ví dụ một prompt: _"Use filetype search operator to obtain pdf files on the target website eccouncil.org and store the result in the recon1.txt file"_. AI có thể trả về các lệnh shell nâng cao (như dùng `lynx --dump` kết hợp `grep` và `cut`) để cào dữ liệu nhanh chóng.
+- **Google Hacking Database (GHDB)**: Là cơ sở dữ liệu truy vấn giúp tìm kiếm các thông tin nhạy cảm vô tình bị lộ. Các dorks thường tìm: Sensitive files, Exposed directories, Error messages, Vulnerable devices.
+- **VPN Footprinting**: GHDB được sử dụng để tìm kiếm cấu hình và portal đăng nhập của các thiết bị VPN. Ví dụ các Google Dorks:
+  - `inurl:/sslvpn/Login/Login` (Tìm portal đăng nhập VPN).
+  - `intitle:"index of" /etc/openvpn/` (Tìm các thư mục chứa dữ liệu cấu hình VPN).
+  - `"-----BEGIN OpenVPN Static key V1-----" ext:key` (Tìm các static keys của OpenVPN lộ lọt).
+- **Công cụ SearchSploit**: Cho phép tìm kiếm ngoại tuyến (offline) kho dữ liệu của Exploit-DB/GHDB qua dòng lệnh.
+
+### Các kỹ thuật tìm kiếm nâng cao khác (Trang 146 - 150)
+
+- **Google Advanced Search & Advanced Image Search**: Bằng cách truy cập `https://www.google.com/advanced_search` hoặc `advanced_image_search`, kẻ tấn công có thể lọc chính xác theo từ khóa, màu sắc, tên miền, loại tệp tin mà không cần nhớ cú pháp toán tử phức tạp.
+- **Reverse Image Search (Tìm kiếm hình ảnh ngược)**: Cho phép theo dõi nguồn gốc hình ảnh, hồ sơ và vị trí (sử dụng Google Image Search, TinEye, Yahoo/Bing Image Search).
+- **Video Search Engines**: Lấy thông tin từ các video bị lộ, sử dụng công cụ như YouTube Metadata, YouTube DataViewer, MW Metadata, EZGif để phân tích thời gian, thumbnail và trích xuất text/thông tin bị ẩn trong các khung hình video.
 
 ### Meta search engines (Công cụ tìm kiếm Meta) (Trang 151 - 152)
 
@@ -73,6 +116,13 @@ Các công cụ như Startpage, MetaGer, eTools.ch là dạng tìm kiếm sử d
 ### Công cụ tìm kiếm FTP (Trang 152 - 154)
 
 Bao gồm: NAPALM FTP Indexer, FreewareWeb FTP File Search, Mamont, globalfilesearch.com. Kẻ tấn công sử dụng chúng để tìm kiếm các tệp và thư mục quan trọng trên các máy chủ FTP không được bảo mật. Thông tin thu được bao gồm: chiến lược kinh doanh, tài liệu thuế, hồ sơ nhân viên, hồ sơ tài chính và phần mềm có bản quyền.
+
+**Google Dorks nâng cao tìm máy chủ FTP:**
+
+- `intitle:"index of" "*/ftp.txt"` hoặc `intext:"index of" "ftp"` (Tìm thư mục chứa thông tin FTP).
+- `intitle:"Index of ftp passwords"` (Tìm tệp chứa mật khẩu).
+- `inurl:ftp -inurl:(http|https) intext:"@gmail.com" intext:subject fwd|confidential|important|CARD|cvv` (Đọc các email/dữ liệu tài chính bị lưu trữ sai cách trên FTP).
+- `"index of" /ftp/logs` (Tìm tệp tin nhật ký).
 
 ### Tìm kiếm SCADA và IoT (Trang 154)
 
@@ -85,6 +135,17 @@ Bao gồm: Shodan, Censys, ZoomEye. Được sử dụng để thu thập thông
 - **Pentest-Tools Find Subdomains (Trang 162):** Khám phá subdomains và IP, bao gồm thông tin mạng, hệ điều hành, máy chủ HTTP và công nghệ nền tảng.
 - **Sublist3r (Trang 165):** Sử dụng dòng lệnh (ví dụ: `sublist3r -d domain.com`) để liệt kê subdomains.
 
+### Sử dụng AI để khám phá Subdomain (Trang 164 - 166):
+
+Kẻ tấn công có thể sử dụng ChatGPT để tự động sinh các lệnh terminal kết hợp nhiều công cụ.
+
+- Ví dụ Prompt: _"Discover all the subdomains of 'google.com' using dig command"_. AI sẽ xuất lệnh dạng: `dig +short google.com NS | xargs -I{} dig +nocmd +noall +answer @{} google.com A +noall +answer` để liệt kê tự động.
+- Ví dụ Prompt: _"Use Sublist3r to gather a list of subdomains of the target organization eccouncil"_. AI sẽ trả về lệnh `sublist3r -d eccouncil.org -o eccouncil_subdomains.txt`.
+
+### Trích xuất thông tin trang web qua Archive.org (Trang 167 - 168)
+
+Internet Archive's Wayback Machine (`https://archive.org`) lưu trữ các phiên bản cũ của một trang web. Kẻ tấn công sử dụng công cụ này để thu thập thông tin đã bị gỡ bỏ khỏi trang web hiện tại (ví dụ: các tài liệu cũ, cấu hình phần mềm, thông tin nhân viên cũ, cấu trúc trang) để thực hiện tấn công phishing hoặc tìm lỗ hổng ứng dụng web.
+
 ### Thu hồi URLs đã lưu trữ bằng Photon (Trang 167 - 169)
 
 Công cụ Photon được dùng để trích xuất các URL và liên kết được lưu trữ của một trang web mục tiêu từ archive.org (Wayback Machine), cho phép kẻ tấn công thu thập lại cả những thông tin đã bị xóa khỏi trang web. Lệnh sử dụng: `photon.py -u <URL> -l 3 -t 200 --wayback`.
@@ -92,6 +153,24 @@ Công cụ Photon được dùng để trích xuất các URL và liên kết đ
 ### Dịch vụ tìm kiếm người (Trang 170)
 
 **Spokeo** là một dịch vụ tìm kiếm người trực tuyến giúp kẻ tấn công tìm kiếm thông tin về nhân viên của tổ chức mục tiêu. Các dữ liệu thu thập được bao gồm: số điện thoại, địa chỉ email, lịch sử địa chỉ, tuổi, ngày sinh, thành viên gia đình, hồ sơ mạng xã hội và hồ sơ tòa án.
+
+### Footprinting thông qua các trang web tìm việc (Job Sites) (Trang 171 - 172)
+
+Kẻ tấn công thu thập thông tin từ các trang web tuyển dụng (như Dice, LinkedIn, Glassdoor, Simply Hired).
+
+- Các bài đăng tuyển dụng IT/Network Admin thường tiết lộ chi tiết về hạ tầng mạng, hệ điều hành (Windows/Linux), phiên bản phần mềm, tường lửa (firewall), cơ sở dữ liệu và hệ thống máy ảo (Hypervisor/VMs) đang được sử dụng.
+- Kẻ tấn công cũng có thể phân tích sơ yếu lý lịch (resumes) của nhân viên mục tiêu trên các nền tảng này để tìm thông tin kỹ thuật chuyên sâu về tổ chức.
+
+### Dark Web Footprinting (Trang 173 - 176)
+
+- **Surface web (Web nổi)**: Lớp ngoài cùng, cho phép tìm kiếm qua các trình duyệt thông thường (Google, Bing).
+- **Deep web (Web chìm)**: Nội dung không được lập chỉ mục (unindexed), mở rộng lớn hơn rất nhiều so với Surface web (như dữ liệu cơ quan chính phủ, DB tổ chức).
+- **Dark web (Darknet)**: Là một tập con của Deep web, chỉ có thể truy cập qua các trình duyệt chuyên dụng (như Tor Browser), cho phép ẩn danh hoàn toàn.
+- **Công cụ Dark Web**: Kẻ tấn công sử dụng Tor Browser, ExoneraTor, OnionLand Search Engine để thu thập thông tin bí mật (thẻ tín dụng, số SSN, hồ sơ y tế bị lộ).
+- **Kỹ thuật tìm kiếm**: Kẻ tấn công dùng các toán tử tìm kiếm chuyên biệt với đuôi `.onion` trên Tor:
+  - `filetype:pdf site:onion confidential` (Tìm PDF nhạy cảm).
+  - `intitle:"index of" /etc/openvpn/` (Tìm thư mục VPN).
+  - `inurl:config filetype:txt password` (Tìm cấu hình chứa mật khẩu).
 
 ### Phát hiện hệ điều hành - OS detection (Trang 177 - 179)
 
@@ -114,6 +193,14 @@ Quá trình này giúp kẻ tấn công thu thập kế hoạch, chiến lược
 - **USPTO:** Tra cứu thông tin hồ sơ bằng sáng chế và đăng ký nhãn hiệu.
 - **ABI/INFORM Global / SimilarWeb / SERanking:** Phân tích lưu lượng truy cập web, chiến lược SEO, PPC và nghiên cứu điều kiện kinh doanh tổng thể.
 
+### Các kỹ thuật Internet Research khác (Trang 187 - 193)
+
+- **Tìm kiếm vị trí địa lý (Geographical Location)**: Sử dụng Google Earth, Google Maps, Wikimapia để xem cận cảnh hình ảnh các tòa nhà, vị trí camera an ninh, lối vào/lối ra, chỗ ẩn nấp và khu vực Wi-Fi để phục vụ tấn công vật lý (Surveillance, Dumpster diving).
+- **Thông tin từ dịch vụ tài chính (Financial Services)**: Dùng Google Finance, MSN Money, Yahoo Finance để theo dõi tình hình thị trường, thông cáo báo chí tài chính để tìm hiểu công ty.
+- **Hồ sơ doanh nghiệp (Business Profile Sites)**: Dùng các nền tảng như opencorporates, Crunchbase, corporationwiki để tìm địa chỉ, hệ thống nhân viên và cơ cấu phòng ban.
+- **Theo dõi mục tiêu bằng Alerts (Cảnh báo)**: Dùng Google Alerts, X Alerts, Giga Alerts để thiết lập cảnh báo thời gian thực về email hoặc SMS bất cứ khi nào tên tổ chức/nhân sự được nhắc đến trên tin tức hoặc mạng xã hội.
+- **Thu thập từ Group, Diễn đàn và Blog**: Kẻ tấn công thường tạo tài khoản giả mạo (Fake profile) tham gia vào Google Groups hoặc LinkedIn Groups của công ty để thu thập thông tin cá nhân và tổ chức bị rò rỉ (employee pictures, work location, email, v.v.).
+
 ### Kho mã nguồn công khai (Trang 194 - 195)
 
 Công cụ Recon-ng là một framework trinh sát web mạnh mẽ với các module độc lập, giúp thu thập nhanh chóng các cấu hình, khóa SSH/SSL riêng tư, tệp mã nguồn và các tệp nhạy cảm khác bị rò rỉ trên các kho mã nguồn công khai như GitHub, GitLab.
@@ -129,6 +216,11 @@ Công cụ theHarvester được dùng để liệt kê (enumerate) thông tin t
 ### Phân tích mạng xã hội (Trang 205)
 
 Công cụ BuzzSumo là một công cụ tìm kiếm xã hội nâng cao giúp tìm ra những nội dung được chia sẻ nhiều nhất theo chủ đề, tác giả hoặc tên miền trên Twitter, Facebook, LinkedIn, Pinterest. Kẻ tấn công dùng nó để theo dõi tài khoản mạng xã hội, URL và thu thập email để thực hiện lừa đảo (phishing).
+
+### Footprinting mạng xã hội với AI (Trang 204 & 210 - 211)
+
+- **Thu thập Email bằng AI**: Kẻ tấn công có thể sử dụng các prompt trên ChatGPT (VD: _"Use theHarvester to gather email accounts associated with 'microsoft.com', limiting results to 200, and leveraging 'baidu' as a data source"_). Trí tuệ nhân tạo sẽ tự động hóa việc xuất câu lệnh chính xác giúp quá trình thu thập thông tin trở nên trơn tru hơn.
+- **Sử dụng Sherlock kết hợp AI**: Thay vì tra cứu thủ công, hacker sử dụng prompt yêu cầu AI tạo kịch bản truy vết tên người dùng trên Sherlock (Ví dụ: _"Use Sherlock to gather personal information about Sundar Pichai and save the result in recon2.txt"_).
 
 ### Footprinting trên mạng xã hội (Trang 207 - 208)
 
@@ -187,6 +279,19 @@ Thu thập thông tin DNS tiết lộ dữ liệu vùng DNS (DNS zone data) bao 
 - **DNSRecon (Trang 227 - 228):** Công cụ dùng để liệt kê DNS và thực hiện thao tác Reverse DNS Lookup (tra cứu DNS ngược) bằng phương pháp brute-force trên một dải địa chỉ IP để lấy tên miền.
 - **MXToolbox (Trang 229 & 244):** Được sử dụng cho công việc Reverse Lookup để tìm DNS PTR record, và cũng được dùng làm công cụ theo dõi email (Email Tracking).
 
+### Truy vấn DNS bằng công nghệ AI (Trang 225 - 226)
+
+Hacker có thể kết hợp ChatGPT và công cụ dnsrecon để tự động hóa việc truy vấn DNS.
+
+- Ví dụ prompt: _"Install and use DNSRecon to perform DNS enumeration on the target domain www.certifiedhacker.com"_.
+- AI sẽ tạo ra luồng lệnh đầy đủ như `sudo apt-get update && sudo apt-get install -y dnsrecon && dnsrecon -d certifiedhacker.com -t std`.
+
+### Xác định dải mạng (Locate the Network Range) (Trang 230 - 232)
+
+- Xác định dải IP giúp kẻ tấn công lập bản đồ mạng mục tiêu (network topology), tìm ra máy chủ nào đang sống và các thiết bị kiểm soát mạng.
+- Sử dụng cơ sở dữ liệu của các Regional Internet Registry (như ARIN Whois database) để lấy dải IP, mặt nạ mạng (subnet mask).
+- Dải IP Private (IANA dự trữ): `10.0.0.0/8`, `172.16.0.0/12` và `192.168.0.0/16`. Kẻ tấn công cố gắng lần theo traceroute để lấy các địa chỉ IP nội bộ của Gateway (router).
+
 ---
 
 ## Traceroute (Traceroute Tools) (Trang 233 - 241)
@@ -196,6 +301,14 @@ Traceroute sử dụng giao thức ICMP và trường Time to Live (TTL) trong I
 - **NetScanTools Pro (Trang 240):** Công cụ theo dõi các gói tin từ máy kẻ tấn công đến thiết bị mục tiêu qua mạng LAN hoặc Internet. Hỗ trợ traceroute bằng ICMP, UDP, hoặc TCP, giúp xác định các thiết bị trung gian và quốc gia được gán cho mỗi IP.
 - **PingPlotter (Trang 241):** Cho phép thu thập dữ liệu traceroute sử dụng gói ICMP, UDP và TCP. Tự động khám phá các network hops, theo dõi độ trễ (latency) và mất gói (packet loss) theo thời gian, hiển thị dưới dạng biểu đồ trực quan.
 
+### Cơ chế Traceroute và Các loại Traceroute (Trang 234 - 239)
+
+- **Phân tích Traceroute**: Kết quả traceroute giúp kẻ tấn công xác định rõ các router trung gian và Firewall bảo vệ (Ví dụ: `1.10.10.20` là Bastion Host/Firewall đầu tiên, sau đó đến DMZ, rồi đến Internal Firewall `1.10.10.50`).
+- **ICMP Traceroute**: (Mặc định trên Windows thông qua lệnh `tracert`). Gửi gói ICMP với TTL tăng dần.
+- **TCP Traceroute**: Nhiều hệ thống tự động chặn gói ICMP traceroute. Khi đó, kẻ tấn công dùng TCP/UDP (Layer 4 traceroute). Trong Linux, dùng lệnh `tcptraceroute www.google.com`.
+- **UDP Traceroute**: (Mặc định trên Linux thông qua lệnh `traceroute`). Sử dụng gói UDP thay vì ICMP.
+- **Tự động hóa Traceroute bằng AI**: Kẻ tấn công sử dụng ChatGPT để yêu cầu tạo kịch bản quét (Ví dụ: _"Perform network tracerouting to discover the routers on the path to a target host www.certifiedhacker.com"_).
+
 ---
 
 ## Theo dõi Email (Email Tracking Tools) (Trang 244 - 246)
@@ -204,6 +317,16 @@ Công cụ theo dõi email:
 
 - **eMailTrackerPro (Trang 244):** Công cụ phân tích tiêu đề email (email headers) và trích xuất thông tin như vị trí địa lý của người gửi, địa chỉ IP. Cho phép lưu lại các dấu vết để xem lại sau.
 - **IP2LOCATION’s Email Header Tracer (Trang 245):** Dịch vụ mã nguồn mở dùng để phân tích và theo dõi đường dẫn email thông qua email header. Giúp kẻ tấn công truy xuất vị trí mục tiêu và các mail servers mà email đi qua.
+
+### Thu thập thông tin từ Tiêu đề Email (Email Header) (Trang 242 - 244)
+
+Email Header chứa nhiều thông tin chi tiết dùng để truy vết nguồn phát thư:
+
+- **System IP address của người nhận**: Theo dõi địa chỉ IP của người đọc thư.
+- **Geolocation (Vị trí địa lý)**: Dựa vào IP để tìm tọa độ trên bản đồ.
+- **Thông tin Thiết bị, Hệ điều hành và Trình duyệt**: Cho biết loại máy tính (laptop/mobile) và trình duyệt người nhận đang dùng để hacker tìm lỗ hổng tương ứng.
+- **Path Travelled (Đường đi)**: Lưu lại các email transfer agents (mail servers) mà email đã đi qua từ nguồn đến đích.
+- **Các nền tảng email phổ biến**: eM Client, Mailbird, Hiri, Mozilla Thunderbird, Spike, Claws Mail, Outlook, Apple Mail, ProtonMail. Kẻ tấn công trích xuất thông tin Header và dùng các công cụ phân tích tự động.
 
 ---
 
@@ -227,6 +350,43 @@ Kỹ nghệ xã hội là quá trình phi kỹ thuật mà kẻ tấn công lừ
 - **OSINT Framework (Trang 254 & 258):** Framework thu thập tình báo nguồn mở tập trung vào việc lấy thông tin từ các công cụ/tài nguyên miễn phí. Nó cung cấp một giao diện web dạng cây (tree structure) liệt kê phân loại các công cụ OSINT.
 - **Recon-dog (Trang 254 & 259):** Công cụ "all-in-one" cho nhu cầu thu thập thông tin cơ bản. Sử dụng API để lấy thông tin mục tiêu với các tính năng: Censys, NS lookup, Port scan, Detect CMS, Whois lookup, Detect honeypot, Find subdomains, và Reverse IP lookup.
 - **BillCipher (Trang 254 & 260):** Công cụ thu thập thông tin cho trang web hoặc địa chỉ IP (hỗ trợ Python 2, 3 và Ruby). Bao gồm nhiều tính năng: tra cứu DNS, tra cứu Whois, quét cổng, zone transfer, tìm host và reverse IP lookup.
+
+### Các công cụ OSINT được hỗ trợ bởi AI (AI-Powered OSINT Tools) (Trang 262 - 268)
+
+AI giúp tự động hóa quá trình cào dữ liệu web (Web Scraping), nhận diện mẫu mã (Pattern Recognition), phân tích cảm xúc con người (Sentiment Analysis), và phân tích hình ảnh (Image Recognition).
+
+- **Taranis AI**: Nền tảng OSINT nâng cao giúp gom nhặt, phân tích các tin tức phi cấu trúc và xuất ra báo cáo (PDF).
+- **OSS Insight**: Phân tích kho dữ liệu khổng lồ của GitHub bằng tính năng truy vấn bằng ngôn ngữ tự nhiên (GPT-Powered). Theo dõi hoạt động của nhà phát triển, kho lưu trữ và xu hướng Web3/AI.
+- **Các công cụ OSINT AI bổ sung**:
+  - **DorkGPT / DorkGenius**: Trợ lý AI tự động tạo các câu lệnh Google Dorks chính xác.
+  - **Google Word Sniper**: Tinh chỉnh truy vấn Google để tìm thông tin bị ẩn sâu.
+  - **Cylect.io**: Giao diện tích hợp nhiều cơ sở dữ liệu OSINT sử dụng AI.
+  - **ChatPDF**: Ứng dụng AI để phân tích và tóm tắt nhanh dữ liệu từ tệp PDF.
+  - **Bardeen.ai**: Tự động hóa quá trình thu thập và phân tích dữ liệu trực tuyến.
+  - **DarkGPT**: Trợ lý AI (sử dụng GPT-4) chuyên tìm kiếm và truy vấn các cơ sở dữ liệu bị rò rỉ (leaked databases) trên môi trường bị xâm nhập.
+  - **PenLink Cobwebs**: Nền tảng OSINT nâng cao để phân tích, thu thập tình báo mạng.
+  - **Explore AI**: Công cụ tìm kiếm YouTube bằng AI để trích xuất thông tin video.
+  - **AnyPicker**: Công cụ cào dữ liệu web trực quan có tích hợp AI (không cần kỹ năng lập trình).
+
+### Tự động hóa Footprinting bằng Custom Python Script và AI (Trang 269 - 273)
+
+Hacker có thể yêu cầu AI viết các kịch bản tự động bằng Python để quét thông tin mục tiêu. Ví dụ: Prompt AI yêu cầu tạo một đoạn script nhận domain làm tham số đầu vào và tự động kích hoạt các công cụ như `dig` (DNS Lookup), `whois` (WHOIS info), `theHarvester` (Email enumeration) thông qua thư viện subprocess.
+
+## Các biện pháp phòng chống Footprinting (Footprinting Countermeasures) (Trang 274 - 276)
+
+Để ngăn chặn các nỗ lực do thám từ kẻ tấn công, các tổ chức cần thực hiện các biện pháp:
+
+- Hạn chế quyền truy cập của nhân viên vào các trang mạng xã hội từ mạng lưới tổ chức.
+- Đào tạo nhận thức về bảo mật (Security awareness training) để nhân viên phòng tránh các rủi ro Social Engineering, yêu cầu sử dụng biệt danh (pseudonyms) trên blog, diễn đàn.
+- Cấu hình máy chủ web đúng cách để tránh rò rỉ thông tin (Information leakage) và vô hiệu hóa tính năng liệt kê thư mục (Directory listings) trên web server.
+- Sử dụng cơ chế DNS phân tách (Split DNS) (Tách biệt internal DNS và external DNS) và hạn chế chuyển vùng (zone transfer) đối với các máy chủ ủy quyền.
+- Lựa chọn dịch vụ quyền riêng tư (Privacy services) cho cơ sở dữ liệu Whois để ẩn thông tin chi tiết về người đăng ký.
+- Không tiết lộ các thông tin kỹ thuật, tên sản phẩm, công nghệ chiến lược trên các bảng thông báo, ấn phẩm tuyển dụng hay các thông cáo báo chí.
+- Ngăn chặn công cụ tìm kiếm lưu trữ trang web trong bộ đệm (Caching) hoặc xóa lịch sử trên archive.org nếu cần thiết.
+- Triển khai xác thực đa yếu tố (MFA).
+- Giấu địa chỉ IP máy chủ thực đằng sau các Proxy bảo mật hoặc mạng VPN.
+- Vô hiệu hóa (Turn off) quyền truy cập và tính năng gắn thẻ địa lý (geo-tagging) trên các thiết bị di động, camera khi không cần thiết để tránh bị theo dõi (geolocation tracking).
+- Triển khai hệ thống Honeypots hoặc Honeynets để thu hút, giăng bẫy và chuyển hướng kẻ tấn công ra khỏi các hệ thống quan trọng.
 
 ## 1. Cổng (Ports) và Phân loại
 

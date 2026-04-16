@@ -1,3 +1,20 @@
+## 0. Khái niệm và Tổ chức (Concepts & Syndicates)
+
+**Khái niệm DoS/DDoS (DoS/DDoS Concepts) [Trang 1467 - 1469]:**
+
+- **Tấn công DoS (Denial-of-Service):** Là cuộc tấn công vào máy tính hoặc mạng làm giảm, hạn chế hoặc ngăn cản quyền truy cập vào tài nguyên hệ thống của người dùng hợp pháp. Kẻ tấn công làm ngập lụt hệ thống nạn nhân bằng các yêu cầu dịch vụ hoặc lưu lượng truy cập không hợp lệ để làm quá tải tài nguyên.
+- **Mục tiêu của DoS:** Ngăn chặn người dùng hợp pháp sử dụng hệ thống, thay vì giành quyền truy cập trái phép hoặc làm hỏng dữ liệu. Các hình thức bao gồm: Tiêu thụ băng thông/tài nguyên, phá hủy vật lý các thành phần mạng, hoặc làm hỏng cấu trúc lập trình/tệp tin.
+- **Tấn công DDoS (Distributed Denial-of-Service):** Là một cuộc tấn công DoS quy mô lớn, được phối hợp và khởi chạy gián tiếp thông qua nhiều máy tính bị xâm nhập (botnets/zombies). Máy chủ bị tấn công gọi là "nạn nhân chính" (primary victim), còn các máy bị xâm nhập dùng để tấn công gọi là "nạn nhân phụ" (secondary victims).
+
+**Tổ chức tội phạm mạng (Organized Cyber Crime Syndicates) [Trang 1471]:**
+Tội phạm mạng hiện nay hoạt động theo mô hình phân cấp, có chia sẻ doanh thu giống như các tập đoàn lớn. Cấu trúc bao gồm:
+
+- **Criminal Boss (Ông trùm):** Đóng vai trò là doanh nhân, không trực tiếp phạm tội.
+- **Underboss (Phó trùm):** Cung cấp Trojan và quản lý máy chủ C&C cùng cơ sở dữ liệu toolkit.
+- **Campaign Manager (Quản lý chiến dịch):** Sở hữu các mạng lưới liên kết (Affiliation Networks) để triển khai tấn công và đánh cắp dữ liệu.
+- **Attackers / Affiliates (Kẻ tấn công / Chi nhánh):** Phân phối mã độc trên các trang web.
+- **Stolen Data Reseller (Người bán lại dữ liệu):** Bán dữ liệu đã đánh cắp được.
+
 ## 1. Mạng bot (Botnets) [Trang 1470 - 1476]
 
 Botnet là một mạng lưới khổng lồ các máy tính bị lây nhiễm (zombies) được kẻ tấn công sử dụng để thực hiện các cuộc tấn công tự động qua Internet.
@@ -17,6 +34,13 @@ _(Bổ sung từ nguồn)_ **Các mục đích sử dụng botnet** [Trang 1472 
 - **Truyền từ nguồn tập trung (Central source propagation)** [Trang 1477]: Kẻ tấn công đặt một bộ công cụ tấn công (attack toolkit) trên một máy chủ trung tâm. Khi tìm thấy một hệ thống có lỗ hổng, chúng ra lệnh cho nguồn trung tâm tự động chuyển một bản sao của toolkit sang máy vừa bị xâm phạm thông qua cơ chế script. Quy trình này lặp lại liên tục và thường dùng các giao thức HTTP, FTP, và RPC.
 - **Lan truyền theo chuỗi ngược (Back-chaining propagation)** [Trang 1478]: Kẻ tấn công đặt toolkit trên chính hệ thống của họ. Khi máy tấn công thâm nhập được một máy nạn nhân, nó sử dụng các phương thức đặc biệt để yêu cầu máy nạn nhân tạo kết nối ngược lại và tải tệp công cụ về. Thường sử dụng giao thức Trivial File Transfer Protocol (TFTP).
 - **Lan truyền tự trị (Autonomous propagation)** [Trang 1478]: Khác với hai cơ chế trên (cần một nguồn tệp bên ngoài), ở lan truyền tự trị, chính máy chủ đang đi tấn công (attacking host) sẽ trực tiếp chuyển luôn toolkit cho máy nạn nhân mới được tìm thấy ngay tại thời điểm nó xâm nhập thành công (attacker → victim → victim).
+
+**Sử dụng thiết bị di động làm Botnet để khởi chạy DDoS [Trang 1481]:**
+Các thiết bị Android không được bảo mật đang trở thành mục tiêu chính để kẻ tấn công mở rộng mạng lưới botnet.
+
+- **Phương thức lây nhiễm:** Ứng dụng độc hại trên Google Play Store hoặc thông qua tải xuống ẩn (drive-by downloads).
+- **Cách thức hoạt động:** Kẻ tấn công nhúng (binds) máy chủ APK độc hại vào một gói ứng dụng Android hợp pháp, mã hóa nó, gỡ bỏ các tính năng không mong muốn và tung lên các chợ ứng dụng bên thứ ba.
+- Khi người dùng bị lừa tải xuống và cài đặt, kẻ tấn công giành toàn quyền kiểm soát thiết bị, biến nó thành công cụ để thực hiện tấn công DDoS và tiêm nhiễm web (web injections).
 
 ## 3. Nghiên cứu trường hợp DDoS (DDoS Case Study) [Trang 1481 - 1483]
 
@@ -63,6 +87,7 @@ _(Bổ sung từ nguồn)_ **Các mục đích sử dụng botnet** [Trang 1472 
   - _Ví dụ lệnh kiểm tra_: `nmap -sU -pU:123 -Pn -n --script=ntp-monlist <target>`
 - **SYN flood (SYN flood attack)** [Trang 1496 - 1498]: Lạm dụng cơ chế bắt tay 3 bước (three-way handshake) của TCP. Kẻ tấn công gửi lượng lớn SYN với IP nguồn giả. Máy chủ trả lời bằng SYN/ACK và chờ gói ACK cuối cùng (lưu trong "listen queue" ít nhất 75 giây). Hàng đợi đầy khiến máy chủ không thể nhận kết nối mới.
   - _(Bổ sung từ nguồn)_ Có các biến thể khác như SYN-ACK Flood và ACK / PUSH ACK Flood.
+  - _(Biện pháp phòng chống SYN Flood)_ [Trang 1498]: Lọc gói tin (Packet filtering), cấu hình tính năng **SYN cookies** và **SynAttackProtect**. Quản trị viên cũng có thể tinh chỉnh TCP/IP stack: giảm thời gian chờ (time-out) của kết nối đang ở trạng thái “SYN RECEIVED”, giảm số lần truyền lại (retransmissions) gói ACK đầu tiên hoặc tắt hoàn toàn tính năng truyền lại.
 - **Fragmentation attack (Tấn công phân mảnh)** [Trang 1499]: Gửi lượng lớn gói tin bị phân mảnh (ví dụ gói ~1500 byte) với nội dung ngẫu nhiên khiến nạn nhân cạn kiệt tài nguyên khi cố ghép lại. Vì giao thức cho phép phân mảnh, kỹ thuật này thường dễ dàng qua mặt thiết bị mạng, firewall, và IDS/IPS.
 - **Spoofed session flood** [Trang 1500]: Giả mạo phiên TCP bằng cách mang theo nhiều gói SYN, ACK, và RST hoặc FIN để qua mặt tường lửa. Bao gồm:
   - **Multiple SYN-ACK Spoofed:** Gửi nhiều SYN và ACK kèm RST/FIN.
@@ -105,6 +130,49 @@ _(Bổ sung từ nguồn)_ **Các mục đích sử dụng botnet** [Trang 1472 
 - **Drop Requests (Hủy yêu cầu):** Yêu cầu máy khách giải quyết các "câu đố khó" (puzzle) tốn bộ nhớ/CPU trước khi tiếp tục (CAPTCHA/Client puzzle), giúp chặn đứng mạng lưới zombie.
 - _(Bổ sung)_ **Egress / Ingress Filtering:** Lọc gói tin IP đi ra và đi vào mạng để ngăn chặn các gói tin có địa chỉ nguồn giả mạo (spoofed addresses).
 - _(Bổ sung)_ **TCP Intercept & Rate Limiting:** Dùng router chặn và xác thực kết nối TCP SYN để chống SYN flood; kiểm soát tỷ lệ traffic inbound/outbound.
+  Kỹ thuật phòng thủ mạng Botnet (Techniques to Defend against Botnets) [Trang 1529 - 1530]
+
+- **Lọc theo RFC 3704 (RFC 3704 Filtering):** Bộ lọc ACL cơ bản giúp chặn lưu lượng từ các địa chỉ IP giả mạo. Cụ thể, nó chặn các gói tin đến từ các không gian địa chỉ không hợp lệ, chưa sử dụng hoặc được bảo lưu (gọi là "bogon list").
+- **Lọc uy tín IP nguồn trên Cisco IPS (Cisco IPS Source IP Reputation Filtering):** Cisco IPS liên tục cập nhật cơ sở dữ liệu (Cisco SensorBase Network) chứa thông tin tình báo về các botnet, phần mềm độc hại để tự động lọc lưu lượng DoS.
+- **Lọc hố đen (Black Hole Filtering / RTBH):** Định tuyến lưu lượng truy cập không mong muốn vào một "hố đen" (null0) tại cấp độ định tuyến thông qua giao thức BGP để loại bỏ chúng trước khi tiến vào mạng nội bộ.
+- **Dịch vụ phòng chống DDoS từ ISP:** ISP sử dụng tính năng "IP Source Guard" kết hợp cơ sở dữ liệu ràng buộc "DHCP snooping binding" để chặn botnet gửi các gói tin có IP giả mạo.
+
+### 7.4. Các biện pháp phòng ngừa DoS/DDoS bổ sung [Trang 1530 - 1531]
+
+- Sử dụng mã hóa mạnh (WPA2/WPA3, AES 256).
+- Cập nhật kernel lên phiên bản mới nhất và tắt các dịch vụ không an toàn/không sử dụng (như echo, chargen).
+- Chặn mọi gói tin gửi đến (inbound) xuất phát từ các cổng dịch vụ để chống tấn công phản xạ (reflection servers).
+- Ngăn chặn truyền gói tin có địa chỉ giả mạo ngay tại cấp độ ISP.
+
+## 9. Bảo vệ DoS/DDoS ở cấp độ ISP và thiết bị chuyên dụng
+
+### 9.1. Bảo vệ DoS/DDoS ở cấp độ ISP và Cấu hình Cisco IOS [Trang 1532 - 1534]
+
+- **Bảo vệ tại ISP:** Các ISP có thể cung cấp dịch vụ "đường ống sạch" (clean pipes) để chỉ cho phép lưu lượng hợp pháp đi qua, chặn đứng các yêu cầu độc hại ngay trên đám mây. Quản trị viên có thể yêu cầu ISP chặn IP bị ảnh hưởng và chuyển hướng trang web sang một IP khác.
+- **Kích hoạt tính năng TCP Intercept trên Cisco IOS:** Giúp bảo vệ máy chủ TCP khỏi tấn công SYN-flood. Bộ định tuyến sẽ tự động đánh chặn mọi gói SYN và thay mặt máy chủ thực hiện bắt tay 3 bước với client. Chỉ khi client hoàn tất bắt tay, bộ định tuyến mới kết nối nó với máy chủ.
+  - **Bước 1 (Định nghĩa ACL):** `access-list access-list-number {deny | permit} tcp any destination destination-wildcard`
+  - **Bước 2 (Bật TCP Intercept):** `ip tcp intercept list access-list-number`
+  - **Bước 3 (Chọn chế độ):** `ip tcp intercept mode {intercept | watch}` (Mặc định là intercept. Chế độ watch chỉ theo dõi, nếu kết nối không thành lập trong 30 giây sẽ gửi lệnh reset).
+
+### 9.2. Các thiết bị và Dịch vụ phòng chống DDoS chuyên dụng [Trang 1534 - 1541]
+
+**Thiết bị phần cứng (Advanced Protection Appliances):**
+
+- **FortiDDoS** (Ví dụ: dòng 1500F/2000E): Sử dụng kiến trúc máy học song song cực lớn để kiểm tra gói tin Lớp 3, 4, 7 và giảm thiểu rủi ro với độ trễ thấp nhất.
+- **Check Point Quantum DDoS Protector:** Bảo vệ đa lớp, phát hiện theo hành vi, tạo chữ ký tự động và phản hồi trong vài giây.
+- **Huawei AntiDDoS1000:** Sử dụng công nghệ phân tích dữ liệu lớn (Big Data) để lập mô hình bảo vệ theo thời gian thực.
+- **A10 Thunder TPS:** Hệ thống bảo vệ mối đe dọa với khả năng mở rộng cao, phát hiện và chặn các cuộc tấn công trước khi chúng gây ra sự cố mạng.
+
+**Dịch vụ Bảo vệ Đám mây (Cloud Protection Services):**
+
+- **Cloudflare:** Sử dụng mạng lưới 100 Tbps để chặn 87 tỷ mối đe dọa mỗi ngày, phản hồi cực nhanh dưới 3 giây bằng kỹ thuật bảo vệ qua BGP và Lớp 7.
+- **Akamai DDoS Protection:** Sử dụng cơ sở hạ tầng đám mây chuyên dụng để chặn mã độc và lưu lượng xấu ngay trên Internet trước khi chúng chạm tới tường lửa của tổ chức.
+- _(Các dịch vụ khác)_: **Stormwall PRO**, **Imperva DDoS Protection**, **Nexusguard**, **BlockDoS**, **F5 DDoS Attack Protection**, **DOSarrest**.
+- Sử dụng "cognitive radios" ở lớp vật lý để chống nhiễu sóng (jamming/scrambling).
+- Triển khai hệ thống phát hiện bất thường bằng AI/ML để tự động đánh dấu các sai lệch trong hành vi lưu lượng.
+- Sử dụng mô hình phân phối máy chủ (distributed server) và dịch vụ máy chủ dùng chung (colocation) để dự phòng.
+
+### 7.5.
 
 ### 7.3. Ghi nhận pháp y sau tấn công (Post-Attack Forensics) [Trang 1527]
 

