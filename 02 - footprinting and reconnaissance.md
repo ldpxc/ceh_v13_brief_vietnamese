@@ -1,31 +1,43 @@
 ## Mạng TCP/IP
 
-- Sử dụng mạng chuyển mạch (switched networks) giảm số khung (frame) nhận được không dành cho hệ thống của bạn.
-- **UDP** — không kết nối (connectionless).
+### 1. Giao thức UDP (User Datagram Protocol) - Trang 319 & 337
+
+- UDP có đặc điểm là giao thức không kết nối (connectionless), không thực hiện quá trình bắt tay ba bước (three-way handshake) như TCP, do đó việc quét UDP khó khăn hơn vì hệ thống thường không phản hồi nếu không có ứng dụng lắng nghe.
+- Các giao thức phổ biến sử dụng qua UDP (được liệt kê trong bảng cổng và dịch vụ) bao gồm: **DNS** (cổng 53/udp), **DHCP/bootps-bootpc** (cổng 67-68/udp), và **TFTP** (cổng 69/udp).
 - ![[Pasted image 20250929104437.png]]
 
-- Các giao thức hay dùng qua UDP: TFTP, DNS, DHCP.
-- Cấu trúc phân đoạn TCP (TCP segment structure):
+### 2. Cấu trúc phân đoạn TCP (TCP Communication Flags) - Trang 286-287
+
+Tiêu đề TCP chứa 6 cờ (mỗi cờ kích thước 1 bit) để kiểm soát việc truyền dữ liệu và quản lý kết nối:
+
 - ![[Pasted image 20250930110332.png]]
-- **`SYN` (Synchronize)** — khởi tạo liên lạc, thương thảo tham số và số thứ tự (sequence numbers).
-- **`ACK` (Acknowledgement)** — phản hồi cho `SYN`. Được đặt trên mọi phân đoạn sau khi `SYN` ban đầu.
-- **`RST` (Reset)** — buộc chấm dứt kết nối theo cả hai hướng.
-- **`FIN` (Finish)** — đóng kết nối.
-- **`URG` (Urgent)** — báo hiệu dữ liệu đang được gửi ngoài luồng (out‑of‑band), ví dụ huỷ thông điệp giữa chừng.
+- **`SYN` (Synchronize)**: Thông báo việc truyền một số thứ tự (sequence number) mới. Cờ này đại diện cho việc thiết lập kết nối (three-way handshake) ban đầu giữa hai máy chủ.
+- **`ACK` (Acknowledgement)**: Xác nhận đã nhận được dữ liệu truyền và xác định số thứ tự dự kiến tiếp theo. Khi hệ thống nhận được gói tin thành công, nó đặt giá trị cờ này thành "1" (Được đặt trên mọi phân đoạn sau gói SYN ban đầu).
+- **`RST` (Reset)**: Khi có lỗi trong kết nối hiện tại, cờ này được đặt thành "1" và kết nối sẽ bị hủy bỏ (aborted) hoặc buộc chấm dứt ngay lập tức để phản hồi lại lỗi.
+- **`FIN` (Finish)**: Được đặt thành "1" để thông báo rằng sẽ không có thêm dữ liệu nào được gửi đi nữa và tiến hành đóng kết nối đã được thiết lập bởi cờ SYN.
+- **`URG` (Urgent)**: Hướng dẫn hệ thống xử lý dữ liệu chứa trong gói càng sớm càng tốt (dữ liệu ưu tiên/ngoài luồng). Hệ thống sẽ ưu tiên xử lý dữ liệu khẩn cấp này trước và mọi quá trình xử lý dữ liệu khác bị dừng lại.
 
-**Số thứ tự SYN (SYN sequence number)** là ngẫu nhiên và tăng theo mỗi gói được gửi, giúp đảm bảo tính hợp lệ và duy nhất cho phiên (session). Có nhiều cuộc tấn công cố gắng đoán số thứ tự này.
+### 3. Số thứ tự SYN (Initial Sequence Numbers - ISNs) - Trang 419
 
-**Ghi nhớ: three‑way handshake và các cờ TCP cho kỳ thi**
+Hầu hết các thiết bị chọn số thứ tự ban đầu (ISN) dựa trên bộ đếm thời gian, do đó kẻ tấn công có thể xác định và dự đoán được ISN của kết nối TCP tiếp theo bằng cách phân tích ISN của phiên hiện tại. Nếu dự đoán được ISN, kẻ tấn công có thể thiết lập một kết nối độc hại hoặc quét mạng. Do đó, hệ thống cần sử dụng số thứ tự ban đầu ngẫu nhiên (**Random ISNs**) để đảm bảo tính hợp lệ, duy nhất và tránh rủi ro giả mạo phiên.
+
+### 4. Quá trình thiết lập và kết thúc phiên TCP (Three-way Handshake) - Trang 288-289
+
+TCP ưu tiên thiết lập kết nối trước khi truyền dữ liệu qua cơ chế bắt tay ba bước. Các trạng thái liên quan bao gồm:
+
+- **Bước 1**: Nguồn gửi một gói `SYN` đến đích để khởi tạo.
+- **Bước 2**: Khi nhận được gói `SYN`, đích phản hồi bằng cách gửi lại gói `SYN/ACK`.
+- **Bước 3**: Nguồn gửi một gói `ACK` để xác nhận đã nhận được gói `SYN/ACK`, chính thức "MỞ" kết nối cho đến khi một gói `FIN` hoặc `RST` được gửi để đóng phiên.
 
 ![[Pasted image 20250930111156.png]]
 
 ### Công cụ tạo gói (Packet crafting tools):
 
-- **NetScanTools**
-- **Ostinato**
-- **packETH**
-- **LANforge FIRE**
-- **Colasoft Packet Builder**
+- **NetScanTools**: Một bộ công cụ điều tra tích hợp nhiều tiện ích mạng, cho phép tạo và gửi gói tin để trích xuất thông tin.
+- **Ostinato**: Công cụ tạo và phát lưu lượng mạng (traffic generator) mã nguồn mở, cho phép xây dựng và gửi các gói tin tùy chỉnh để kiểm thử mạng và hệ thống bảo mật.
+- **packETH**: Công cụ tạo và chỉnh sửa gói tin Ethernet ở mức thấp (Layer 2), cho phép thao tác trực tiếp trên dữ liệu dạng hex và gửi packet thủ công.
+- **LANforge FIRE**: Nền tảng kiểm thử mạng chuyên nghiệp, hỗ trợ tạo lưu lượng lớn để đánh giá hiệu năng, stress test và kiểm tra hệ thống mạng (có bản thương mại).
+- **Colasoft Packet Builder**: Hỗ trợ tạo các gói tin mạng tùy chỉnh, thay đổi tham số trong bộ giải mã (decoder), hệ thập lục phân (hex) hoặc ASCII, lưu và gửi gói tin thẳng vào mạng.
 
 Các trạng thái liên quan: `SYN`, `SYN/ACK`, `ACK`, `FIN`.
 
