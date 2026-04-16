@@ -1,105 +1,137 @@
-## Session hijacking
+## 1. Khái niệm Cướp phiên (Session Hijacking) [Trang 1547]
 
-**Cướp phiên (Session hijacking)** — chiếm quyền điều khiển một phiên giao tiếp TCP hợp lệ (valid TCP communication session).
+- **Cướp phiên (Session hijacking):** Là một cuộc tấn công trong đó kẻ tấn công chiếm quyền điều khiển một phiên giao tiếp Transmission Control Protocol (TCP) hợp lệ giữa hai máy tính.
+- Vì hầu hết các loại xác thực chỉ được thực hiện ở thời điểm bắt đầu của một phiên TCP, kẻ tấn công có thể giành quyền truy cập vào máy tính trong khi phiên đang diễn ra.
+- Nếu kẻ tấn công đánh cắp hoặc đoán được session ID hợp lệ, chúng có thể sử dụng nó để xác thực với máy chủ, và máy chủ sẽ phản hồi các yêu cầu của kẻ tấn công vì lầm tưởng rằng đang giao tiếp với người dùng hợp lệ.
 
-Hầu hết quá trình xác thực chỉ xảy ra khi phiên TCP (TCP session) bắt đầu; nếu kẻ tấn công lấy được session ID hợp lệ (session ID) thì có thể sử dụng nó để xác thực với server.
+## 2. Tại sao cướp phiên thành công? (Why is Session Hijacking Successful?) [Trang 1548 - 1549]
 
-## Tại sao cướp phiên thành công
+Cướp phiên thành công nhờ vào các yếu tố lỗ hổng sau:
 
-- Không có cơ chế khoá tài khoản khi nhiều lần thử sai hoặc không xử lý session ID không hợp lệ
-- Thuật toán sinh session-ID yếu hoặc kích thước session ID nhỏ
-- Xử lý session ID không an toàn
-- Thời gian timeout của phiên vô thời hạn (indefinite session timeout)
-- Hầu hết hệ thống chạy trên TCP/IP đều dễ tổn thương
-- Nhiều biện pháp đối phó không có hiệu quả nếu không sử dụng mã hóa
+- **Không có cơ chế khóa tài khoản đối với session ID không hợp lệ:** Nếu trang web không khóa tài khoản, kẻ tấn công có thể thực hiện tấn công brute-force để thử liên tục các session ID cho đến khi tìm được ID hợp lệ mà không bị cảnh báo.
+- **Thuật toán tạo session ID yếu hoặc kích thước session ID nhỏ:** Hầu hết các trang web dùng thuật toán tuyến tính (dựa trên thời gian hoặc IP) để tạo ID. Bằng cách nghiên cứu mô hình tuần tự, kẻ tấn công dễ dàng thu hẹp phạm vi tìm kiếm. Kể cả dùng thuật toán mạnh, nếu chuỗi ID quá ngắn thì vẫn rất dễ bị bẻ khóa.
+- **Xử lý session ID không an toàn:** Kẻ tấn công có thể lừa trình duyệt truy cập trang web khác để lấy thông tin session ID được lưu trữ, sau đó khai thác qua DNS poisoning, XSS.
+- **Thời gian timeout của phiên vô thời hạn (Indefinite session timeout):** Ví dụ như tùy chọn "Remember me" cung cấp cho kẻ tấn công thời gian không giới hạn để đoán session ID hoặc dùng ID tĩnh sau khi đánh cắp tệp cookie.
+- **Hầu hết máy tính dùng TCP/IP đều dễ bị tổn thương:** Do các lỗi thiết kế vốn có của chính giao thức TCP/IP.
+- **Hầu hết các biện pháp đối phó không hoạt động nếu không có mã hóa:** Rất dễ để đánh hơi (sniff) session ID trên một mạng phẳng (flat network) nếu bảo mật truyền tải không được thiết lập đúng cách, ngay cả khi web dùng mã hóa SSL.
 
-## Các pha của cướp phiên
+## 3. Các pha của cướp phiên (Phases of Session Hijacking) [Trang 1551 - 1552]
 
-- **Theo dõi kết nối (Tracking the connection)** — dùng sniffer để theo dõi nạn nhân, dùng `nmap` để tìm các chuỗi số thứ tự TCP dễ dự đoán
-- **Phá đồng bộ kết nối (Desynchronizing connection)** — thay đổi số thứ tự SEQ/ACK của server; gửi dữ liệu null hoặc gói reset
-- **Tiêm gói tin của kẻ tấn công (Injecting attacker packets)** — chèn dữ liệu vào mạng hoặc tham gia như MITM (Man-in-the-Middle)
+Quá trình cướp phiên được chia thành ba giai đoạn chính:
 
-Phân tích gói tin trong cướp phiên cục bộ: cần biết số thứ tự tiếp theo (Next Sequence Number — NSN).
+- **Theo dõi kết nối (Tracking the connection):** Kẻ tấn công dùng network sniffer để theo dõi nạn nhân, hoặc dùng công cụ như Nmap để quét mạng tìm mục tiêu có chuỗi TCP dễ dự đoán. Sau đó, chúng chụp lại các số thứ tự (sequence number) và số xác nhận (acknowledgment number - ACK).
+- **Phá đồng bộ kết nối (Desynchronizing the connection):** Xảy ra khi số thứ tự của máy chủ không khớp với số ACK của máy khách. Để thực hiện, kẻ tấn công gửi dữ liệu null (null data) đến máy chủ để làm tăng số SEQ/ACK của máy chủ mà máy khách không biết. Một cách khác là gửi cờ đặt lại (RST flag) hoặc cờ kết thúc (FIN flag) để ngắt kết nối phía máy chủ và tạo một kết nối mới với số thứ tự khác, đưa cả hai vào trạng thái mất đồng bộ nhưng vẫn được thiết lập.
+- **Tiêm gói tin của kẻ tấn công (Injecting attacker's packet):** Sau khi ngắt kết nối giữa máy chủ và mục tiêu, kẻ tấn công có thể tiêm dữ liệu vào mạng hoặc tích cực tham gia như một kẻ trung gian (Man-in-the-Middle - MITM), đọc và tiêm dữ liệu theo ý muốn.
 
-**Cướp phiên thụ động (Passive session hijacking)** — chỉ quan sát và ghi lại traffic, thu thập session IDs và mật khẩu.
+## 4. Phân tích gói tin trong cướp phiên cục bộ (Packet Analysis of a Local Session Hijack) [Trang 1552]
 
-**Cướp phiên chủ động (Active session hijacking)** — chiếm phiên bằng cách phá kết nối hoặc tham gia tích cực (ví dụ MITM); đôi khi cần đoán số thứ tự trước khi mục tiêu trả lời server.
+- Cướp phiên liên quan đến việc khai thác quá trình bắt tay ba bước (three-way handshake) của TCP.
+- Để cướp phiên thành công, kẻ tấn công cần biết số thứ tự tiếp theo (Next Sequence Number - NSN) mà máy khách sẽ sử dụng.
+- Có hai cách: Một là bắt (sniff) lưu lượng mạng, tìm gói ACK và xác định NSN dựa trên gói đó (cách này gọi là cướp phiên cục bộ - local session hijacking). Hai là truyền dữ liệu với số thứ tự tự đoán (phương pháp này không đáng tin cậy).
 
-**Giả mạo (Spoofing)** — mạo danh người dùng hoặc máy khác, khởi tạo phiên mới bằng thông tin đăng nhập bị đánh cắp.
+## 5. Phân loại cướp phiên (Types of Session Hijacking) [Trang 1552 - 1553]
 
-**Chiếm (Hijacking)** — chiếm quyền kiểm soát phiên đang hoạt động, phụ thuộc vào việc người dùng đã tạo kết nối trước.
+- **Cướp phiên thụ động (Passive Session Hijacking):** Kẻ tấn công chỉ quan sát và ghi lại tất cả lưu lượng thông qua network sniffers để thu thập session IDs và mật khẩu. Sau đó chúng dùng thông tin này để đăng nhập hợp lệ.
+- **Cướp phiên chủ động (Active Session Hijacking):** Kẻ tấn công chiếm đoạt một phiên hiện có bằng cách ngắt kết nối một phía hoặc tích cực tham gia (ví dụ: MITM attack). Để MITM thành công, kẻ tấn công đôi khi phải đoán được số thứ tự trước khi mục tiêu trả lời máy chủ.
 
-## Application-level Hijacking
+## 6. Giả mạo (Spoofing) vs. Chiếm quyền (Hijacking) [Trang 1555 - 1556]
 
-- **Stealing** — nhiều kỹ thuật để đánh cắp session IDs
-- **Guessing** — đoán session ID bằng cách quan sát biến phiên
-- **Brute forcing** — thử tất cả hoán vị có thể của session ID
+- **Giả mạo (Spoofing):** Kẻ tấn công mạo danh người dùng hoặc máy khác để giành quyền truy cập. Kẻ tấn công không chiếm quyền phiên đang hoạt động mà khởi tạo một phiên kết nối hoàn toàn mới bằng thông tin đăng nhập bị đánh cắp của nạn nhân. (Cần có quyền root để tạo các gói tin thô).
+- **Chiếm (Hijacking):** Kẻ tấn công giành quyền kiểm soát một phiên đang hoạt động (existing active session). Quá trình này phụ thuộc vào việc người dùng hợp pháp đã thiết lập kết nối và xác thực từ trước.
 
-**Session sniffing** — lấy header của yêu cầu HTTP (cookie) hoặc nội dung body của HTTP request.
+## 7. Cướp phiên cấp ứng dụng (Application-Level Hijacking) [Trang 1558 - 1559]
 
-## Dự đoán token phiên
+Nhằm giành quyền kiểm soát phiên người dùng HTTP bằng cách lấy các session IDs. Có 3 kỹ thuật chính:
 
-Dự đoán token phiên (Predicting session token):
+- **Đánh cắp (Stealing):** Dùng các kỹ thuật vật lý hoặc dùng công cụ sniffing (như Wireshark, Riverbed Packet Analyzer Plus) để chặn lưu lượng giữa client và server nhằm trích xuất session IDs từ các gói tin.
+- **Đoán (Guessing):** Cố gắng đoán session IDs bằng cách quan sát các biến của phiên. Chỉ hiệu quả khi máy chủ dùng cơ chế tạo ID yếu hoặc có nhiều lỗ hổng.
+- **Brute forcing:** Thử tất cả các hoán vị có thể có của session ID. Dùng kết nối DSL, kẻ tấn công có thể tạo tới 1.000 lần đoán mỗi giây.
+- _(Bổ sung thêm từ nguồn)_ Các cách khác để xâm phạm token phiên bao gồm: Predictable session token, MITM, Man-in-the-browser, XSS, CSRF, Session replay, Session fixation, CRIME, Forbidden attack, Session donation, PetitPotam hijacking.
 
-- Token tuần tự (sequential tokens)
-- Token dựa vào timestamp
-- Không gian token nhỏ (small token space)
-- Bộ sinh số ngẫu nhiên yếu (weak PRNG) và thiếu rate limiting
+## 8. Session Sniffing (Đánh hơi phiên) [Trang 1560]
 
-## Dùng MITM (split TCP connection)
+- Máy chủ web thường gửi token phiên cho trình duyệt client. Token này là chuỗi có độ dài thay đổi nằm trong header của yêu cầu HTTP (cookie), trong URL, hoặc trong nội dung body của HTTP request.
+- Kẻ tấn công dùng công cụ sniffing để bắt gói tin, trích xuất ID, giả mạo nạn nhân và gửi ID đó cho máy chủ trước nạn nhân để chiếm phiên.
 
-- client ↔ attacker ↔ server (khi đó attacker có thể sửa/sử dụng lại các thông tin trong phiên)
-- Trong giao dịch HTTP, kết nối TCP trở thành mục tiêu để tấn công
+## 9. Dự đoán token phiên (Predicting Session Token) [Trang 1561 - 1563]
 
-## Man-in-the-Browser / Manipulator in the browser
+Kẻ tấn công thu thập lượng lớn session ID cùng lúc, phân tích thuật toán và dự đoán token mới:
 
-Man-in-the-Browser / Manipulator in the browser (tấn công trình duyệt):
+- **Token tuần tự (Sequential tokens):** Nếu ID được phát hành theo số thứ tự (vd: 1001, 1002), kẻ tấn công dễ dàng đoán token tiếp theo là 1003.
+- **Token dựa vào timestamp (Timestamp-based tokens):** Kết hợp các yếu tố dễ dự đoán như thời gian. Nếu biết định dạng và ngày giờ hiện tại, kẻ tấn công có thể đoán được (Ví dụ: `user123-20240611T1234`).
+- **Không gian token nhỏ (Small token space):** Nếu số lượng token có thể có là quá nhỏ (vd: giới hạn 10.000 giá trị), kẻ tấn công có thể viết script brute-force toàn bộ.
+- **Thiếu giới hạn tốc độ (Lack of rate-limiting):** Không có rate-limiting cho phép kẻ tấn công thực hiện đoán (brute-force) hàng ngàn token liên tục mà không bị hệ thống chặn.
+- **Bộ sinh số ngẫu nhiên yếu (Weak PRNG):** Bộ tạo số giả ngẫu nhiên không thực sự ngẫu nhiên hoặc được tạo seed (hạt giống) kém, ví dụ như dùng thời gian hiện tại làm seed, sẽ giúp kẻ tấn công sao chép lại quy trình tạo token.
 
-1. Trojan nhiễm máy nạn nhân
-2. Trojan cài mã độc vào hệ thống
-3. Sau khi khởi động lại trình duyệt, mã được tải
-4. Một handler được đăng ký cho mỗi lần truy cập trang
-5. Khi tải trang, extension/mã độc so khớp URL với các site mục tiêu
-6. Người dùng đăng nhập
-7. Extension đăng ký event handler
-8. Extension trích xuất giá trị DOM và thay đổi chúng
-9. Trình duyệt gửi giá trị đã sửa tới server
-10. Server nhận giá trị
-11. Giao dịch được chấp nhận
-12. Trình duyệt nhận biên lai cho giao dịch đã sửa
-13. Trình duyệt hiển thị biên lai với thông tin ban đầu
-14. Người dùng không biết gì về thay đổi
+## 10. Cướp phiên bằng Man-in-the-Middle (MITM) [Trang 1564]
 
-## Lợi dụng client-side để chiếm session ID
+- Trong MITM, kẻ tấn công chia rẽ (split) kết nối TCP thành hai kết nối riêng biệt: `client ↔ attacker` và `attacker ↔ server`.
+- Sau khi chặn thành công, kẻ tấn công có thể đọc, sửa đổi và chèn dữ liệu gian lận vào phiên giao tiếp.
+- Trong một giao dịch HTTP, bản thân kết nối TCP chính là mục tiêu để thực hiện cuộc tấn công xâm nhập này.
 
-**Cross-Site Scripting (XSS)** — chiếm token phiên bằng cách chèn mã độc vào trang (ví dụ: `<SCRIPT>alert(document.cookie);</SCRIPT>`). Điều này xảy ra khi webapp không xử lý đầu vào đúng cách.
+## 11. Tấn công Man-in-the-Browser / Manipulator-in-the-Browser (MitB) [Trang 1565 - 1566]
 
-**Mã JavaScript độc hại (Malicious JS)** có thể lấy cookie/session token và gửi về server của kẻ tấn công.
+Tấn công Man-in-the-browser (MitB) tương tự như tấn công Man-in-the-Middle (MITM), nhưng điểm khác biệt là nó sử dụng một Trojan horse để chặn và thao túng các lệnh gọi (calls) giữa trình duyệt và các cơ chế/thư viện bảo mật của nó [Trang 1565]. Mục tiêu chính là trộm cắp tài chính bằng cách thao túng các giao dịch ngân hàng trực tuyến. MitB có thể thành công ngay cả khi có SSL, PKI hay xác thực 2 yếu tố (2FA) vì mọi cơ chế bảo mật đều trông có vẻ hoạt động bình thường [Trang 1565].
 
-**Trojan** có thể đọc cookie hoặc bộ nhớ trình duyệt.
+Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 
-**Cross-Site Request Forgery (CSRF)** — tấn công "một cú nhấp" (one-click session riding) khai thác niềm tin của server vào session đang xác thực; cần token chống CSRF để ngăn chặn.
+1. Trojan lây nhiễm vào phần mềm của máy tính (Hệ điều hành hoặc ứng dụng).
+2. Trojan cài đặt mã độc (các tệp tiện ích mở rộng - extension files) và lưu nó vào cấu hình trình duyệt.
+3. Sau khi người dùng khởi động lại trình duyệt, mã độc dưới dạng extension được tải lên.
+4. Các file extension đăng ký một trình xử lý (handler) cho mỗi lần người dùng truy cập một trang web.
+5. Khi một trang được tải, extension so khớp URL của trang đó với danh sách các trang web mục tiêu (targeted sites) đã được thiết lập sẵn.
+6. Người dùng đăng nhập an toàn vào trang web (ví dụ: web ngân hàng).
+7. Extension đăng ký một event handler cho nút bấm (button) khi phát hiện một mẫu tải trang cụ thể.
+8. Khi người dùng nhấp vào nút bấm, extension sử dụng giao diện DOM (Document Object Model) để trích xuất toàn bộ dữ liệu từ các trường biểu mẫu (form fields) và sửa đổi các giá trị đó (ví dụ: đổi tài khoản thụ hưởng).
+9. Trình duyệt gửi biểu mẫu và các giá trị đã sửa đổi tới server.
+10. Server nhận các giá trị đã sửa đổi nhưng không thể phân biệt được đâu là giá trị gốc.
+11. Sau khi server thực hiện giao dịch, một biên lai (receipt) được tạo ra.
+12. Trình duyệt nhận lại biên lai cho giao dịch đã bị sửa đổi.
+13. Tuy nhiên, trình duyệt (đã bị kiểm soát) lại hiển thị biên lai với các thông tin gốc ban đầu do người dùng nhập.
+14. Người dùng hoàn toàn tin rằng giao dịch gốc đã được xử lý mà không biết gì về sự thay đổi/can thiệp.
 
-**Session replay attack** — nghe lén (sniff) giao tiếp giữa user và server, ghi lại token xác thực và phát lại (replay) yêu cầu.
+## 12. Cướp phiên cấp ứng dụng (Application-Level Session Hijacking) và các phương pháp tấn công Client-side [Trang 1566 - 1580]
 
-**Session fixation** — kẻ tấn công thiết lập trước session ID; khi nạn nhân đăng nhập, session đó được xác thực và kẻ tấn công sử dụng session đã biết.
+- **Cross-Site Scripting (XSS)** [Trang 1566 - 1567]:
+  - Bản chất: Kẻ tấn công chèn các tập lệnh phía máy khách (client-side scripts) độc hại vào các trang web động do ứng dụng web không xử lý đầu vào đúng cách.
+  - Cách thức: Tập lệnh độc hại thực thi trên trình duyệt của nạn nhân để thu thập thông tin cá nhân, đánh cắp cookie/session token. Ví dụ mã chèn: `<SCRIPT>alert(document.cookie);</SCRIPT>`.
+- **Malicious JavaScript (Mã JS độc hại)** [Trang 1566]:
+  - Bản chất: Kẻ tấn công nhúng một kịch bản JS độc hại vào trang web.
+  - Cách thức: Kịch bản này không tạo ra bất kỳ cảnh báo nào cho người dùng nhưng âm thầm chụp (captures) các token phiên ở chế độ nền và gửi chúng cho kẻ tấn công.
+- **Trojans** [Trang 1566]:
+  - Bản chất: Phần mềm độc hại lây nhiễm vào hệ thống nạn nhân.
+  - Cách thức: Một Trojan horse có thể thay đổi cài đặt proxy trong trình duyệt của người dùng để gửi tất cả các phiên (sessions) đi qua máy của kẻ tấn công, từ đó đánh cắp dữ liệu.
+- **Cross-Site Request Forgery (CSRF)** [Trang 1568]:
+  - Bản chất: Còn được gọi là tấn công một cú nhấp chuột (one-click attack) hoặc session riding. Khai thác sự tin tưởng mà máy chủ (server) dành cho một phiên đang xác thực của trình duyệt.
+  - Cách thức: Kẻ tấn công tạo một biểu mẫu độc hại. Khi nạn nhân (đã đăng nhập) bấm vào liên kết, trình duyệt tự động gửi dữ liệu hợp lệ (cookie) tới máy chủ. Vì dữ liệu xuất phát từ người dùng đáng tin cậy, máy chủ chấp nhận yêu cầu của kẻ tấn công.
+- **Session Replay Attack (Tấn công phát lại phiên)** [Trang 1569 - 1570]:
+  - Bản chất: Ghi lại và phát lại token.
+  - Cách thức: Kẻ tấn công lắng nghe (eavesdrops/sniffs) cuộc hội thoại giữa người dùng và máy chủ để chụp (capture) token xác thực. Sau đó, chúng phát lại (replays) yêu cầu chứa token đó tới máy chủ để qua mặt xác thực và giành quyền truy cập trái phép.
+- **Session Fixation (Cố định phiên)** [Trang 1571 - 1573]:
+  - Bản chất: Đặt trước (fix) một Session ID hợp lệ thay vì đánh cắp ID sau khi đăng nhập.
+  - Cách thức: Kẻ tấn công lấy một ID hợp lệ từ server, gài ID này vào trình duyệt nạn nhân (qua URL, cookie, form ẩn) và dụ nạn nhân đăng nhập. Khi nạn nhân đăng nhập thành công, phiên đó được xác thực với ID mà kẻ tấn công đã biết từ trước.
+- **Proxy-based Session Hijacking (Cướp phiên qua Proxy)** [Trang 1574]:
+  - Bản chất: Đánh cắp phiên bằng cách đóng vai trò trung gian.
+  - Cách thức: Kẻ tấn công dụ nạn nhân nhấp vào một liên kết giả (bogus link) chuyển hướng đến máy chủ của chúng. Kẻ tấn công hoạt động như một proxy, chuyển tiếp yêu cầu đến máy chủ hợp pháp và chụp (captures) toàn bộ thông tin phiên trong quá trình giao dịch.
+- **CRIME Attack** [Trang 1575 - 1576]:
+  - Bản chất: Compression Ratio Info-Leak Made Easy - rò rỉ dữ liệu qua nén.
+  - Cách thức: Khai thác lỗ hổng trong tính năng nén dữ liệu (thuật toán DEFLATE) của các giao thức SSL/TLS, SPDY và HTTPS. Kẻ tấn công tiêm ký tự ngẫu nhiên, theo dõi độ dài/kích thước cookie được mã hóa để suy đoán giá trị thực sự của authentication cookie.
+- **FREAK / Forbidden Attack** [Trang 1577 - 1578]:
+  - Bản chất: Tấn công MITM phá vỡ mã hóa TLS.
+  - Cách thức: Khai thác lỗ hổng tái sử dụng nonce mật mã (cryptographic nonce reuse) trong quá trình bắt tay TLS (đặc biệt mã hóa AES-GCM). Sau khi chiếm được phiên HTTPS, kẻ tấn công tiêm mã độc (JS) hoặc nội dung giả mạo để ép nạn nhân tiết lộ thông tin nhạy cảm.
+- **Session Donation Attack (Tấn công quyên tặng phiên)** [Trang 1579 - 1580]:
+  - Bản chất: Nạn nhân xác thực vào phiên của kẻ tấn công.
+  - Cách thức: Kẻ tấn công tự đăng nhập để lấy Session ID hợp lệ, sau đó "quyên tặng" (donate) ID này cho nạn nhân qua một liên kết. Khi nạn nhân nhấp vào và nhập thông tin (thanh toán, mật khẩu), chi tiết đó sẽ bị liên kết/ghép nối trực tiếp vào tài khoản của kẻ tấn công.
 
-**Session hijacking qua proxy** — dùng proxy giả, thu nhận và replay token.
+## 13. Ghi nhớ (Memorization)
 
-**CRIME attack** — tấn công phía client lợi dụng nén dữ liệu trong SSL/TLS/SPDY/HTTPS để suy đoán cookie (Compression Ratio Info-leak Made Easy).
+(Lưu ý: Bảng ghi nhớ này đúc kết quy luật tương quan giữa các phương thức tấn công để dễ dàng ghi nhớ cách thức hoạt động)
 
-**Forbidden / FREAK-like attacks** — lợi dụng tái sử dụng nonce trong TLS hoặc ép ép downgrade crypto; sau khi chiếm session HTTP, attacker tiêm mã độc hoặc nội dung giả mạo (ví dụ ảnh hưởng tới AES-GCM khi nonce bị tái sử dụng).
-
-**Session donation attack** — attacker đăng nhập trước, nạn nhân bấm link, attacker có thể truy cập thông tin nạn nhân do session bị chia sẻ/ghép nối.
-
-## Ghi nhớ (memorization)
-
-Ghi nhớ (memorization):
-CODE → XSS, Malicious JS
-TRUST → CSRF, Session Donation
-REUSE → Replay, Fixation
-NETWORK → Proxy, CRIME
-CRYPTO → FREAK / Forbidden
+- **CODE** (Mã độc) → XSS, Malicious JS _(Tiêm mã thực thi vào trình duyệt)_
+- **TRUST** (Niềm tin) → CSRF, Session Donation _(Lợi dụng sự tin tưởng của máy chủ vào trình duyệt hoặc đánh lừa luồng xác thực)_
+- **REUSE** (Tái sử dụng) → Replay, Fixation _(Sử dụng lại token đã bắt được hoặc ép dùng lại token đã cố định trước)_
+- **NETWORK** (Mạng lưới/Trung gian) → Proxy, CRIME _(Đứng giữa can thiệp mạng hoặc phân tích gói tin bị nén)_
+- **CRYPTO** (Mã hóa) → FREAK / Forbidden _(Khai thác sự yếu kém trong thuật toán mã hóa, tái sử dụng Nonce)_
 
 | Attack                                | Ý tưởng chính (1 dòng)                   | Cách thức (tóm tắt)                                                     | Yêu cầu chính                  | Từ khoá kỳ thi CEH                    | Phòng chống                                       |
 | ------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------- | ------------------------------ | ------------------------------------- | ------------------------------------------------- |
@@ -114,104 +146,113 @@ CRYPTO → FREAK / Forbidden
 | **FREAK / Forbidden Attack**          | Phá yếu TLS / tái sử dụng crypto         | MITM ép downgrade hoặc tái sử dụng nonce (ví dụ AES-GCM)                | Cấu hình TLS yếu               | **TLS downgrade / nonce reuse**       | Sử dụng cipher mạnh, hardening TLS                |
 | Session Donation Attack               | Nạn nhân xác thực vào phiên của attacker | Attacker đăng nhập → nạn nhân click → attacker nhận quyền               | Session bị ghép nối            | **Session misbinding**                | Gắn session với user/IP/device                    |
 
-## Network-level session hijacking
+## 14. Cướp phiên cấp mạng (Network-Level Session Hijacking) [Trang 1581 - 1590]
 
-(Khai thác lỗ hổng trong three-way TCP handshake)
+Tấn công cấp mạng dựa trên việc chặn các gói tin giữa client và server trong phiên TCP hoặc UDP. Ưu điểm là không yêu cầu quyền truy cập host và không cần điều chỉnh theo từng ứng dụng. Các kỹ thuật khai thác lỗ hổng (đặc biệt trong quá trình three-way handshake) bao gồm:
 
-**TCP/IP Hijacking**:
+- **TCP/IP Hijacking** [Trang 1584 - 1585]:
+  - Sử dụng các gói tin giả mạo (spoofed packets) để chiếm quyền kiểm soát kết nối.
+  - Kẻ tấn công đánh hơi (sniffs) kết nối của nạn nhân và sử dụng IP của nạn nhân để gửi một gói tin giả mạo mang số thứ tự (sequence number) dự đoán được.
+  - Bộ nhận (server) xử lý gói giả mạo, tăng số thứ tự lên và gửi gói xác nhận (ACK) về địa chỉ IP thực của nạn nhân.
+  - Máy nạn nhân không hề biết về gói giả mạo nên bỏ qua gói ACK của server và tắt bộ đếm số thứ tự. Trạng thái kết nối lúc này bị lệch/mất đồng bộ (desynchronized state).
+  - Kẻ tấn công tiếp tục theo dõi số thứ tự và liên tục giả mạo các gói tin xuất phát từ IP nạn nhân.
+  - Kẻ tấn công tự do giao tiếp với server trong khi kết nối thực của nạn nhân bị treo (hangs).
+- **IP Spoofing: Source Routed Packets (Gói định tuyến nguồn)** [Trang 1586]:
+  - Kẻ tấn công giành quyền truy cập bằng cách giả mạo (spoofs) IP của một host được tin cậy (trusted host) để server chấp nhận các gói tin.
+  - Gói tin được gán nhãn định tuyến nguồn (source-routed), nghĩa là kẻ tấn công tự chỉ định đường dẫn cho gói tin đi đến IP đích.
+  - Kẻ tấn công thay đổi số sequence và ACK, sau đó chèn các gói giả mạo vào phiên TCP trước khi host thực thụ kịp phản hồi server.
+  - Gói thật từ host bị mất do server đã nhận gói có số thứ tự do kẻ tấn công sử dụng từ trước.
+- **RST Hijacking** [Trang 1587]:
+  - Kẻ tấn công tiêm một gói Reset (RST) trông có vẻ hợp lệ bằng cách sử dụng địa chỉ nguồn giả mạo và dự đoán đúng số ACK (acknowledgment number).
+  - Nếu dùng đúng số ACK, nạn nhân sẽ tưởng rằng thiết bị ngang hàng (peer) đã gửi gói reset này.
+  - Ngay lập tức, nạn nhân đặt lại và đóng kết nối.
+  - Kỹ thuật này được thực hiện bằng các công cụ tạo gói (packet crafting tools) như Colasoft Packet Builder hoặc công cụ phân tích TCP/IP như `tcpdump`.
+- **Blind Hijacking (Cướp phiên mù)** [Trang 1588]:
+  - Kẻ tấn công tiêm dữ liệu độc hại hoặc lệnh (commands) vào phiên TCP ngay cả khi không thể vô hiệu hóa source-routing.
+  - Kẻ tấn công có thể gửi dữ liệu nhưng không có quyền truy cập để nhìn thấy phản hồi (no access to see the response). Do không quan sát được, kẻ tấn công phải đoán chính xác Next Sequence Number (NSN) để ép server thực thi lệnh.
+- **UDP Hijacking** [Trang 1589]:
+  - Giao thức UDP không dùng packet sequencing (số thứ tự) hay đồng bộ hóa (connectionless), nên việc sửa đổi dữ liệu cực kỳ dễ dàng mà nạn nhân không hay biết.
+  - Kẻ tấn công (đã spoof IP nguồn) gửi một reply UDP giả mạo cho các request UDP của nạn nhân trước khi server hợp lệ có thể phản hồi.
+  - Có thể sử dụng tấn công MITM để chặn (intercept) hoàn toàn reply thật từ server, giúp việc chiếm phiên dễ dàng hơn.
 
-- Sniff kết nối của nạn nhân và gửi gói giả mạo với số thứ tự dự đoán được
-- Bộ nhận xử lý gói và tăng số thứ tự
-- Máy nạn nhân bỏ qua gói ACK và rơi vào trạng thái lệch số thứ tự
-- Kẻ tấn công tiếp tục theo dõi số thứ tự và giả mạo các gói xuất phát từ IP của nạn nhân
-- Kẻ tấn công giao tiếp trong khi kết nối của nạn nhân bị treo (desynchronized)
+## 15. Tấn công MITM dùng ICMP giả mạo và ARP Spoofing [Trang 1590]
 
-**IP Spoofing: Source-routed packets**:
+Trong cả hai kỹ thuật này, kẻ tấn công sử dụng một packet sniffer làm giao diện trung gian giữa client và server, thay đổi cổng mặc định (default gateway) của client để định tuyến lại (reroute) các gói tin qua máy của kẻ tấn công:
 
-1. Tiếp cận nhờ các host tin cậy (trusted hosts)
-2. Kẻ tấn công giả mạo IP để server chấp nhận gói từ attacker
-3. Kẻ tấn công chèn gói giả trước khi host thực thụ phản hồi server
-4. Gói thật bị mất; server nhận gói có số thứ tự do attacker dùng
-5. Gói được source-route với điểm đến do attacker chỉ định
+- **MITM using forged ICMP (Dùng ICMP giả mạo):** Giao thức ICMP vốn là phần mở rộng của IP dùng để gửi thông báo lỗi. Kẻ tấn công tạo các gói ICMP giả mạo để lừa máy client và server rằng quá trình định tuyến ban đầu có vấn đề. Từ đó, gói lỗi ICMP này đánh lừa và chuyển hướng (redirect) toàn bộ traffic giữa client và host đi qua máy của kẻ tấn công thay vì đường dẫn hợp pháp.
+- **ARP spoofing:** Các máy chủ dùng bảng ARP để ánh xạ IP sang MAC. Kẻ tấn công phát sóng (broadcasting) các gói ARP request và gửi các ARP reply giả mạo để cập nhật sai lệch bảng ARP của nạn nhân. Việc này khiến lưu lượng bị đẩy đến địa chỉ MAC của kẻ tấn công thay vì IP đích hợp lệ.
 
-**RST Hijacking:**
+## 16. PetitPotam Hijacking [Trang 1591 - 1592]
 
-- Tiêm gói RST trông hợp lệ dùng địa chỉ nguồn giả mạo
-- Kẻ tấn công có thể reset kết nối của nạn nhân nếu dùng đúng ACK number
-- Nạn nhân tưởng rằng peer gửi gói reset và đóng kết nối
-- Có thể thực hiện bằng công cụ tạo gói (packet crafting) như Colasoft Packet Builder hoặc `tcpdump`
+- **Khái niệm:** Là cuộc tấn công ép buộc một Domain Controller (DC) phải khởi tạo xác thực tới server của kẻ tấn công.
+- **Cách thức hoạt động:** Kẻ tấn công sử dụng các lệnh gọi API của Microsoft’s Encrypting File System Remote Protocol (MS-EFSRPC) (cụ thể là lệnh `EfsRpcOpenFileRaw`) để ép buộc (coerce) quá trình xác thực. Bằng cách thao túng phiên từ một SMB Server giả mạo, kẻ tấn công lừa DC tin rằng chúng là người dùng hợp pháp để lấy được hàm băm NTLM (NTLM hash) của DC. Sau đó, kẻ tấn công chuyển tiếp (relay) xác thực NTLM này vào máy chủ Active Directory Certificate Services (AD CS) để tạo ra một chứng chỉ số. Có được chứng chỉ, kẻ tấn công chiếm ngay đặc quyền quản trị (admin-level privileges) và kiểm soát toàn bộ hạ tầng AD.
 
-**Blind hijacking**:
+## 17. Tóm tắt dạng khai thác và Bảng Kỹ thuật [Trang 1584 - 1592]
 
-- Kẻ tấn công tiêm dữ liệu/command vào phiên TCP ngay cả khi không thấy phản hồi
-- Gửi dữ liệu mà không thấy reply (không có quyền sniff)
+**Tóm tắt dạng khai thác cấp mạng (Network-Level Session Hijacking):**
 
-**UDP Hijacking**:
+- **TCP Sequence Abuse (Lạm dụng số thứ tự TCP)** → TCP/IP Hijacking, Blind Hijacking, RST Hijacking.
+- **Trust Abuse (Lạm dụng sự tin cậy)** → IP Spoofing (Source routing), PetitPotam.
+- **Stateless Abuse (Lạm dụng giao thức không trạng thái)** → UDP Hijacking.
+- **Routing Abuse (Lạm dụng định tuyến)** → ICMP Forgery.
+- **LAN Poisoning (Đầu độc mạng nội bộ)** → ARP Spoofing.
 
-- Kẻ tấn công gửi reply UDP giả mạo cho request UDP của nạn nhân
-- Có thể sử dụng MITM để chặn reply thật từ server
+**Bảng tổng hợp chi tiết:**
 
-**MiTM using forged ICMP**:
+| Attack                           | Ý tưởng chính (1 dòng)                                      | Luồng tấn công (tóm tắt)                                                                                                                                | Yêu cầu chính                                               | CEH Exam Keywords                               |
+| -------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------- |
+| **TCP/IP Hijacking**             | Chiếm phiên TCP bằng cách gây mất đồng bộ (desync sequence) | Sniff → Gửi gói giả seq → Receiver xử lý và tăng seq → Victim bỏ qua ACK → Desynchronized → Attacker tiếp tục giả mạo.                                  | Phải chung mạng để sniff hoặc dự đoán đúng sequence number. | Sequence number prediction, desynchronization.  |
+| **IP Spoofing (Source Routing)** | Mạo danh host tin cậy bằng địa chỉ IP giả                   | Attacker giả IP host tin cậy → Chèn gói giả (dùng source-routing) trước khi host thật phản hồi → Server chấp nhận gói của attacker, mất gói của victim. | Bật Source routing + biết IP của Trusted host.              | Trusted host abuse, source routed packets.      |
+| **RST Hijacking**                | Ép đóng phiên TCP bằng gói Reset                            | Tiêm gói RST nhìn có vẻ hợp lệ (spoofed IP + đúng ACK number) → Peer tưởng victim gửi reset → Phiên bị ngắt.                                            | Biết chính xác số Sequence/ACK.                             | TCP RST flag, forced reset, packet crafting.    |
+| **Blind Hijacking**              | Tiêm dữ liệu khi không nhìn thấy phản hồi                   | Attacker không có quyền sniff để xem reply → Đoán NSN (Next Sequence Number) → Tiêm dữ liệu/lệnh vào TCP session một cách mù quáng.                     | Số Sequence dễ đoán.                                        | Blind injection, predict NSN.                   |
+| **UDP Hijacking**                | Thay thế hoặc tiêm giao tiếp UDP                            | Gửi UDP reply giả mạo trước khi server thật kịp phản hồi → Hoặc dùng MITM để chặn hẳn reply thật.                                                       | Do UDP không trạng thái (stateless/connectionless).         | Packet spoofing, no packet sequencing.          |
+| **MITM using Forged ICMP**       | Dùng thông báo lỗi ICMP giả để chuyển hướng traffic         | Gửi thông báo lỗi ICMP giả → Đánh lừa client/server định tuyến luồng dữ liệu qua máy của attacker.                                                      | Hệ thống tin vào ICMP error messages.                       | ICMP redirect, forged error messages.           |
+| **ARP Spoofing**                 | Đầu độc ARP cache để chặn và điều hướng traffic             | Gửi ARP reply giả mạo → Cập nhật sai MAC của victims → Traffic định tuyến qua attacker.                                                                 | Cần truy cập mạng nội bộ (LAN).                             | ARP poisoning, broadcast ARP request.           |
+| **PetitPotam Hijacking**         | Ép DC xác thực NTLM rồi Relay để lấy quyền                  | Lạm dụng API MS-EFSRPC → Ép DC authenticate về máy attacker → Relay NTLM hash sang AD CS → Chiếm trọn quyền Admin.                                      | NTLM đang bật + hạ tầng AD CS tồn tại.                      | Authentication coercion, NTLM relay, MS-EFSRPC. |
 
-- Gói ICMP giả mạo được gửi để redirect traffic giữa client và host qua máy attacker
-- Gói lỗi ICMP đánh lừa server/router khiến route đi qua attacker
+## 18. Công cụ cướp phiên (Session Hijacking Tools) [Trang 1593 - 1596]
 
-**ARP spoofing**:
+- **Hetty** [Trang 1593 - 1594]: Là một HTTP toolkit dành cho nghiên cứu bảo mật. Tính năng chính bao gồm thực hiện tấn công MITM HTTP proxy kèm ghi log và tìm kiếm nâng cao, cung cấp HTTP client để tạo và phát lại (replay) các proxy request.
+- **Caido** [Trang 1593 - 1594]: Web security auditing toolkit giúp chuyên gia bảo mật chặn (intercept) và xem các HTTP request theo thời gian thực khi duyệt web. Có thể sửa đổi request đến bằng Regex, test với các wordlist lớn.
+- **bettercap** [Trang 1593, 1595 - 1596]: Framework linh hoạt viết bằng ngôn ngữ Go. Hỗ trợ MITM, trinh sát và tấn công mạnh mẽ trên các mạng WiFi, Bluetooth Low Energy (BLE), thiết bị HID không dây và cả mạng IPv4/IPv6.
+- _(Bổ sung từ nguồn)_ Các công cụ khác: **OWASP ZAP**, **WebSploit Framework**, **sslstrip**, **Burp Suite**, **JHijack**.
 
-- Phát bản ARP request/response giả mạo để thay đổi bảng ARP của nạn nhân
+## 19. Công cụ phát hiện cướp phiên (Session Hijacking Detection Tools) [Trang 1603 - 1605]
 
-**PetitPotam hijacking**:
+Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hiệu suất hệ thống. Việc phát hiện có thể sử dụng packet sniffers, IDSs và SIEM.
 
-- Ép domain controller (DC) thực hiện xác thực tới server của attacker
-- Kẻ tấn công dùng API MS-EFSRPC để ép xác thực và relay NTLM authentication vào AD Certificate Services, từ đó lấy quyền admin
+- **USM Anywhere** [Trang 1603 - 1604]: Cung cấp khả năng phát hiện mối đe dọa mạnh mẽ, quản lý SIEM và log, phản hồi sự cố trên cả đám mây (cloud), on-premises và môi trường hybrid.
+- **Wireshark** [Trang 1603 - 1605]: Công cụ cho phép bắt và duyệt traffic mạng tương tác. Dùng Winpcap để bắt gói tin trực tiếp từ các mạng Ethernet, IEEE 802.11, Token Ring, Bluetooth... giúp phát hiện hoạt động cướp phiên.
+- _(Bổ sung từ nguồn)_ Các công cụ khác: **Quantum Intrusion Prevention System (IPS)**, **SolarWinds Security Event Manager**, **IBM Security Network Intrusion Prevention System**.
 
-Tóm tắt dạng khai thác:
-TCP Sequence Abuse → TCP/IP Hijacking, Blind Hijacking, RST Hijacking
-Trust Abuse → IP Spoofing, PetitPotam
-Stateless Abuse → UDP Hijacking
-Routing Abuse → ICMP Forgery
-LAN Poisoning → ARP Spoofing
+## 20. Ngăn chặn cướp phiên (Session Hijacking Countermeasures) [Trang 1606 - 1607, 1616 - 1618]
 
-| Attack                           | Ý tưởng chính (1 dòng)                    | Luồng tấn công (tóm tắt)                                                         | Yêu cầu chính                      | CEH Exam Keywords                             |
-| -------------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------- |
-| **TCP/IP Hijacking**             | Chiếm phiên TCP bằng desync sequence      | Sniff → gửi gói giả seq → receiver tăng seq → desync → attacker tiếp tục giả mạo | Có khả năng sniff hoặc dự đoán seq | Sequence number prediction, desynchronization |
-| **IP Spoofing (Source Routing)** | Mạo danh host tin cậy bằng IP giả         | Attacker giả IP tin cậy → chèn gói trước host thật → server chấp nhận attacker   | Source routing bật + trusted IP    | Trusted host abuse, source routing            |
-| **RST Hijacking**                | Ép đóng phiên TCP                         | Tiêm gói RST + ACK đúng → peer reset → session drop                              | Số seq/ACK chính xác               | TCP RST flag, forced reset                    |
-| **Blind Hijacking**              | Tiêm dữ liệu khi không thấy phản hồi      | Dự đoán seq → tiêm dữ liệu → không xem được reply                                | Seq dễ dự đoán                     | Blind injection                               |
-| **UDP Hijacking**                | Thay thế/tiêm giao tiếp UDP               | Gửi UDP reply giả → đua hoặc MITM phản hồi thật                                  | UDP không trạng thái               | Packet spoofing                               |
-| **MITM using Forged ICMP**       | Dùng ICMP lỗi giả để chuyển hướng traffic | Gửi ICMP lỗi giả → client/server route qua attacker                              | Tin vào ICMP routing               | ICMP redirect                                 |
-| **ARP Spoofing**                 | Đầu độc ARP cache để chặn traffic         | Gửi ARP reply giả → victims update ARP → traffic đi qua attacker                 | Truy cập mạng nội bộ               | ARP poisoning                                 |
-| **PetitPotam Hijacking**         | Ép DC xác thực rồi relay NTLM             | Abuse MS-EFSRPC → ép DC authenticate → relay NTLM → AD CS compromise             | NTLM bật + AD CS tồn tại           | Authentication coercion, NTLM relay           |
+- **HTTP Strict Transport Security (HSTS)** [Trang 1606]: Chính sách bảo mật web bảo vệ khỏi MITM. HSTS ép buộc trình duyệt web chỉ giao tiếp với máy chủ bằng giao thức HTTPS an toàn, tự động chuyển đổi các kết nối HTTP không an toàn thành HTTPS.
+- **Token Binding** [Trang 1606 - 1607]: Client tạo ra một cặp khóa public-private cho kết nối. Khi gắn Session ID (token) vào kết nối, client ký nó bằng khóa private. Ngay cả khi kẻ tấn công bắt được token, chúng không thể phát lại (reuse) nó cho một kết nối khác vì không có khóa private tương ứng.
+- **Công cụ hỗ trợ ngăn chặn (Prevention Tools)** [Trang 1616 - 1618]:
+  - **Checkmarx One (SAST):** Công cụ phân tích mã nguồn tĩnh (Source-code analysis solution) giúp phát hiện và sửa các lỗ hổng kỹ thuật, lỗi logic mã nguồn mở (CxOSA) từ sớm để chống cướp phiên.
+  - **Fiddler:** Web debugging proxy ghi lại toàn bộ traffic HTTP(S), cho phép giải mã HTTPS và thao túng request bằng kỹ thuật giải mã MITM để debug và pentest.
+  - _(Bổ sung từ nguồn)_ Các công cụ khác: **Nessus**, **Invicti**, **Wapiti**.
 
-**Công cụ cướp phiên (Session hijacking tools):**
+## 21. Phương pháp ngăn MITM (Approaches to Prevent MITM Attacks) [Trang 1608 - 1610]
 
-- **Hetty** — MITM proxy, HTTP client để tạo và replay request
-- **Caido** — security auditing toolkit
-- **bettercap** — framework MITM viết bằng Go
+Để chống lại MITM, quản trị viên áp dụng các giải pháp sau:
 
-**Công cụ phát hiện cướp phiên:**
+- **DNS over HTTPS (DoH):** Phiên bản nâng cao của DNS giúp chống snooping. DoH gửi các truy vấn web và traffic thông qua đường hầm HTTPS mã hóa ở cổng 443, đồng thời chỉ gửi một phần domain name đủ để lấy kết quả (thay vì toàn bộ domain name).
+- **WPA3:** Giao thức không dây mạnh mẽ giúp ngăn kẻ tấn công brute-force mật khẩu để tham gia vào mạng thực hiện MITM.
+- **VPN:** Tạo subnet và thiết lập các đường hầm mã hóa (encrypted tunnels) dựa trên khóa bí mật (key-based) qua mạng công cộng, ngăn kẻ tấn công giải mã dữ liệu.
+- **Xác thực hai yếu tố (2FA):** Cung cấp thêm một vector bảo vệ bên cạnh mật khẩu, chống lại brute-forcing và hijacking.
+- **Password Manager (Trình quản lý mật khẩu):** Ứng dụng giúp lưu trữ mật khẩu phức tạp ở vị trí an toàn, được đóng gói bởi một "master key".
+- **Zero-trust architecture (Nguyên tắc Zero-trust):** Nguyên tắc "Trust but verify", yêu cầu tất cả người dùng (bất kể ở trong hay ngoài mạng nội bộ) đều phải được xác thực nghiêm ngặt trước khi cấp quyền truy cập tài nguyên.
+- **PKI và quản lý chứng chỉ:** Sử dụng Public Key Infrastructure cùng các Tổ chức cấp chứng chỉ (CAs) uy tín để xác minh danh tính kỹ thuật số.
+- **Phân đoạn mạng (Network segmentation):** Chia nhỏ mạng để hạn chế phạm vi di chuyển ngang (lateral movement) của kẻ tấn công và giới hạn khả năng chặn luồng liên lạc.
 
-- **USM Anywhere**
-- **Wireshark**
+## 22. Giao thức IPsec và các Modes [Trang 1611 - 1615]
 
-**Ngăn chặn cướp phiên:**
+IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo vệ IP communications bằng cách xác thực và mã hóa từng gói IP, rất phổ biến cho VPN. Bao gồm 2 chế độ chính:
 
-- **HTTP Strict Transport Security (HSTS)**
-- **Token Binding**
-- Công cụ hỗ trợ: Checkmarx One (SAST), Fiddler
-
-**Ngăn MITM:**
-
-- **DNS over HTTPS (DoH)**
-- **WPA3**
-- **VPN**
-- **Xác thực hai yếu tố (2FA)**
-- **Password manager**
-- **Zero-trust architecture**
-- **PKI và quản lý chứng chỉ**
-- **Phân đoạn mạng (network segmentation)**
-
-**IPsec** — các mode:
-
-- **Transport** — mã hoá chỉ payload của gói IP
-- **Tunnel** — IPsec đóng gói toàn bộ gói IP
+- **Transport Mode (Chế độ truyền tải)** [Trang 1613]: Chỉ mã hóa (và/hoặc xác thực) phần payload (dữ liệu) của gói IP, để nguyên phần header IP không mã hóa. Thường dùng cho liên lạc trực tiếp end-to-end giữa 2 host. Tương thích với NAT.
+- **Tunnel Mode (Chế độ đường hầm)** [Trang 1614]: Đóng gói và mã hóa toàn bộ gói IP gốc (gồm cả IP header và payload), sau đó biến nó thành payload cho một gói IP mới (với IP header mới). Có bảo mật cao hơn Transport mode, thường dùng tạo VPN giữa 2 routers (gateways) hoặc host-to-gateway.
+- _(Bổ sung từ nguồn)_ **Kiến trúc IPsec** [Trang 1611, 1614 - 1615]: Sử dụng hai giao thức cốt lõi:
+  - **AH (Authentication Header):** Chỉ cung cấp xác thực nguồn gốc và tính toàn vẹn (integrity), chống replay, không hỗ trợ mã hóa (no confidentiality).
+  - **ESP (Encapsulating Security Payload):** Cung cấp đầy đủ cả xác thực, tính toàn vẹn và tính bảo mật (mã hóa/encryption). Đóng vai trò thiết yếu trong việc bảo vệ payload của dữ liệu.
