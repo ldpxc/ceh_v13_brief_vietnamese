@@ -191,60 +191,106 @@ Rủi ro là mức độ không chắc chắn hoặc dự báo về thiệt hạ
 - **RISK = Threat × Vulnerability × Asset Value** (Rủi ro = Mối đe dọa × Lỗ hổng × Giá trị tài sản) - Trang 73
 - **Level of Risk = Consequence × Likelihood** (Mức độ Rủi ro = Hậu quả × Khả năng xảy ra) - Trang 74 (Thường được sử dụng để xây dựng Ma trận rủi ro - Risk Matrix).
 
-## Tình báo mối đe dọa mạng (Cyber Threat Intelligence — CTI) — kiến thức dựa trên bằng chứng về các mối đe dọa, giúp tổ chức đưa ra quyết định an ninh tốt hơn.
+## 10. Tình báo mối đe dọa mạng (Cyber Threat Intelligence — CTI) (Trang 79 - 82)
 
-### Các loại:
+**Định nghĩa:** CTI là quá trình thu thập và phân tích thông tin về các mối đe dọa và kẻ thù, từ đó phác thảo các kiểu mẫu cung cấp khả năng đưa ra quyết định có hiểu biết cho việc chuẩn bị, phòng ngừa và phản ứng trước các cuộc tấn công mạng. Việc này giúp chuyển đổi các "mối đe dọa chưa biết" thành đã biết để phòng vệ chủ động.
 
-- **Strategic intelligence** — cho lãnh đạo điều hành.
-- **Tactical intelligence** — cho các đội an ninh.
-- **Operational intelligence** — cho đội Ứng phó sự cố.
-- **Technical intelligence** — cho hệ thống, SIEM, IDS, v.v.
+**Các loại Tình báo Mối đe dọa (Trang 80 - 82):**
 
-### Vòng đời CTI:
+- **Strategic intelligence (Tình báo chiến lược):** Dành cho lãnh đạo điều hành và ban quản lý (như CISO). Cung cấp thông tin cấp cao về rủi ro an ninh mạng, xu hướng tấn công, tác động tài chính và các quyết định chiến lược.
+- **Tactical intelligence (Tình báo chiến thuật):** Dành cho các chuyên gia an ninh mạng, quản trị viên, và nhân viên NOC. Cung cấp thông tin về TTPs (Chiến thuật, Kỹ thuật, Thủ tục) của kẻ tấn công, giúp họ đánh giá và thiết lập các chiến lược phát hiện và giảm thiểu.
+- **Operational intelligence (Tình báo hoạt động):** Dành cho các nhà quản lý bảo mật, đội phản ứng sự cố (IR) và pháp y. Cung cấp thông tin bối cảnh về các sự kiện bảo mật, giúp thấu hiểu ý định, phương pháp và cơ hội của kẻ tấn công để phản ứng lại các rủi ro cụ thể.
+- **Technical intelligence (Tình báo kỹ thuật):** Cung cấp thông tin về các tài nguyên cụ thể kẻ tấn công sử dụng (Kênh C&C, mã băm, URL, IP). Loại này có tuổi thọ ngắn, tập trung vào các Chỉ báo xâm phạm (IoC) cụ thể và được dùng trực tiếp cho các hệ thống như SIEM, Tường lửa, IDS/IPS và đội SOC.
 
-Direction (what to know) → Collection (thu thập dữ liệu, logs, OSINT) → Processing (làm sạch, chuẩn hoá, enrich) → Analysis (chuyển dữ liệu thành intelligence) → Dissemination (gửi tới người phù hợp) → Feedback
+---
 
-## Threat modeling — quá trình xác định những gì có thể xảy ra, cách tấn công và biện pháp giảm thiểu.
+## 11. Vòng đời CTI (Threat Intelligence Lifecycle) (Trang 83 - 85)
 
-## Quản lý sự cố (Incident management) — xác định, ưu tiên, phân tích, giải quyết, cải thiện. Hoặc: Detect, Contain, Recover, Improve.
+Vòng đời CTI là một quá trình liên tục bao gồm 5 giai đoạn để phát triển tình báo từ dữ liệu thô:
 
-## Ứng phó sự cố (nhắc lại quy trình): Preparation, Recording and assignment, Triage, Notification, Containment, Evidence gathering, Eradication, Recovery, Post incident activity.
+- **Planning and Direction (Lên kế hoạch và Định hướng - Trang 83):** Xác định các yêu cầu về tình báo, thiết lập phương pháp thu thập dữ liệu và xây dựng đội ngũ tình báo cũng như kế hoạch lấy thông tin (OSINT, v.v.).
+- **Collection (Thu thập - Trang 84):** Tiến hành thu thập dữ liệu qua các phương tiện kỹ thuật hoặc con người (HUMINT, IMINT, MASINT, OSINT, logs mạng, v.v.).
+- **Processing and Exploitation (Xử lý và Khai thác - Trang 84):** Chuyển đổi, làm sạch dữ liệu thô thành định dạng có thể sử dụng (chuẩn hóa, giải mã, dịch ngôn ngữ, lọc và tổng hợp).
+- **Analysis and Production (Phân tích và Sản xuất - Trang 84):** Áp dụng các kỹ thuật phân tích (định lượng, định tính, thống kê, suy luận) để biến dữ liệu đã xử lý thành các báo cáo tình báo (intelligence) có thể hành động, khách quan và kịp thời.
+- **Dissemination and Integration (Phân phối và Tích hợp - Trang 84-85):** Phân phối thông tin tình báo đã được phân tích (báo cáo, IoC) đến người dùng phù hợp (bộ phận quản lý, đội SOC). Quy trình này cũng đi kèm với Feedback (Phản hồi) để đánh giá xem tình báo có đáp ứng yêu cầu hay không, từ đó cải thiện chu kỳ tiếp theo.
 
-**Laws and standards**
+---
 
-- **PCI DSS** — Payment Card Industry Data Security Standard
-- **ISO/IEC 27001** — framework để thiết lập, duy trì và cải tiến an ninh thông tin
-- **HIPAA** — Health Insurance Portability and Accountability Act (bảo vệ thông tin y tế nhận diện được)
-- **SOX** — Sarbanes‑Oxley Act (bảo vệ nhà đầu tư, yêu cầu báo cáo công ty)
-- **DMCA** — Digital Millennium Copyright Act (bảo vệ nội dung bản quyền kỹ thuật số)
-- **FISMA** — Federal Information Security Management Act (áp dụng cho cơ quan liên bang Mỹ và nhà thầu)
-- **DPA 2018** — UK Data Protection Act 2018 (luật bảo vệ dữ liệu cá nhân của Vương quốc Anh)
+## 12. Mô hình hóa mối đe dọa (Threat Modeling) (Trang 86 - 89)
 
-## Thuật ngữ về hacker (Hacking terminology):
+Mô hình hóa mối đe dọa là một phương pháp đánh giá rủi ro để phân tích bảo mật của một ứng dụng bằng cách nắm bắt, tổ chức và phân tích tất cả các thông tin ảnh hưởng đến ứng dụng đó. Quy trình thực hiện bao gồm 5 bước:
 
-- **White hat** — ethical hackers
-- **Black hat** — tội phạm mạng
-- **Gray hat** — ở giữa tốt/xấu
-- **Script kiddies** — kẻ thiếu kỹ năng, copy/paste công cụ
-- **Cyber terrorists** — động cơ tôn giáo hoặc chính trị
-- **State sponsored** — được nhà nước tài trợ để tấn công
-- **Hacktivists** — động cơ chính trị
-- **Hacker teams** — nhóm hacker có kỹ năng
-- **Industrial spies** — gián điệp công nghiệp
-- **Insiders** — người trong tổ chức thực hiện tấn công
-- **Criminal syndicates** — tội phạm có tổ chức vì lợi ích tài chính
-- **Organized hackers** — cho thuê tài nguyên, lấy tiền từ nạn nhân
+- **Identify Security Objectives:** Xác định các mục tiêu bảo mật (Tính bảo mật, toàn vẹn, sẵn sàng) và điều kiện tuân thủ.
+- **Application Overview:** Xác định các thành phần, luồng dữ liệu (data flows), ranh giới tin cậy (trust boundaries) và các vai trò (roles) trong hệ thống.
+- **Decompose the Application:** Phân tách ứng dụng để tìm điểm vào (entry points), điểm ra (exit points) và các điểm giao tiếp chi tiết.
+- **Identify Threats:** Xác định các mối đe dọa liên quan tới kịch bản kiểm soát, phân nhóm chúng theo các danh mục.
+- **Identify Vulnerabilities:** Xác định các điểm yếu gắn liền với mối đe dọa để tìm cách vá và sửa chữa trước khi bị kẻ tấn công khai thác.
 
-## Các loại tấn công (Attack types):
+---
 
-- **Passive attack** — theo dõi như sniffing, eavesdropping; không thay đổi dữ liệu.
-- **Active attack** — cố gắng thay đổi, xóa hoặc thao túng dữ liệu; rủi ro bị phát hiện cao hơn.
-- **Close‑in attacks** — tấn công khi ở gần mục tiêu (ví dụ shoulder surfing).
-- **Insider attacks** — tấn công bởi người đã có quyền truy cập.
-- **Distribution attacks** — tấn công được thực hiện trước khi hệ thống/thiết bị được bàn giao cho khách hàng.
+## 13. Quản lý sự cố (Incident Management) (Trang 90 - 91)
 
-## Các pha kiểm thử xâm nhập (Pen test phases):
+Quản lý sự cố là tập hợp các quy trình được xác định để xác định, phân tích, ưu tiên và giải quyết các sự cố bảo mật nhằm khôi phục hoạt động dịch vụ bình thường càng nhanh càng tốt và ngăn ngừa sự cố lặp lại. Các hoạt động chính bao gồm: Phân tích lỗ hổng, phân tích hiện vật (Artifact handling), đào tạo nhận thức bảo mật, phát hiện xâm nhập, thông báo, và xử lý sự cố.
 
-- **Preparation** — xác định thời gian, phạm vi, loại tấn công được cho phép, nhân sự.
-- **Assessment** — thực hiện pentest.
-- **Conclusion (post‑assessment)** — soạn báo cáo, kết luận, khuyến nghị.
+**Ứng phó sự cố (Incident Handling and Response - IH&R) - (Trang 92-93):** Như đã nhắc lại quy trình, nó bao gồm 9 bước cốt lõi:
+
+- Preparation (Chuẩn bị)
+- Incident Recording and Assignment (Ghi nhận và phân công)
+- Incident Triage (Phân loại ưu tiên)
+- Notification (Thông báo)
+- Containment (Cách ly)
+- Evidence Gathering and Forensic Analysis (Thu thập bằng chứng và Phân tích pháp y)
+- Eradication (Loại bỏ nguyên nhân gốc rễ)
+- Recovery (Phục hồi lại hệ thống)
+- Post-Incident Activities (Hoạt động sau sự cố như viết tài liệu, báo cáo).
+
+---
+
+## 14. Luật và Tiêu chuẩn (Laws and Standards) (Trang 99 - 114)
+
+- **PCI DSS (Payment Card Industry Data Security Standard) - Trang 99-100:** Là tiêu chuẩn bảo mật dữ liệu độc quyền dành cho các tổ chức lưu trữ, xử lý, hoặc truyền tải dữ liệu chủ thẻ thanh toán (thẻ tín dụng, ghi nợ). Việc không tuân thủ có thể dẫn đến phạt tiền hoặc bị tước quyền xử lý thẻ.
+- **ISO/IEC 27001 - Trang 101:** Tiêu chuẩn quốc tế cung cấp yêu cầu và framework để thiết lập, thực hiện, duy trì và cải tiến liên tục một Hệ thống Quản lý An toàn Thông tin (ISMS) nhằm bảo đảm tính bảo mật, toàn vẹn và sẵn sàng của dữ liệu.
+- **HIPAA (Health Insurance Portability and Accountability Act) - Trang 104-105:** Đạo luật cung cấp các biện pháp bảo vệ liên bang đối với thông tin sức khỏe cá nhân có thể nhận diện được (PII). Nó bao gồm các quy tắc như Privacy Rule (bảo vệ hồ sơ y tế) và Security Rule (yêu cầu biện pháp bảo vệ an ninh kỹ thuật, vật lý).
+- **SOX (Sarbanes-Oxley Act) - Trang 106-108:** Được ban hành vào năm 2002 để bảo vệ các nhà đầu tư và công chúng bằng cách yêu cầu tính chính xác và độ tin cậy của các báo cáo tài chính từ doanh nghiệp (ngăn chặn gian lận kế toán và doanh nghiệp). Được tổ chức thành 11 danh mục (titles).
+- **DMCA (Digital Millennium Copyright Act) - Trang 109:** Luật bản quyền của Hoa Kỳ thực thi các hiệp ước quốc tế nhằm bảo vệ nội dung và tài sản trí tuệ kỹ thuật số. Nó nghiêm cấm việc phá vỡ các biện pháp bảo vệ công nghệ được áp dụng bởi chủ sở hữu bản quyền.
+- **FISMA (Federal Information Security Management Act) - Trang 110:** Đạo luật cung cấp một khuôn khổ toàn diện đảm bảo các biện pháp kiểm soát bảo mật thông tin hỗ trợ hoạt động của liên bang Mỹ (áp dụng cho các cơ quan chính phủ và các nhà thầu).
+- **DPA 2018 (UK Data Protection Act 2018) & GDPR - Trang 111-113:** DPA 2018 là luật bảo vệ dữ liệu cá nhân của Vương quốc Anh, cập nhật luật từ năm 1998, kiểm soát việc xử lý dữ liệu cá nhân của các tổ chức, trao quyền cho người dùng và thiết lập chức năng của Ủy viên Thông tin (Information Commissioner). Nó hoạt động song song với GDPR của Liên minh Châu Âu (EU) vốn đưa ra 7 nguyên tắc cốt lõi về xử lý dữ liệu (Tính hợp pháp, giới hạn mục đích, giảm thiểu dữ liệu, độ chính xác, giới hạn lưu trữ, tính bảo mật & tính trách nhiệm giải trình) kèm theo các hình phạt rất khắt khe đối với vi phạm.
+
+## 15. Thuật ngữ về hacker và phân loại (Hacking terminology / Hacker Classes)
+
+- **Script Kiddies (Trang 21):** Là những cá nhân thiếu kinh nghiệm, thường là người trẻ tuổi, thao túng hệ thống bằng cách sử dụng các kịch bản (scripts) hoặc công cụ (tools) có sẵn được phát triển bởi các hacker thực thụ mà không hiểu rõ về chúng. Họ thường tập trung vào số lượng hơn là chất lượng của cuộc tấn công, nhằm mục đích tìm kiếm sự hồi hộp, niềm vui hoặc sự công nhận.
+- **White Hat Hackers (Trang 21 - 22):** (Hacker mũ trắng hoặc Penetration testers) Là những chuyên gia an ninh mạng sử dụng kỹ năng của họ cho mục đích phòng thủ. Họ có sự cho phép của chủ sở hữu hệ thống để đánh giá, tìm ra lỗ hổng và bảo vệ mạng lưới khỏi các cuộc tấn công độc hại.
+- **Black Hat Hackers (Trang 21 - 22):** (Hacker mũ đen hoặc Crackers) Là những cá nhân sử dụng kỹ năng máy tính xuất chúng cho các mục đích bất hợp pháp hoặc độc hại. Họ thường liên quan đến các hoạt động tội phạm, trộm cắp dữ liệu, tạo mã độc, ransomware để gây hại hoặc thu lợi tài chính.
+- **Gray Hat Hackers (Trang 21 - 22):** (Hacker mũ xám) Là những cá nhân hoạt động ở ranh giới giữa đạo đức và phi đạo đức. Họ có thể tấn công để tìm lỗ hổng mà không cần phép, sau đó báo cáo lại cho tổ chức hoặc giúp các nhà cung cấp khắc phục nhằm nhận lại sự công nhận hoặc tiền thưởng.
+- **Hacktivists (Trang 21 - 22):** Những cá nhân hoặc nhóm có động cơ chính trị, xã hội. Họ đột nhập vào các hệ thống máy tính của chính phủ hoặc doanh nghiệp như một hành động phản đối nhằm thúc đẩy một chương trình nghị sự xã hội, làm mất mặt mục tiêu, hoặc rò rỉ dữ liệu ra công chúng.
+- **State-Sponsored Hackers (Trang 21 - 22):** Những chuyên gia có tay nghề cao được chính phủ các quốc gia tuyển dụng/tài trợ. Mục tiêu của họ là xâm nhập, thu thập thông tin tình báo tuyệt mật, gián điệp mạng hoặc phá hoại cơ sở hạ tầng của các quốc gia hoặc tổ chức khác.
+- **Cyber Terrorists (Trang 21 - 22):** (Khủng bố mạng) Những kẻ cực đoan sử dụng các cuộc tấn công mạng để thúc đẩy niềm tin tôn giáo hoặc chính trị. Mục tiêu của chúng là gieo rắc nỗi sợ hãi hoặc phá hoại các cơ sở hạ tầng quan trọng trên quy mô lớn.
+- **Corporate Spies / Industrial Spies (Trang 21 - 22):** Những cá nhân được các công ty thuê để tiến hành hoạt động gián điệp doanh nghiệp. Họ đánh cắp các thông tin quan trọng như bản thiết kế, công thức, chiến lược tiếp thị, bí mật thương mại của các đối thủ cạnh tranh nhằm giành lợi thế tài chính.
+- **Blue Hat Hackers (Trang 21 - 23):** Các chuyên gia an ninh mạng làm việc theo hợp đồng, được tổ chức thuê để kiểm tra (test) hệ thống hoặc phần mềm trước khi phát hành sản phẩm nhằm cải thiện bảo mật.
+- **Red Hat Hackers (Trang 21 - 23):** Hacker mũ đỏ áp dụng các chiến thuật tấn công quyết liệt (aggressive tactics) giống như black hat để triệt hạ các tổ chức tội phạm mạng. Họ tìm cách phá hủy các cơ sở hạ tầng độc hại thay vì chỉ phòng thủ, và không tuân thủ các quy tắc đạo đức thông thường.
+- **Green Hat Hackers (Trang 21 - 23):** Những người mới làm quen (newcomers) khao khát học hỏi các kỹ năng hacking. Họ thường tham gia vào các diễn đàn trực tuyến, cộng đồng để tìm hiểu kiến thức và thực hành các cuộc tấn công đơn giản.
+- **Suicide Hackers (Trang 23):** Những kẻ sẵn sàng đánh sập cơ sở hạ tầng quan trọng vì một "nghĩa cử/lý tưởng" (cause) mà không hề quan tâm đến hậu quả, kể cả việc phải đối mặt với án tù.
+- **Hacker Teams (Trang 23):** Một liên minh các hacker lành nghề có tài nguyên và nguồn quỹ riêng. Họ hợp tác để nghiên cứu công nghệ tiên tiến, phát hiện lỗ hổng và phát triển các công cụ tấn công bài bản.
+- **Insiders (Trang 23):** Bất kỳ nhân viên hoặc người được tin tưởng nào trong tổ chức có quyền truy cập vào các tài sản quan trọng. Họ lạm dụng quyền này để vi phạm nguyên tắc, vượt qua các kiểm soát bảo mật và đánh cắp thông tin (thường là nhân viên bất mãn hoặc người thiếu đào tạo).
+- **Criminal Syndicates (Trang 23):** Các nhóm tham gia vào hoạt động tội phạm có tổ chức, có kế hoạch và kéo dài. Mục đích chính là thực hiện các tấn công tinh vi để biển thủ tiền bất hợp pháp và rửa tiền.
+- **Organized Hackers (Trang 23):** Nhóm tội phạm hoạt động cùng nhau với cấu trúc quản lý phân cấp. Chúng thường thuê thiết bị, sử dụng botnet hoặc dịch vụ crimeware để lấy tiền từ nạn nhân, đánh cắp tài sản trí tuệ và có khả năng ẩn danh trong thời gian dài.
+
+---
+
+## 16. Các loại tấn công (Attack Types)
+
+- **Passive attacks (Trang 13):** (Tấn công thụ động) Các cuộc tấn công này liên quan đến việc chặn bắt (intercepting) và giám sát (monitoring) lưu lượng mạng và luồng dữ liệu mà hoàn toàn không can thiệp hay thay đổi dữ liệu. Rủi ro bị phát hiện rất thấp do kẻ tấn công không có sự tương tác chủ động với hệ thống mục tiêu. Ví dụ: Footprinting, Sniffing, eavesdropping, phân tích lưu lượng mạng, và giải mã các lưu lượng mã hóa yếu.
+- **Active attacks (Trang 13 - 14):** (Tấn công chủ động) Kẻ tấn công chủ động gửi lưu lượng vào mạng để can thiệp vào dữ liệu đang truyền tải hoặc làm gián đoạn thông tin liên lạc/dịch vụ nhằm vượt qua các hệ thống bảo mật. Loại tấn công này dễ bị phát hiện hơn. Ví dụ: DoS/DDoS, Session hijacking, SQL injection, Man-in-the-Middle, DNS/ARP poisoning.
+- **Close-in Attacks (Trang 14):** (Tấn công cự ly gần) Được thực hiện khi kẻ tấn công ở gần hệ thống hoặc mạng mục tiêu về mặt vật lý. Mục đích là thu thập, sửa đổi thông tin hoặc phá hoại quyền truy cập. Ví dụ: Social engineering (như shoulder surfing, dumpster diving).
+- **Insider Attacks (Trang 14 - 15):** Được thực hiện bởi những người được tin tưởng (insiders) đã có đặc quyền truy cập vật lý vào các tài sản quan trọng của tổ chức. Họ có thể dễ dàng vượt qua các quy tắc bảo mật để đánh cắp hoặc phá hoại dữ liệu. Ví dụ: Eavesdropping, trộm cắp thiết bị vật lý, cấy keylogger hoặc backdoor.
+- **Distribution Attacks (Trang 15):** Xảy ra khi kẻ tấn công can thiệp vào phần cứng hoặc phần mềm trước khi chúng được cài đặt (tại nguồn sản xuất hoặc trong quá trình vận chuyển bàn giao cho khách hàng). Kẻ tấn công tận dụng các backdoor này để giành quyền truy cập trái phép.
+
+---
+
+## 17. Các pha kiểm thử xâm nhập (Pen test phases)
+
+_(Lưu ý: Trong tài liệu CEHv13 Module 01 được cung cấp, các bước này không được đặt tên là "Pen test phases" mà được trình bày cụ thể dưới dạng "Khung quy trình thực hiện kiểm toán bảo mật" - Framework for performing a security audit ở Trang 32 với nội dung tương đồng hoàn toàn)._ Cụ thể:
+
+- **Preparation (Chuẩn bị):** Giai đoạn này bao gồm việc nói chuyện với khách hàng và thảo luận về các nhu cầu cần giải quyết trong quá trình kiểm thử. Đội ngũ chuẩn bị và ký kết các tài liệu Thỏa thuận bảo mật thông tin (NDA). Sau đó, tổ chức một nhóm ethical hacking và chuẩn bị lịch trình, giới hạn để tiến hành kiểm thử.
+- **Assessment (Đánh giá):** Tiến hành thực hiện bài kiểm tra thực tế (Conduct the test) theo đúng phạm vi đã được ủy quyền.
+- **Conclusion (Kết luận/Hậu đánh giá):** Phân tích các kết quả sau khi thử nghiệm (Analyze the results of the testing) và chuẩn bị báo cáo. Cuối cùng, trình bày các phát hiện và khuyến nghị trong báo cáo cho khách hàng.
