@@ -50,6 +50,7 @@
 2. **Giai đoạn Quét và Liệt kê (Scanning và Enumeration)** - Trang 47
 
    **Scanning (Quét mạng):** Là phần mở rộng hợp lý của việc thu thập thông tin chủ động nhằm thăm dò sâu hơn. Scanning được sử dụng để xác định các host đang hoạt động, các cổng mở (open ports) và các dịch vụ không cần thiết đang được bật trên các host cụ thể.
+
    **Enumeration (Liệt kê):** Liên quan đến việc tạo các kết nối tích cực (active connections) đến hệ thống mục tiêu hoặc gửi các truy vấn trực tiếp. Đây là phương pháp thăm dò xâm nhập (intrusive probing) để thu thập thông tin chi tiết như: danh sách người dùng mạng, bảng định tuyến, lỗ hổng bảo mật, người dùng được chia sẻ, nhóm, ứng dụng và banner.
 
 3. **Giai đoạn 2: Quét lỗ hổng / Phân tích lỗ hổng (Vulnerability Scanning)** - Trang 48 Giai đoạn này kiểm tra khả năng chống chịu tấn công của hệ thống hoặc ứng dụng, bao gồm các quy trình và kiểm soát bảo mật hiện tại. Kẻ tấn công thực hiện phân tích lỗ hổng để:
