@@ -38,8 +38,16 @@
   - **Vishing (Voice/VoIP phishing):** Kẻ tấn công gọi điện thoại/VoIP, lạm dụng sự nhiệt tình của Help-desk hoặc giả danh sự cho phép của bên thứ ba (Third-party authorization) để lừa lấy thông tin.
 - **Eavesdropping (Nghe lén):** Lắng nghe trái phép các cuộc hội thoại hoặc đọc tin nhắn (âm thanh, video, văn bản).
 - **Shoulder Surfing (Nhìn trộm qua vai):** Kỹ thuật quan sát nạn nhân nhập thông tin (mật khẩu, mã PIN) từ phía sau, có thể dùng ống nhòm hoặc camera nhỏ.
-- **Dumpster Diving (Bới thùng rác):** Tìm kiếm thông tin nhạy cảm (danh bạ, hóa đơn, mã nguồn, mật khẩu) bị vứt bỏ trong thùng rác của tổ chức.
-- **Reverse Social Engineering (Kỹ thuật đảo ngược):** Kẻ tấn công tự tạo ra sự cố (Sabotage), sau đó quảng cáo bản thân là người giải quyết (Marketing), và chờ nạn nhân tự tìm đến nhờ hỗ trợ (Support) để khai thác thông tin.
+- **Dumpster Diving (Bới thùng rác):** Quá trình tìm kiếm thông tin nhạy cảm bị vứt bỏ trong thùng rác tổ chức. Các thông tin kẻ tấn công có thể thu thập bao gồm:
+  - Danh bạ điện thoại (Phone lists).
+  - Sơ đồ tổ chức (Organizational charts).
+  - Bản in email, ghi chú, fax, và bản ghi nhớ (Email printouts, notes, faxes, memos).
+  - Sổ tay chính sách (Policy manuals).
+  - Ghi chú sự kiện, lịch, hoặc nhật ký sử dụng máy tính (Event notes, calendars, computer use logs) giúp kẻ tấn công quyết định thời điểm tấn công tốt nhất.
+- **Reverse Social Engineering (Kỹ thuật đảo ngược):** Kẻ tấn công đóng vai một chuyên gia hiểu biết để nhân viên tự tìm đến nhờ thông tin. Gồm 3 bước:
+  - Sabotage (Phá hoại): Kẻ tấn công giành quyền truy cập, làm hỏng máy trạm hoặc làm cho nó có vẻ như bị hỏng để người dùng phải tìm kiếm sự trợ giúp.
+  - Marketing (Tiếp thị): Kẻ tấn công quảng cáo bản thân (ví dụ: để lại danh thiếp hoặc cố tình chèn số điện thoại liên hệ của chúng vào chính thông báo lỗi của máy tính).
+  - Support (Hỗ trợ): Kẻ tấn công giả vờ hỗ trợ khắc phục sự cố, qua đó lấy được thông tin mong muốn.
 - **Piggybacking (Cõng):** Đi theo người có thẩm quyền vào khu vực bảo mật bằng cách xin đi nhờ (VD: "Tôi quên thẻ, xin mở cửa giúp").
 - **Tailgating (Bám đuôi):** Theo sát người có thẩm quyền để lọt qua cửa bảo mật mà không cần sự đồng ý của họ (thường đeo thẻ giả).
 - **Diversion Theft (Lừa chuyển hướng giao hàng):** Đánh lừa người giao hàng/tài xế đưa bưu kiện hoặc thông tin đến sai địa điểm.
@@ -84,6 +92,25 @@
 
 **Đánh cắp danh tính (Identity Theft) [Trang 1429 - 1435]:**
 Đánh cắp danh tính là hành vi sử dụng trái phép thông tin nhận dạng cá nhân của người khác (như Tên, SSN, số thẻ tín dụng, dữ liệu sinh trắc học, v.v.) để thực hiện gian lận.
+
+- **Các loại thông tin nhận dạng cá nhân (PII) thường bị đánh cắp:** Tên, Địa chỉ nhà và cơ quan, Số an sinh xã hội (SSN), Số điện thoại, Ngày sinh, Lịch sử y tế hoặc thông tin bảo hiểm y tế, Dữ liệu sinh trắc học, Số tài khoản ngân hàng, Thông tin thẻ tín dụng, Báo cáo tín dụng, Số bằng lái xe, Số hộ chiếu.
+- **Mục đích gian lận của kẻ tấn công khi đánh cắp danh tính:**
+  - Mở tài khoản thẻ tín dụng mới dưới tên người dùng mà không thanh toán hóa đơn.
+  - Mở tài khoản điện thoại/mạng không dây mới hoặc tính phí vào tài khoản hiện có.
+  - Sử dụng thông tin để đăng ký các dịch vụ tiện ích (điện, nước, truyền hình cáp).
+  - Mở tài khoản ngân hàng để viết séc giả.
+  - Nhân bản (clone) thẻ ATM/Debit để rút tiền điện tử.
+  - Xin vay vốn mà nạn nhân phải chịu trách nhiệm pháp lý.
+  - Lấy bằng lái xe, hộ chiếu hoặc ID chính thức có chứa dữ liệu của nạn nhân nhưng mang ảnh của kẻ tấn công.
+  - Nhận các khoản phúc lợi chính phủ.
+  - Mạo danh nhân viên để truy cập vật lý vào cơ sở của tổ chức mục tiêu.
+  - Chiếm đoạt các hợp đồng bảo hiểm của nạn nhân.
+  - Bán thông tin cá nhân của nạn nhân.
+  - Đặt hàng trực tuyến qua một trạm trung chuyển (drop-site).
+  - Chiếm đoạt (hijack) tài khoản email.
+  - Sử dụng các dịch vụ y tế/chăm sóc sức khỏe.
+  - Nộp tờ khai thuế giả mạo để lấy tiền hoàn thuế.
+  - Chịu tội thay (cung cấp tên nạn nhân cho chính quyền khi bị bắt).
 
 - **Phân loại Đánh cắp danh tính:**
   - **Child Identity Theft (Trẻ em):** Lấy SSN của trẻ vị thành niên để vay vốn hoặc mở tài khoản tín dụng do khó bị phát hiện sớm.
@@ -181,6 +208,21 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
     - Thực thi chính sách phần cứng và phần mềm (Hardware/Software policy): Cấm sử dụng USB cá nhân, chỉ cho phép cài phần mềm hợp pháp.
     - Xác minh Danh tính và Ủy quyền: Nhân viên phải xác minh header email và danh tính người yêu cầu thông tin.
     - Đảm bảo sử dụng các kênh liên lạc an toàn và được mã hóa khi chia sẻ dữ liệu nhạy cảm.
+- **Cách nhận biết Email Lừa đảo (How to Detect Phishing Emails) [Trang 1453]:**
+  - Các tệp đính kèm bất ngờ từ những người dùng, khách hàng, nhà cung cấp hoặc đồng nghiệp không xác định.
+  - Các tệp đính kèm có định dạng bất thường hoặc không được nhận dạng.
+  - Sự khác biệt giữa ID email của người gửi và tên hiển thị.
+  - Email từ các ID có tên tổ chức không đầy đủ/không chính xác hoặc sử dụng số thay vì chữ cái trong tên.
+  - Email có lời chào chung chung như "Kính gửi người dùng" (Dear users), "Xin chào" (Hello).
+  - Email cố gắng khơi dậy cảm giác khẩn cấp (arouse a sense of urgency).
+  - Email không có chữ ký hoàn chỉnh.
+  - Email chứa các liên kết hiển thị một trang web hoặc URL khác khi di chuột qua (hovered on).
+  - Email dường như đến từ ngân hàng hoặc tổ chức tài chính của người dùng (yêu cầu xác minh).
+  - Các tin nhắn đáng ngờ yêu cầu quyên góp từ thiện.
+  - Lỗi chính tả rõ ràng và cách sử dụng dấu câu kỳ lạ.
+  - Các email yêu cầu thông tin cá nhân.
+  - Các email cung cấp những ưu đãi quá hấp dẫn khó có thể là sự thật (như trúng xổ số, đăng ký miễn phí, mời làm việc).
+
 - **Cách phòng chống Phishing chi tiết (How to Defend against Phishing Attacks) [Trang 1449]:**
   - Giáo dục cá nhân bằng cách tiến hành các chiến dịch diễn tập phishing.
   - Bật bộ lọc thư rác (spam filters) để phát hiện email từ các nguồn đáng ngờ.
@@ -215,6 +257,13 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
   - Chỉ nhập thông tin cá nhân trên các trang web có dấu "https".
   - Báo cáo gian lận (fraud alerts) cho hệ thống để phòng thủ.
   - Đóng băng tín dụng (Credit freeze) tại các cơ quan tín dụng như Equifax, Experian để chặn quyền truy cập trái phép.
+  - Cắt nhỏ (shred) các ưu đãi thẻ tín dụng và "séc tiện lợi" (convenience checks) không hữu ích.
+  - Kiểm tra hóa đơn điện thoại cố định và di động để phát hiện các cuộc gọi mà bạn không thực hiện.
+  - Đọc kỹ chính sách bảo mật của các trang web.
+  - Không cho phép thành viên gia đình hoặc bạn bè mở tài khoản cá nhân của bạn.
+  - Sử dụng các ví kỹ thuật số đáng tin cậy cung cấp tính bảo mật cao.
+  - Sử dụng hộp thư có khóa (locked mailbox) để chống trộm thư có chứa thông tin cá nhân.
+  - Chọn các tùy chọn không dùng giấy (paperless options) cho hóa đơn và sao kê ngân hàng để giảm rủi ro trộm thư.
 - **Cách phòng chống Voice Cloning (Voice Cloning Countermeasures):**
   - Cẩn trọng khi nhận cuộc gọi/âm thanh không mong muốn, đặc biệt nếu họ yêu cầu thông tin nhạy cảm hoặc hành động bất thường.
   - Xác minh danh tính người gọi bằng các phương pháp xác thực bổ sung (mật khẩu, câu hỏi bảo mật).

@@ -66,6 +66,11 @@ _(Bổ sung thêm một số công cụ quét khác theo giáo trình):_ `sx` (m
 
 - **Vô hiệu hóa quét cổng:** Dùng lệnh `nmap -sn` để chỉ phát hiện host (host discovery only) mà không quét cổng (Trang 302).
 - **Quét ARP (ARP ping scan):** Chỉ dùng trong mạng nội bộ (local only) IPv4. Nó gửi yêu cầu ARP để ánh xạ IP tới địa chỉ MAC trong mạng, cực kì hiệu quả và vượt qua được các tường lửa nghiêm ngặt. Lệnh: `nmap -sn -PR 192.168.1.69` (Trang 301-302).
+  - **Ưu điểm của quét ARP (ARP Ping Scan):**
+    - Được coi là hiệu quả và chính xác hơn các kỹ thuật khám phá host khác.
+    - Tự động xử lý các yêu cầu ARP, truyền lại và hết hạn (timeout) theo quyết định riêng.
+    - Hữu ích cho việc khám phá hệ thống khi cần quét các không gian địa chỉ lớn.
+    - Có thể hiển thị thời gian phản hồi hoặc độ trễ của một thiết bị đối với gói tin ARP.
 - **UDP ping scan:** Gửi định dạng gói UDP để vượt qua các tường lửa chỉ lọc TCP. Lệnh: `nmap -sn -PU` (Trang 303-304).
 - **ICMP Echo ping scan:** Gửi các yêu cầu ICMP ECHO. Nmap sử dụng tùy chọn `-PE` (hoặc `-P`). Bạn có thể tăng số lượng ping song song với cơ chế `-L` và điều chỉnh khoảng thời gian timeout với `-T` (Trang 304-306).
 - **ICMP Timestamp ping:** Lấy thông tin thời gian hiện tại từ máy mục tiêu, hữu ích khi quản trị viên chặn các gói ICMP Echo truyền thống. Lệnh: `nmap -sn -PP` (Trang 307).
@@ -146,8 +151,12 @@ Tài liệu phân loại các kỹ thuật quét cổng dựa trên cách thao t
 - **UDP RECVFROM() và WRITE() Scanning (Trang 339):** Trên Linux, người dùng không có quyền root (non-root) có thể sử dụng kỹ thuật này. Các công cụ như Netcat thực hiện hàm `recvfrom()` trên các socket UDP không chặn; nếu nhận được lỗi `EAGAIN` hoặc `ECONNREFUSED` thì có thể suy ra trạng thái cổng.
 - **SCTP INIT Scan (Trang 339 - 340):** Giao thức SCTP hoạt động tương tự TCP/UDP (dùng cho VoIP, SS7). INIT scan tương đương với TCP SYN scan. Kẻ tấn công gửi đoạn (chunk) INIT; nếu cổng mở, nó trả về INIT+ACK; nếu cổng đóng, nó trả về ABORT. Lệnh Nmap: `nmap -sY`.
 - **SCTP COOKIE ECHO Scan (Trang 341 - 342):** Kẻ tấn công gửi trực tiếp gói COOKIE ECHO. Nếu cổng mở, nó sẽ âm thầm hủy (drop) gói và không phản hồi. Nếu cổng đóng, nó trả về ABORT. Kỹ thuật này giúp vượt qua các tường lửa non-stateful. Lệnh Nmap: `nmap -sZ`.
+  - _Ưu điểm:_ Quét cổng không dễ bị phát hiện (conspicuous) như quét INIT.
+  - _Nhược điểm:_ Không thể phân biệt rõ ràng giữa các cổng đang mở và bị lọc, nó hiển thị đầu ra là open|filtered trong cả hai trường hợp.
 - **List Scan (Trang 343 - 344):** Chỉ liệt kê danh sách IP/Names và thực hiện phân giải DNS ngược (reverse DNS resolution) mà không hề gửi bất kỳ gói ping nào tới host mục tiêu. Lệnh Nmap: `nmap -sL`.
+  - _Ưu điểm:_ Có thể thực hiện kiểm tra tính hợp lệ (sanity check) tốt. Phát hiện các địa chỉ IP bị định nghĩa sai trong dòng lệnh hoặc tệp tùy chọn, qua đó sửa chữa các lỗi để chạy các quá trình quét mục tiêu đang hoạt động một cách chính xác.
 - **IPv6 Scan (Trang 344 - 345):** Mạng IPv6 có không gian địa chỉ khổng lồ (128 bits) nên quét quét truyền thống bất khả thi. Nmap hỗ trợ quét các mục tiêu IPv6 xác định bằng lệnh: `nmap -6 <target>`.
+  - Quét mạng IPv6 khó khăn và phức tạp hơn so với IPv4 do không gian địa chỉ lớn (2^64 địa chỉ trong một subnet). Nếu kẻ tấn công thỏa hiệp được một host trong subnet, chúng có thể thăm dò địa chỉ multicast cục bộ "all hosts" nếu các host có số thứ tự tuần tự hoặc sử dụng một lược đồ chung.
 - **Quét cổng bằng AI (Port Scanning with AI) (Trang 346 - 351):** Kẻ tấn công dùng ChatGPT để tự động hóa quét cổng trên Nmap và Metasploit.
   - _Ví dụ Prompt Nmap:_ `"Use Nmap to scan for open ports and services against a list of IP addresses in scan1.txt and copy only the port, service and version information... to a new file called scan3.txt"` -> AI xuất lệnh kết hợp `awk`/`grep` phức tạp.
   - _Ví dụ Prompt Metasploit:_ `"Use Metasploit to discover open ports on the IP address 10.10.1.22"` -> AI xuất chuỗi cấu hình: `msfconsole -q -x "use auxiliary/scanner/portscan/tcp; set RHOSTS 10.10.1.22; run; exit"`.
@@ -285,8 +294,20 @@ Hping3 là công cụ tạo gói tin và quét mạng qua giao diện dòng lệ
 - **Phát hiện OS với Nmap:** Sử dụng lệnh `nmap -O`.
 - **Sử dụng Nmap Scripting Engine (NSE) cho OS:** Bật bằng tùy chọn `-sC` hoặc `--script`. Ví dụ sử dụng giao thức SMB: `nmap --script smb-os-discovery.nse 10.10.1.22`.
 - **IPv6 Fingerprinting:** Quét OS trên nền mạng IPv6 dùng lệnh: `nmap -6 -O <target>`.
-- **Active Banner Grabbing (Bắt cờ chủ động):** Gửi các gói TCP được thiết kế đặc biệt (malformed packets) đến host mục tiêu. Vì mỗi hệ điều hành (OS) có cách triển khai ngăn xếp TCP/IP khác nhau, phản hồi nhận được (như ISN, cờ TCP) sẽ là duy nhất, giúp xác định OS (Ví dụ: Nmap gửi 9 bài test khác nhau như TSeq, PU, ...).
+- **Active Banner Grabbing (Bắt cờ chủ động):** Gửi các gói TCP được thiết kế đặc biệt (malformed packets) đến host mục tiêu. Vì mỗi hệ điều hành (OS) có cách triển khai ngăn xếp TCP/IP khác nhau, phản hồi nhận được (như ISN, cờ TCP) sẽ là duy nhất, giúp xác định OS.
+  - **Test 1:** Gửi gói TCP với cờ SYN và ECN-Echo được bật tới một cổng TCP mở.
+  - **Test 2:** Gửi gói TCP không có cờ nào được bật (gói NULL) tới một cổng TCP mở.
+  - **Test 3:** Gửi gói TCP với các cờ URG, PSH, SYN và FIN được bật tới một cổng TCP mở.
+  - **Test 4:** Gửi gói TCP với cờ ACK được bật tới một cổng TCP mở.
+  - **Test 5:** Gửi gói TCP với cờ SYN được bật tới một cổng TCP đóng.
+  - **Test 6:** Gửi gói TCP với cờ ACK được bật tới một cổng TCP đóng.
+  - **Test 7:** Gửi gói TCP với các cờ URG, PSH và FIN được bật tới một cổng TCP đóng.
+  - **Test 8 PU (Port Unreachable):** Gửi một gói UDP tới một cổng UDP đóng. Mục tiêu là trích xuất thông báo "ICMP port unreachable" từ máy đích.
+  - **Test 9 TSeq (TCP Sequence ability test):** Gửi sáu gói TCP với cờ SYN được bật tới một cổng TCP mở. Thử nghiệm này nhằm xác định các mẫu tạo chuỗi của số thứ tự khởi tạo TCP (TCP ISN), số định danh IP (IPID) và dấu thời gian TCP.
 - **Passive Banner Grabbing (Bắt cờ thụ động):** Kẻ tấn công không gửi trực tiếp gói tin dò tìm, mà dùng công cụ đánh hơi (sniffing) để bắt các gói tin đang truyền. Bốn khu vực trong gói tin giúp xác định OS gồm: TTL (Time To Live), Window Size, DF (Don't Fragment) bit, và TOS (Type of Service).
+  - **Banner grabbing từ thông báo lỗi (Error messages):** Cung cấp thông tin như loại máy chủ, loại OS và các công cụ SSL được máy chủ từ xa sử dụng.
+  - **Đánh hơi lưu lượng mạng (Sniffing the network traffic):** Bắt và phân tích các gói tin từ mục tiêu giúp kẻ tấn công xác định OS được sử dụng.
+  - **Banner grabbing từ phần mở rộng trang (Page extensions):** Tìm kiếm phần mở rộng trong URL để hỗ trợ xác định phiên bản ứng dụng (Ví dụ: `.aspx` cho thấy hệ thống dùng máy chủ IIS và nền tảng Windows).
 - **OS Discovery bằng IPv6 Fingerprinting:** Nmap sử dụng công cụ phát hiện OS riêng biệt cho IPv6 bằng cách gửi khoảng 18 probes (như Sequence generation, ICMPv6 echo, Node Information Query, Neighbor Solicitation...) để lấy dấu vân tay IPv6.
 - **Khám phá OS và Service Version bằng AI (AI-powered Discovery):** Kẻ tấn công dùng ChatGPT để tự động hóa trích xuất OS, MAC và Service Version.
   - _Ví dụ Prompt:_ `"Use Nmap to scan open ports, MAC details, services running on open ports with their versions on target IP 10.10.1.11"` -> AI xuất lệnh: `nmap -sV --reason -v -sT 10.10.1.11`.
@@ -308,6 +329,13 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
 8. **Randomizing Host Order (Ngẫu nhiên hóa thứ tự Host):** Quét hàng ngàn IP theo một trật tự xáo trộn (thay vì tuần tự) để hệ thống giám sát không phát hiện ra mẫu quét. Lệnh: `nmap --randomize-hosts <target>`.
 9. **Sending Bad Checksums (Gửi Checksum lỗi):** Gửi gói tin có checksum TCP/UDP sai. Nếu nhận được phản hồi, chứng tỏ IDS/Firewall đã bỏ qua việc kiểm tra tính toàn vẹn. Lệnh Nmap: `nmap --badsum <target>`.
 10. **Proxy Servers:** Định tuyến lưu lượng qua các máy chủ trung gian để ẩn giấu IP thực sự của kẻ tấn công hoặc kết hợp Proxy Chaining (chuỗi proxy).
+    - **Tại sao Kẻ tấn công sử dụng Proxy Servers?**
+      - Che giấu nguồn thực sự của một cuộc rà quét và né tránh các hạn chế của IDS/firewall.
+      - Che giấu địa chỉ IP nguồn để có thể hack mà không bị truy vết pháp lý.
+      - Che giấu nguồn gốc thực sự của cuộc tấn công bằng cách mạo danh địa chỉ nguồn giả của proxy.
+      - Truy cập từ xa vào mạng nội bộ (intranets) và các tài nguyên trang web thường bị giới hạn.
+      - Đánh chặn tất cả các yêu cầu do một người dùng gửi và truyền chúng đến một đích thứ ba; do đó, nạn nhân sẽ chỉ có thể xác định được địa chỉ của máy chủ proxy.
+      - Kết nối chuỗi nhiều máy chủ proxy để tránh bị phát hiện.
 11. **Anonymizers:** Sử dụng các dịch vụ và phần mềm ẩn danh (VPN, Whonix, Tails, Psiphon, Tor) để mã hóa toàn bộ dữ liệu vượt qua hệ thống kiểm duyệt.
 
 - **Các kỹ thuật kiểm tra và vượt qua tường lửa chuyên sâu (Trang 399-407):**
@@ -358,6 +386,8 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
   - Xóa header `X-Powered-By` bằng cách sử dụng tùy chọn `customHeaders` trong phần `<system.webServer>` của tệp `web.config`.
   - Sử dụng Transport Layer Security (TLS) cho các dịch vụ để mã hóa thông tin banner trong quá trình bắt tay, gây khó khăn cho việc lấy cờ.
 - **IP Spoofing Countermeasures (Phòng chống IP Spoofing):**
+  - **Tránh các mối quan hệ tin cậy (Avoid Trust Relationships):** Không dựa vào xác thực bằng IP. Kẻ tấn công có thể giả mạo thành các host đáng tin cậy để gửi gói tin độc hại. Nên triển khai kiểm tra toàn bộ gói tin và thiết lập xác thực bằng mật khẩu đi kèm với xác thực dựa trên mối quan hệ tin cậy.
+  - **Sử dụng Tường lửa và Cơ chế lọc (Use Firewalls and Filtering Mechanisms):** Lọc tất cả các gói tin đến và đi. Sử dụng Danh sách kiểm soát truy cập (ACLs) trên tường lửa để ngăn chặn các truy cập trái phép và rò rỉ thông tin nhạy cảm.
   - Di chuyển từ IPv4 sang IPv6 và triển khai biến đổi địa chỉ IPv6 động (dynamic IPv6 address variation) bằng trình tạo địa chỉ ngẫu nhiên.
   - Triển khai các cơ chế xác thực chứng chỉ số như xác thực chứng chỉ hai chiều (two-way auth certificate verification).
   - Sử dụng các thiết bị giảm nhẹ rủi ro chuyên dụng cho ứng dụng, chẳng hạn như **Behemoth scrubbers** để kiểm tra gói tin sâu ở tốc độ cao (khoảng 100 triệu packets/s).

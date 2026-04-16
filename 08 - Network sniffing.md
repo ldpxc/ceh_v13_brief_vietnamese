@@ -90,6 +90,14 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 
 **ARP Spoofing / ARP Poisoning** [Trang 1271, 1314 - 1326]:
 
+- **Quá trình lấy địa chỉ MAC sử dụng ARP (The process of obtaining the MAC address using ARP):**
+  - Máy nguồn tạo một gói tin yêu cầu ARP chứa địa chỉ MAC nguồn, IP nguồn và IP đích, sau đó gửi nó đến switch.
+  - Khi nhận được gói tin, switch đọc địa chỉ MAC nguồn và tìm kiếm địa chỉ này trong bảng CAM của nó.
+  - Switch cập nhật các mục nhập mới. Nếu không tìm thấy mục nhập nào, switch sẽ thêm địa chỉ MAC và cổng nhận tương ứng vào bảng CAM, sau đó phát sóng (broadcast) gói tin yêu cầu ARP vào mạng.
+  - Mỗi thiết bị trong mạng nhận được gói tin yêu cầu ARP phát sóng và so sánh IP đích trong gói tin với IP của chính nó.
+  - Chỉ hệ thống có IP khớp với IP đích mới trả lời bằng một gói tin ARP reply.
+  - Thông điệp ARP reply sau đó được đọc bởi switch. Switch thêm mục nhập vào bảng MAC của nó và chuyển tiếp thông điệp đến máy đích (tức là máy đã gửi yêu cầu ARP ban đầu).
+  - Hơn nữa, máy này cập nhật IP và MAC của máy đích vào bảng ARP của nó, và bây giờ quá trình giao tiếp có thể diễn ra.
 - Bởi vì giao thức ARP không giữ trạng thái (stateless) và không xác thực, một máy tính hoàn toàn có thể gửi gói ARP reply ngay cả khi không hề có ai hỏi.
 - Kẻ tấn công gửi các gói ARP giả (forged) để liên kết địa chỉ MAC của chúng với địa chỉ IP của một host khác (thường là Default Gateway). Máy nạn nhân sẽ lưu mục sai lệch này vào bộ nhớ đệm (ARP cache), khiến toàn bộ lưu lượng bị chuyển hướng sang máy kẻ tấn công. Kỹ thuật này mở đường cho tấn công MITM (Man-in-the-Middle), DoS, VoIP Call Tapping và Session Hijacking.
 
@@ -118,6 +126,7 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 - Lệnh cấu hình:
   - `ip arp inspection vlan 10` (Bật kiểm tra ARP trên VLAN 10).
   - `show ip arp inspection` (Kiểm tra trạng thái DAI, xem thống kê các gói tin Forwarded / Dropped để phát hiện nếu đang bị tấn công).
+  - **Để đạt được mức độ bảo mật cao hơn nữa, bạn có thể bật một hoặc nhiều kiểm tra xác thực bổ sung. Để làm điều này, hãy thực thi lệnh** `ip arp inspection validate` **theo sau là loại địa chỉ (address type).**
 - Phát hiện: Capsa Portable Network Analyzer, Wireshark, OpUtils, netspionage, NetProbe, ARP-GUARD.
 
 **ICMP Router Discovery Protocol (IRDP) Spoofing** [Trang 1332 - 1333]:
@@ -200,6 +209,15 @@ _(Bổ sung từ nguồn)_ **Đánh chặn hợp pháp (Lawful Interception - LI
 - **MAC Flooding** [Trang 1290]: Làm tràn bảng CAM bằng địa chỉ MAC giả, ép switch hoạt động như một hub (fail-open mode) để dễ dàng bắt gói tin.
   - Ví dụ lệnh công cụ: Kẻ tấn công sử dụng `macof -i eth0 -n 10` (một phần của bộ `dsniff`) để gửi khoảng 131.000 địa chỉ MAC và IP giả ngẫu nhiên mỗi phút.
 - **Switch port stealing (Đánh cắp cổng switch)** [Trang 1292]: Sử dụng MAC flooding kết hợp gửi các gói ARP giả mạo (gratuitous ARP) lấy MAC của nạn nhân làm nguồn và MAC kẻ tấn công làm đích. Quá trình này tạo ra điều kiện tranh chấp (race condition), khiến switch cập nhật MAC của nạn nhân vào cổng của kẻ tấn công, từ đó kẻ tấn công chiếm giữ port và nhận mọi dữ liệu của nạn nhân.
+  - **Ví dụ các bước thực hiện Đánh cắp cổng switch (Switch port stealing steps):**
+    1. Máy của kẻ tấn công chạy một sniffer, chuyển card mạng (NIC) sang chế độ promiscuous.
+    2. Host A (10.0.0.1) muốn giao tiếp với Host B (10.0.0.2). Vì vậy, Host A gửi một yêu cầu ARP.
+    3. Switch phát sóng (broadcasts) yêu cầu ARP này đến tất cả các máy trong mạng.
+    4. Trước khi Host B (máy mục tiêu) kịp trả lời yêu cầu ARP, kẻ tấn công sẽ phản hồi bằng một thông điệp ARP reply chứa địa chỉ IP và MAC giả mạo ("Tôi là 10.0.0.2, và MAC của tôi là MAC_C"). Kẻ tấn công có thể đạt được điều này bằng cách tung ra một cuộc tấn công DoS vào Host B, làm nó chậm lại.
+    5. Lúc này, ARP cache trong switch sẽ ghi nhận cặp MAC và IP bị giả mạo.
+    6. Địa chỉ MAC giả mạo của Host B được kết nối với cổng của máy kẻ tấn công (Port C), qua đó cập nhật bảng CAM của switch. Một kết nối được thiết lập giữa Host A và máy kẻ tấn công.
+    7. Bây giờ, hệ thống sẽ chuyển tiếp tất cả các gói tin hướng tới Host B sang Host C (máy kẻ tấn công).
+    8. Do đó, kẻ tấn công có thể nghe lén (sniff) các gói tin được gửi tới Host B.
 
 **Các thông điệp và Định dạng gói tin DHCP (DHCP Request/Reply Messages & Packet Format) [Trang 1300 - 1302]:**
 
@@ -236,6 +254,11 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
 - **Bật DHCP Snooping (Cisco):** `ip dhcp snooping` (bật toàn cầu). `ip dhcp snooping vlan <số vlan>` (bật trên VLAN cụ thể). `ip dhcp snooping trust` (cấu hình cổng kết nối tới DHCP server thật là cổng đáng tin cậy). `ip dhcp snooping limit rate <số>` (giới hạn gói tin DHCP mỗi giây để chống DoS/Starvation).
   - `no ip dhcp snooping information option`: Lệnh bổ sung dùng để vô hiệu hóa việc chèn và xóa trường option-82 trong các gói tin DHCP. [Trang 1309]
 - **MAC Limiting trên Switch Juniper (Chống Starvation):** `set interface ge-0/0/1 mac-limit 3 action drop` (Giới hạn tối đa 3 địa chỉ MAC trên giao diện, nếu vượt quá sẽ drop gói tin).
+- **Bật DHCP Filtering toàn cầu cho switch (Juniper):**
+  - `config`
+  - `<IP address> dhcp filtering`
+  - `exit`
+  - `exit`
 - **DHCP Filtering (Juniper):** `config -> interface 0/11 -> <IP address> dhcp filtering trust` (Chỉ định cổng tin cậy nhận gói DHCP).
   - **Các lệnh kiểm tra trạng thái DHCP (Show Commands):**
     - `show ip dhcp snooping`: Lệnh trên switch Cisco để hiển thị tất cả các VLAN đang bật tính năng DHCP snooping.
@@ -273,6 +296,19 @@ Mục đích là thay thế địa chỉ IP hợp pháp tại DNS level bằng I
 - Sử dụng Public Key Infrastructure (PKI) để bảo vệ server.
 - Giới hạn chuyển vùng (DNS zone transfers) chỉ với các IP được ủy quyền.
 - Sử dụng DNS-over-HTTPS (DoH) hoặc DNS-over-TLS (DoT).
+- Sử dụng các công cụ phát hiện sniffing.
+- Không mở các tệp tin đáng ngờ.
+- Luôn sử dụng các trang web proxy đáng tin cậy.
+- Nếu tổ chức tự xử lý resolver riêng, nó cần được giữ riêng tư và bảo vệ tốt.
+- Sử dụng mã hóa 0x20 (0x20 encoding) và DNS cookies như một lớp bảo mật bổ sung cho thông điệp DNS.
+- Giảm thời gian chờ (timeout period) đối với các truy vấn chưa hoàn thành để ngăn chặn tấn công SAD DNS.
+- Cập nhật máy chủ DNS với các bản vá mới nhất để ngăn ngừa vi phạm.
+- Sử dụng khóa RNDC (Remote Name Daemon Control) nếu các phản hồi được thực hiện trên cổng 53.
+- Đảm bảo rằng quá trình phân giải tệp “Hosts” bị vô hiệu hóa trên cả máy khách và máy chủ.
+- Cấu hình STUB zones cho các tên miền được truy cập thường xuyên.
+- Triển khai các chính sách mật khẩu mạnh mẽ cho người dùng quản lý các bản ghi DNS.
+- Cấu hình ACLs (Access Control Lists) trên máy chủ DNS để chỉ cho phép các truy vấn từ các nguồn đáng tin cậy.
+- Triển khai giải pháp tường lửa DNS (DNS firewall) hoặc đăng ký dịch vụ DNS bảo vệ để lọc lưu lượng.
 
 ## 14. Công cụ sniffing / DNS sniffing [Trang 1357 - 1364]
 
@@ -281,21 +317,22 @@ Mục đích là thay thế địa chỉ IP hợp pháp tại DNS level bằng I
 
 **Bảng Bộ lọc trong Wireshark (Display Filters)** [Trang 1360-1361]:
 
-| Giám sát / Lọc                                   | Bộ lọc / Ví dụ lọc                                                                                 |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| Giám sát cổng (ví dụ port 23) và IP máy          | `tcp.port == 23` <br> `ip.addr == 192.168.1.100` <br> `ip.addr == 192.168.1.100 && tcp.port == 23` |
-| Lọc theo nhiều địa chỉ                           | `ip.addr == 10.0.0.4 or ip.addr == 10.0.0.5`                                                       |
-| Lọc theo địa chỉ IP                              | `ip.addr == 10.0.0.4`                                                                              |
-| Bộ lọc khác (với kích thước frame)               | `ip.dst == 10.0.1.50 && frame.pkt_len > 400`                                                       |
-| Hiển thị tất cả TCP reset                        | `tcp.flags.reset == 1`                                                                             |
-| Đặt bộ lọc cho giá trị hex                       | `udp contains 33:27:58`                                                                            |
-| Hiển thị tất cả HTTP GET requests                | `http.request`                                                                                     |
-| Hiển thị tất cả retransmissions trong trace      | `tcp.analysis.retransmission`                                                                      |
-| Hiển thị tất cả TCP packets chứa từ khóa traffic | `tcp contains "traffic"`                                                                           |
-| Loại trừ ARP, ICMP, DNS hoặc các giao thức khác  | `!(arp or icmp or dns)`                                                                            |
-| Lọc mọi gói TCP có nguồn hoặc đích là cổng 4000  | `tcp.port == 4000`                                                                                 |
-| Hiển thị SMTP (port 25) và ICMP                  | `tcp.port eq 25 or icmp`                                                                           |
-| Hiển thị traffic LAN giữa workstation và server  | `ip.src==192.168.0.0/16 and ip.dst==192.168.0.0/16`                                                |
+| Giám sát / Lọc                                                            | Bộ lọc / Ví dụ lọc                                                                                 |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Giám sát cổng (ví dụ port 23) và IP máy                                   | `tcp.port == 23` <br> `ip.addr == 192.168.1.100` <br> `ip.addr == 192.168.1.100 && tcp.port == 23` |
+| Lọc theo nhiều địa chỉ                                                    | `ip.addr == 10.0.0.4 or ip.addr == 10.0.0.5`                                                       |
+| Lọc theo địa chỉ IP                                                       | `ip.addr == 10.0.0.4`                                                                              |
+| Bộ lọc khác (với kích thước frame)                                        | `ip.dst == 10.0.1.50 && frame.pkt_len > 400`                                                       |
+| Hiển thị tất cả TCP reset                                                 | `tcp.flags.reset == 1`                                                                             |
+| Đặt bộ lọc cho giá trị hex                                                | `udp contains 33:27:58`                                                                            |
+| Hiển thị tất cả HTTP GET requests                                         | `http.request`                                                                                     |
+| Hiển thị tất cả retransmissions trong trace                               | `tcp.analysis.retransmission`                                                                      |
+| Hiển thị tất cả TCP packets chứa từ khóa traffic                          | `tcp contains "traffic"`                                                                           |
+| Loại trừ ARP, ICMP, DNS hoặc các giao thức khác                           | `!(arp or icmp or dns)`                                                                            |
+| Lọc mọi gói TCP có nguồn hoặc đích là cổng 4000                           | `tcp.port == 4000`                                                                                 |
+| Hiển thị SMTP (port 25) và ICMP                                           | `tcp.port eq 25 or icmp`                                                                           |
+| Hiển thị traffic LAN giữa workstation và server                           | `ip.src==192.168.0.0/16 and ip.dst==192.168.0.0/16`                                                |
+| Lọc theo giao thức (ví dụ: SIP) và loại bỏ các địa chỉ IP không mong muốn | `ip.src != xxx.xxx.xxx.xxx && ip.dst != xxx.xxx.xxx.xxx && sip`                                    |
 
 > _Ghi chú:_ Các lệnh lọc đã được chuẩn hóa lại đúng như giáo trình (ví dụ lệnh lọc độ dài frame là `frame.pkt_len > 400`, lệnh lọc hex là `udp contains <hex>`).
 

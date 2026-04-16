@@ -88,6 +88,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 
 - **UDP flood (UDP flood attack)** [Trang 1489]: Kẻ tấn công gửi các gói UDP giả mạo (spoofed UDP packets) ở tốc độ rất cao tới các cổng ngẫu nhiên trên máy chủ mục tiêu bằng cách sử dụng một dải IP nguồn lớn. Máy chủ liên tục kiểm tra các ứng dụng không tồn tại ở các cổng đó và trả về thông báo lỗi ICMP “Destination Unreachable”. Làm cạn kiệt tài nguyên và băng thông cho đến khi hệ thống ngoại tuyến.
 - **ICMP flood (ICMP flood attack)** [Trang 1490 - 1491]: Kẻ tấn công gửi lượng lớn ICMP Echo requests trực tiếp hoặc qua các mạng phản xạ. Băng thông kết nối bị bão hòa khiến hệ thống không thể phản hồi các yêu cầu TCP/IP hợp lệ. _(Cách phòng chống)_: Đặt ngưỡng giới hạn, ví dụ mặc định 1000 packets/s.
+  - Khi ngưỡng ICMP bị vượt quá (mặc định là 1000 gói/giây), bộ định tuyến sẽ từ chối các yêu cầu ICMP echo tiếp theo từ tất cả các địa chỉ trong cùng một vùng bảo mật (security zone) trong phần còn lại của giây hiện tại cũng như giây tiếp theo.
 - **Ping of Death (PoD)** [Trang 1492]: Kẻ tấn công gửi gói tin malformed hoặc vượt kích thước hợp lệ (oversized packets) bằng lệnh ping đơn giản. Ví dụ: gửi gói 65.538 byte, vượt quá giới hạn 65.535 byte do chuẩn RFC 791 IP quy định. Quá trình lắp ráp lại (reassembly) tại máy đích sẽ gây sập hệ thống (crash).
 - **Smurf attack** [Trang 1492]: Kẻ tấn công giả mạo địa chỉ IP nguồn thành IP của nạn nhân và gửi một lượng lớn gói ICMP ECHO request tới một mạng quảng bá (IP broadcast network). Mọi host trên mạng đó sẽ đồng loạt trả lời về máy nạn nhân, gây sập hệ thống.
 - **Pulse-wave DDoS** [Trang 1493]: Gửi các xung gói tin theo chu kỳ (ví dụ: các đợt bùng nổ traffic cực lớn cách nhau mỗi 10 phút, mỗi xung có thể đạt 300 Gbps hoặc hơn). Mục đích là làm hệ thống kiệt quệ băng thông toàn bộ và khiến việc phục hồi vô cùng khó khăn.
@@ -111,6 +112,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
   - _(Biện pháp phòng chống)_: Tấn công Peer-to-peer DDoS có thể được giảm thiểu bằng cách chỉ định các cổng cụ thể cho giao tiếp peer-to-peer. Ví dụ, việc chỉ định cổng 80 để không cho phép giao tiếp peer-to-peer sẽ giảm thiểu khả năng xảy ra các cuộc tấn công vào trang web.
 - **Permanent Denial-of-Service (PDoS / Phlashing)** [Trang 1507]: Gây hỏng phần cứng vĩnh viễn (gọi là "bricking a system"). Kẻ tấn công gửi bản cập nhật firmware giả mạo, chứa lỗi (qua email, mạng xã hội, video). Khi nạn nhân cài đặt, thiết bị mạng (router, máy in) bị phá hủy hoặc bị chiếm quyền điều khiển từ xa hoàn toàn.
 - **TCP SACK panic** [Trang 1508]: Khai thác lỗ hổng tràn số nguyên (integer overflow) trên bộ đệm socket (SKB) của Linux. Kẻ tấn công gửi chuỗi gói SACK với giá trị MSS (Maximum segment size) cực thấp (48 bytes), khiến số lượng phân đoạn cần truyền lại vượt quá giới hạn 17 phân đoạn của bộ đệm, dẫn tới lỗi kernel panic và sập hệ thống.
+  - Vì lỗ hổng nằm ở ngăn xếp hạt nhân (kernel stack), kẻ tấn công cũng có thể thực hiện cuộc tấn công này nhắm vào các bộ chứa (containers) và máy ảo (virtual machines).
   - _(Biện pháp phòng chống)_: Triển khai vá lỗ hổng (vulnerability patching). Thiết lập quy tắc tường lửa (firewall rule) để chặn các gói tin yêu cầu có giá trị MSS thấp nhất.
 - **Distributed Reflection DDoS (DRDoS / Spoofed attack)** [Trang 1509 - 1510]: Tấn công giả mạo nguồn thông qua hàng loạt máy trung gian (zombies) và máy phản xạ (reflectors). Gửi TCP SYN (với IP nguồn là máy nạn nhân) tới reflector, reflector tin rằng nạn nhân yêu cầu kết nối nên đồng loạt dội ngược gói SYN/ACK về phía nạn nhân với băng thông khổng lồ.
   - _(Biện pháp phòng chống)_: Tắt dịch vụ Character Generator Protocol (CHARGEN) để ngăn chặn phương thức tấn công này. Liên tục tải xuống các bản cập nhật và bản vá mới nhất cho máy chủ.
@@ -143,6 +145,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Throttling (Điều tiết):** Thiết lập logic bộ định tuyến (ví dụ: min-max fair server-centric router) để giới hạn lưu lượng đến ở mức an toàn.
 - **Drop Requests (Hủy yêu cầu):** Yêu cầu máy khách giải quyết các "câu đố khó" (puzzle) tốn bộ nhớ/CPU trước khi tiếp tục (CAPTCHA/Client puzzle), giúp chặn đứng mạng lưới zombie.
 - _(Bổ sung)_ **Egress / Ingress Filtering:** Lọc gói tin IP đi ra và đi vào mạng để ngăn chặn các gói tin có địa chỉ nguồn giả mạo (spoofed addresses).
+  - _(Chi tiết lợi ích Egress Filtering)_: Ngay cả khi một máy chủ web dính lỗ hổng zero-day, việc bật lọc Egress có thể cứu vãn tính toàn vẹn của hệ thống bằng cách ngăn chặn máy chủ thiết lập kết nối ngược lại (connection back) với kẻ tấn công, từ đó làm hạn chế hiệu quả của nhiều payload và ngăn kẻ tấn công truy cập sâu hơn vào mạng.
 - _(Bổ sung)_ **TCP Intercept & Rate Limiting:** Dùng router chặn và xác thực kết nối TCP SYN để chống SYN flood; kiểm soát tỷ lệ traffic inbound/outbound.
   Kỹ thuật phòng thủ mạng Botnet (Techniques to Defend against Botnets) [Trang 1529 - 1530]
 
@@ -176,6 +179,10 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Bảo vệ tại ISP:** Các ISP có thể cung cấp dịch vụ "đường ống sạch" (clean pipes) để chỉ cho phép lưu lượng hợp pháp đi qua, chặn đứng các yêu cầu độc hại ngay trên đám mây. Quản trị viên có thể yêu cầu ISP chặn IP bị ảnh hưởng và chuyển hướng trang web sang một IP khác.
 - **Kích hoạt tính năng TCP Intercept trên Cisco IOS:** Giúp bảo vệ máy chủ TCP khỏi tấn công SYN-flood. Bộ định tuyến sẽ tự động đánh chặn mọi gói SYN và thay mặt máy chủ thực hiện bắt tay 3 bước với client. Chỉ khi client hoàn tất bắt tay, bộ định tuyến mới kết nối nó với máy chủ.
   - **Bước 1 (Định nghĩa ACL):** `access-list access-list-number {deny | permit} tcp any destination destination-wildcard`
+    - **Danh sách kiểm soát truy cập (Access list) này đạt được ba mục đích:**
+      1. Đánh chặn tất cả các yêu cầu (Interception of all requests).
+      2. Đánh chặn chỉ những yêu cầu xuất phát từ các mạng cụ thể.
+      3. Đánh chặn chỉ những yêu cầu hướng tới các máy chủ cụ thể.
   - **Bước 2 (Bật TCP Intercept):** `ip tcp intercept list access-list-number`
   - **Bước 3 (Chọn chế độ):** `ip tcp intercept mode {intercept | watch}` (Mặc định là intercept. Chế độ watch chỉ theo dõi, nếu kết nối không thành lập trong 30 giây sẽ gửi lệnh reset).
 

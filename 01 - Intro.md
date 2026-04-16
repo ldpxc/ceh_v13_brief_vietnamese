@@ -42,7 +42,14 @@ Chiến tranh thông tin (InfoWar) đề cập đến việc sử dụng công n
 
 - **Chiến tranh phòng thủ (Defensive Information Warfare)**: Các chiến lược và hành động được thiết kế để bảo vệ tài sản ICT.
 - **Chiến tranh tấn công (Offensive Information Warfare)**: Các cuộc tấn công nhằm vào tài sản ICT của đối thủ.
-- **Các loại hình chiến tranh thông tin (Martin Libicki)**: Command and control warfare (C2), Intelligence-based warfare, Electronic warfare, Psychological warfare, Hacker warfare, Economic warfare, Cyberwarfare.
+- **Các loại hình chiến tranh thông tin (Martin Libicki):**
+  - **Command and control warfare (C2 warfare):** Trong ngành bảo mật máy tính, chiến tranh C2 đề cập đến tác động mà kẻ tấn công có được đối với một hệ thống hoặc mạng bị xâm phạm mà chúng kiểm soát.
+  - **Intelligence-based warfare:** Là công nghệ dựa trên cảm biến làm hỏng trực tiếp các hệ thống công nghệ (bao gồm thiết kế, bảo vệ và từ chối các hệ thống tìm kiếm đủ kiến thức để thống trị không gian chiến đấu).
+  - **Electronic warfare:** Sử dụng các kỹ thuật vô tuyến điện tử và mật mã để làm suy giảm thông tin liên lạc (tấn công vào phương tiện vật lý gửi thông tin hoặc phá vỡ các bit/byte).
+  - **Psychological warfare:** Sử dụng các kỹ thuật khác nhau như tuyên truyền và khủng bố để làm suy sụp tinh thần đối thủ nhằm giành chiến thắng.
+  - **Hacker warfare:** Mục đích có thể thay đổi từ việc đánh sập hệ thống, gây lỗi dữ liệu, trộm cắp thông tin/dịch vụ, giám sát hệ thống, nhắn tin giả mạo. Thường dùng virus, logic bombs, trojan và sniffers.
+  - **Economic warfare:** Có thể ảnh hưởng đến nền kinh tế của một doanh nghiệp hoặc quốc gia bằng cách chặn luồng thông tin. Điều này đặc biệt tàn phá đối với các tổ chức kinh doanh nhiều trên thế giới kỹ thuật số.
+  - **Cyberwarfare:** Sử dụng hệ thống thông tin chống lại danh tính ảo của cá nhân hoặc nhóm. Đây là loại hình rộng nhất, bao gồm khủng bố thông tin, tấn công ngữ nghĩa (chiếm quyền điều khiển hệ thống mà vẫn giữ vẻ ngoài hoạt động bình thường) và chiến tranh mô phỏng.
 
 ## Phân tích rủi ro:
 
@@ -258,7 +265,16 @@ Mô hình này cung cấp một khuôn khổ để xác định các sự kiện
 - **Infrastructure (Cơ sở hạ tầng - WHAT):** Phần cứng hoặc phần mềm "cái gì" mà kẻ tấn công sử dụng để kết nối và tiếp cận nạn nhân (ví dụ: máy chủ email, server C&C, địa chỉ IP).
 - **Victim (Nạn nhân - WHERE):** Mục tiêu đã bị khai thác hoặc môi trường nơi cuộc tấn công diễn ra. Nạn nhân có thể là cá nhân, tổ chức, tổ chức tài chính hoặc các thông tin mạng (IP, tên miền, email).
 
-**Các tính năng bổ sung (Extended Diamond Model / Meta-Features):** Ngoài 4 yếu tố trên, mô hình còn sử dụng các tính năng meta để liên kết sự kiện: Timestamp (Thời gian), Phase (Giai đoạn của tấn công), Result (Kết quả), Direction (Hướng tấn công), Methodology (Phương pháp luận), Resource (Tài nguyên), cùng với Socio-political meta-feature (động cơ chính trị/xã hội) và Technology meta-feature (mối quan hệ công nghệ).
+**Các tính năng bổ sung (Extended Diamond Model / Meta-Features):** Ngoài 4 yếu tố trên, mô hình còn sử dụng các tính năng meta để cung cấp thêm thông tin giúp phân tích và liên kết các sự kiện:
+
+- **Timestamp:** Tiết lộ thời gian và ngày tháng của sự kiện. Giúp xác định điểm bắt đầu, kết thúc và chu kỳ của sự kiện.
+- **Phase:** Giúp xác định tiến trình của một cuộc tấn công hoặc hoạt động độc hại (dựa theo các giai đoạn trong Cyber Kill Chain như reconnaissance, weaponization, delivery...).
+- **Result:** Kết quả của bất kỳ sự kiện nào (thành công, thất bại hoặc không xác định). Có thể phân loại theo nguyên tắc bảo mật như CIA bị xâm phạm.
+- **Direction:** Hướng của cuộc tấn công (Ví dụ: từ nạn nhân đến cơ sở hạ tầng, từ kẻ tấn công đến cơ sở hạ tầng, hoặc hai chiều).
+- **Methodology:** Bất kỳ kỹ thuật nào được kẻ tấn công sử dụng (Ví dụ: email spear-phishing, DDoS, drive-by-compromise).
+- **Resource:** Việc sử dụng các tài nguyên bên ngoài như công cụ, phần cứng, phần mềm, quyền truy cập hoặc dữ liệu để thực hiện cuộc tấn công.
+- **Socio-political meta-feature:** Mô tả mối quan hệ giữa kẻ tấn công và nạn nhân, dùng để xác định mục tiêu hoặc động cơ (lợi ích tài chính, gián điệp, hacktivism).
+- **Technology meta-feature:** Mô tả mối quan hệ giữa cơ sở hạ tầng và khả năng (cách công nghệ kích hoạt giao tiếp và hoạt động, giúp phát hiện công nghệ độc hại).
 
 ## 7. Bảo đảm thông tin (Information Assurance — IA) (Trang 68 - 69)
 
@@ -453,6 +469,12 @@ Học máy (ML) và Trí tuệ nhân tạo (AI) giúp xác định các điểm 
     - Hướng dẫn đánh giá các biện pháp kiểm soát bảo mật để xác định tính hiệu quả của chúng.
     - Hướng dẫn cấp phép bảo mật (security authorization) cho hệ thống thông tin.
 - **DPA 2018 (UK Data Protection Act 2018) & GDPR - Trang 111-113:** DPA 2018 là luật bảo vệ dữ liệu cá nhân của Vương quốc Anh, cập nhật luật từ năm 1998, kiểm soát việc xử lý dữ liệu cá nhân của các tổ chức, trao quyền cho người dùng và thiết lập chức năng của Ủy viên Thông tin (Information Commissioner). Nó hoạt động song song với GDPR của Liên minh Châu Âu (EU) vốn đưa ra 7 nguyên tắc cốt lõi về xử lý dữ liệu (Tính hợp pháp, giới hạn mục đích, giảm thiểu dữ liệu, độ chính xác, giới hạn lưu trữ, tính bảo mật & tính trách nhiệm giải trình) kèm theo các hình phạt rất khắt khe đối với vi phạm.
+  - **Bảo vệ dữ liệu cá nhân (Protection of personal data):**
+    1. Đạo luật DPA bảo vệ các cá nhân liên quan đến việc xử lý dữ liệu cá nhân, cụ thể bằng cách:
+       a. Yêu cầu dữ liệu cá nhân phải được xử lý hợp pháp và công bằng, dựa trên sự đồng ý của chủ thể dữ liệu hoặc cơ sở được chỉ định khác.
+       b. Trao quyền cho chủ thể dữ liệu để lấy thông tin về việc xử lý dữ liệu cá nhân của họ và yêu cầu sửa chữa dữ liệu cá nhân không chính xác.
+       c. Trao các chức năng cho Ủy viên (Commissioner), giao cho người giữ chức vụ đó trách nhiệm giám sát và thực thi các quy định.
+    2. Khi thực hiện các chức năng theo GDPR và Đạo luật này, Ủy viên phải quan tâm đến tầm quan trọng của việc đảm bảo mức độ bảo vệ thích hợp cho dữ liệu cá nhân, tính đến lợi ích của chủ thể dữ liệu, người kiểm soát và những người khác, cũng như các vấn đề vì lợi ích công cộng.
 
 - **Luật an ninh mạng ở các quốc gia khác (Cyber Law in Different Countries) (Trang 115 - 118)**: Mỗi quốc gia có các bộ luật và quy định riêng để bảo vệ Internet và công nghệ truyền thông (về quyền riêng tư, tự do ngôn luận và quyền tài phán), ví dụ:
   - **Hoa Kỳ (United States)**: Online Copyright Infringement Liability Limitation Act, The Electronic Communications Privacy Act, Privacy Act of 1974, Computer Security Act of 1987, Freedom of Information Act (FOIA), California Consumer Privacy Act (CCPA), v.v.
@@ -507,10 +529,13 @@ Học máy (ML) và Trí tuệ nhân tạo (AI) giúp xác định các điểm 
 
 ---
 
-## 17. Các pha kiểm thử xâm nhập (Pen test phases)
+## 17. Khung quy trình thực hiện kiểm toán bảo mật (Framework for performing a security audit)
 
-_(Lưu ý: Trong tài liệu CEHv13 Module 01 được cung cấp, các bước này không được đặt tên là "Pen test phases" mà được trình bày cụ thể dưới dạng "Khung quy trình thực hiện kiểm toán bảo mật" - Framework for performing a security audit ở Trang 32 với nội dung tương đồng hoàn toàn)._ Cụ thể:
+Các bước sau đây cung cấp một khuôn khổ để thực hiện kiểm toán bảo mật (hoặc kiểm thử xâm nhập) cho một tổ chức nhằm đảm bảo cuộc kiểm thử có tổ chức, hiệu quả và có đạo đức:
 
-- **Preparation (Chuẩn bị):** Giai đoạn này bao gồm việc nói chuyện với khách hàng và thảo luận về các nhu cầu cần giải quyết trong quá trình kiểm thử. Đội ngũ chuẩn bị và ký kết các tài liệu Thỏa thuận bảo mật thông tin (NDA). Sau đó, tổ chức một nhóm ethical hacking và chuẩn bị lịch trình, giới hạn để tiến hành kiểm thử.
-- **Assessment (Đánh giá):** Tiến hành thực hiện bài kiểm tra thực tế (Conduct the test) theo đúng phạm vi đã được ủy quyền.
-- **Conclusion (Kết luận/Hậu đánh giá):** Phân tích các kết quả sau khi thử nghiệm (Analyze the results of the testing) và chuẩn bị báo cáo. Cuối cùng, trình bày các phát hiện và khuyến nghị trong báo cáo cho khách hàng.
+- Trò chuyện với khách hàng và thảo luận về các nhu cầu cần giải quyết trong quá trình kiểm thử (Talk to the client and discuss the needs).
+- Chuẩn bị và ký kết các tài liệu Thỏa thuận bảo mật thông tin (NDA) với khách hàng (Prepare and sign NDA documents).
+- Tổ chức nhóm ethical hacking và chuẩn bị lịch trình kiểm thử (Organize an ethical hacking team and prepare the schedule).
+- Tiến hành thực hiện bài kiểm tra thực tế (Conduct the test).
+- Phân tích kết quả kiểm thử và chuẩn bị báo cáo (Analyze the results of the testing and prepare a report).
+- Trình bày các phát hiện trong báo cáo cho khách hàng (Present the report findings to the client).

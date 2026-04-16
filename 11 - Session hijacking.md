@@ -103,6 +103,8 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 
 ## 12. Cướp phiên cấp ứng dụng (Application-Level Session Hijacking) và các phương pháp tấn công Client-side [Trang 1566 - 1580]
 
+- **Đặc điểm của tấn công Client-side (Client-side Attacks):** Nhắm vào các lỗ hổng trong ứng dụng máy khách khi chúng tương tác với máy chủ độc hại hoặc xử lý dữ liệu độc hại. Các ứng dụng dễ bị tổn thương bao gồm các trang web không được bảo vệ, Java Runtime Environment (JRE) và trình duyệt (mục tiêu chính). Tấn công chỉ xảy ra khi máy khách thiết lập kết nối với máy chủ độc hại và xử lý dữ liệu từ chúng; nếu không có sự tương tác giữa client và server, tấn công sẽ không thể xảy ra (Ví dụ: Chạy ứng dụng FTP client nhưng không thiết lập kết nối tới FTP server).
+
 - **Cross-Site Scripting (XSS)** [Trang 1566 - 1567]:
   - Bản chất: Kẻ tấn công chèn các tập lệnh phía máy khách (client-side scripts) độc hại vào các trang web động do ứng dụng web không xử lý đầu vào đúng cách.
   - Cách thức: Tập lệnh độc hại thực thi trên trình duyệt của nạn nhân để thu thập thông tin cá nhân, đánh cắp cookie/session token. Ví dụ mã chèn: `<SCRIPT>alert(document.cookie);</SCRIPT>`.
@@ -271,7 +273,7 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
 
 - **USM Anywhere** [Trang 1603 - 1604]: Cung cấp khả năng phát hiện mối đe dọa mạnh mẽ, quản lý SIEM và log, phản hồi sự cố trên cả đám mây (cloud), on-premises và môi trường hybrid.
 - **Wireshark** [Trang 1603 - 1605]: Công cụ cho phép bắt và duyệt traffic mạng tương tác. Dùng Winpcap để bắt gói tin trực tiếp từ các mạng Ethernet, IEEE 802.11, Token Ring, Bluetooth... giúp phát hiện hoạt động cướp phiên.
-- _(Bổ sung từ nguồn)_ Các công cụ khác: **Quantum Intrusion Prevention System (IPS)**, **SolarWinds Security Event Manager**, **IBM Security Network Intrusion Prevention System**.
+- _(Bổ sung từ nguồn)_ Các công cụ khác: **Quantum Intrusion Prevention System (IPS)**, **SolarWinds Security Event Manager**, **IBM Security Network Intrusion Prevention System**, **LogRhythm**.
 
 ## 21. Ngăn chặn cướp phiên (Session Hijacking Countermeasures) [Trang 1606 - 1607, 1616 - 1618]
 
@@ -352,6 +354,16 @@ IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo v
 
 - **Transport Mode (Chế độ truyền tải)** [Trang 1613]: Chỉ mã hóa (và/hoặc xác thực) phần payload (dữ liệu) của gói IP, để nguyên phần header IP không mã hóa. Thường dùng cho liên lạc trực tiếp end-to-end giữa 2 host. Tương thích với NAT.
 - **Tunnel Mode (Chế độ đường hầm)** [Trang 1614]: Đóng gói và mã hóa toàn bộ gói IP gốc (gồm cả IP header và payload), sau đó biến nó thành payload cho một gói IP mới (với IP header mới). Có bảo mật cao hơn Transport mode, thường dùng tạo VPN giữa 2 routers (gateways) hoặc host-to-gateway.
+- **Các dịch vụ bảo mật do IPsec cung cấp (Security services offered by IPsec):**
+  - Từ chối các gói tin bị phát lại (Rejection of replayed packets - một hình thức bảo toàn tính toàn vẹn một phần số thứ tự).
+  - Bảo mật dữ liệu / Mã hóa (Data confidentiality).
+  - Kiểm soát truy cập (Access control).
+  - Tính toàn vẹn không kết nối (Connectionless integrity).
+  - Xác thực nguồn gốc dữ liệu (Data origin authentication).
+  - Tính toàn vẹn dữ liệu (Data integrity).
+  - Bảo mật luồng lưu lượng giới hạn (Limited traffic-flow confidentiality).
+  - Xác thực ngang hàng cấp mạng (Network-level peer authentication).
+  - Bảo vệ chống phát lại (Replay protection).
 - _(Bổ sung từ nguồn)_ **Kiến trúc IPsec** [Trang 1611, 1614 - 1615]: Sử dụng hai giao thức cốt lõi:
   - **AH (Authentication Header):** Chỉ cung cấp xác thực nguồn gốc và tính toàn vẹn (integrity), chống replay, không hỗ trợ mã hóa (no confidentiality).
   - **ESP (Encapsulating Security Payload):** Cung cấp đầy đủ cả xác thực, tính toàn vẹn và tính bảo mật (mã hóa/encryption). Đóng vai trò thiết yếu trong việc bảo vệ payload của dữ liệu.

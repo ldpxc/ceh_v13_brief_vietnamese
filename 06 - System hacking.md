@@ -130,6 +130,7 @@ Phục hồi mật khẩu từ các bản dump hash.
 - **Rainbow table attack:** Kỹ thuật đánh đổi bộ nhớ và thời gian. Dùng bảng hash đã được tính toán sẵn (pre-computed hashes) để so sánh và giải mã. (Công cụ tạo bảng: `rtgen`, `RainbowCrack`).
 - **Tấn công phân tán (Distributed Network Attack - DNA):** Dùng phần mềm chia nhỏ tác vụ và tận dụng sức mạnh xử lý của nhiều máy tính rảnh rỗi trên mạng để bẻ khóa mật khẩu.
   - _Cấu trúc của DNA (Trang 669-670):_ Bao gồm **DNA Server Interface** (Giao diện máy chủ giúp quản lý danh sách _Current Jobs_ - các công việc đang chờ và _Finished Jobs_ - các công việc giải mã đã hoàn tất) và **DNA Client Interface** (Ứng dụng chạy nền trên các máy trạm để điều phối số liệu thống kê và băng thông mạng mà không làm phiền người dùng).
+    - **Các tính năng của Distributed Network Attack (DNA):** Dễ dàng đọc số liệu thống kê và biểu đồ, thêm từ điển người dùng để bẻ khóa mật khẩu, tối ưu hóa các cuộc tấn công mật khẩu cho các ngôn ngữ cụ thể, sửa đổi từ điển người dùng, bao gồm chức năng cài đặt máy khách tàng hình (stealth client installation), và tự động cập nhật máy khách trong khi cập nhật máy chủ DNA.
 
 ## 2. Các công cụ (Tools)
 
@@ -227,6 +228,15 @@ Khai thác lỗ hổng là việc thực thi nhiều bước phức tạp và li
 6. **Tạo và chuyển payload (Generate and deliver the payload):** Bơm shellcode độc hại vào mục tiêu bằng social engineering hoặc tấn công mạng.
 7. **Đạt quyền truy cập từ xa (Gain remote access):** Chạy các lệnh kiểm soát hệ thống.
 
+**Các bước sử dụng các trang web Exploit để khai thác (Steps to exploit using Exploit Sites):**
+
+- Identify (Nhận dạng): Nhận diện hệ điều hành và ứng dụng của mục tiêu thông qua các công cụ footprinting, scanning và enumeration.
+- Evaluate (Đánh giá): Tìm kiếm và đánh giá các lỗ hổng dựa trên kết quả nhận dạng từ các cơ sở dữ liệu như Exploit-DB, VulDB.
+- Download (Tải xuống): Tải xuống mã khai thác cùng với bất kỳ hướng dẫn hoặc thành phần phụ thuộc nào.
+- Modification (Sửa đổi): Nếu cần, sửa đổi mã khai thác để phù hợp với môi trường cụ thể hoặc để tránh bị phát hiện bởi các biện pháp bảo mật.
+- Execution (Thực thi): Thực thi mã khai thác nhắm vào hệ thống đích.
+- Post-Exploitation (Hậu khai thác): Sau khi giành quyền truy cập, tiến hành các hoạt động hậu khai thác như leo thang đặc quyền, trích xuất dữ liệu, hoặc di chuyển ngang.
+
 **Nguồn exploit (Exploit Sites):**
 
 Các kho lưu trữ mã khai thác (PoC) dùng để nghiên cứu hoặc thực hiện tấn công:
@@ -256,6 +266,11 @@ Metasploit Framework là một nền tảng phát triển mã khai thác (exploi
 
 - **Nebula:** Công cụ hỗ trợ AI tự động hóa việc xác định và khai thác lỗ hổng bằng cách xử lý các tập dữ liệu lớn. Sử dụng Xử lý ngôn ngữ tự nhiên (NLP) để chuyển đổi các lệnh bằng ngôn ngữ tự nhiên thành các hành động kỹ thuật chính xác. Cung cấp công cụ tìm kiếm lệnh (Command Search Engine).
 - **DeepExploit:** Công cụ AI hoàn toàn tự động sử dụng học sâu (mô hình mạng nơ-ron A3C - Asynchronous Advantage Actor-Critic) để xác định và khai thác lỗ hổng. Nó liên kết trực tiếp với Metasploit để thực thi các payload. Mô hình học hỏi và tối ưu hóa liên tục qua từng lần thử khai thác.
+  - **Các tính năng chính của DeepExploit (Key Features):**
+    - **Fully Automated Vulnerability Identification and Exploitation:** Tự động hóa hoàn toàn việc nhận diện và khai thác lỗ hổng bằng kỹ thuật học sâu (mạng nơ-ron A3C).
+    - **Data Gathering and Neural Network Training:** Thu thập thông tin thiết yếu về máy chủ đích (hệ điều hành, tên sản phẩm, phiên bản) để đưa vào mô hình huấn luyện mạng nơ-ron sinh ra payload tùy chỉnh.
+    - **Payload Execution via Metasploit Integration:** Tích hợp với Metasploit để thực thi các payload sinh ra nhắm vào mục tiêu.
+    - **Continuous Learning and Optimization:** Thông qua các nỗ lực khai thác lặp đi lặp lại, mô hình tự động điều chỉnh trọng số (weights) để cải thiện độ chính xác và hiệu quả theo thời gian.
 
 ## 7. Tràn bộ đệm (Buffer overflow)
 
@@ -569,6 +584,7 @@ Kẻ tấn công sử dụng nhiều chiến thuật để thực thi mã độc
 - **Audio & Video Spyware (Phần mềm gián điệp Âm thanh/Hình ảnh):**
   - _Audio Spyware:_ Ghi lại âm thanh xung quanh, hội thoại, VoIP mà không cần quyền admin (Ví dụ: TheOneSpy, Snooper). DeepSound cho phép giấu dữ liệu bí mật vào file âm thanh và mã hóa chúng.
   - _Video Spyware:_ Theo dõi webcam và ghi hình bí mật trong nền (Ví dụ: iSpy, Perfect IP Camera Viewer, OmniHide Pro - giấu dữ liệu vào file video).
+  - _USB Spyware:_ Các phần mềm gián điệp hoạt động qua thiết bị USB. Danh sách một số công cụ USB spyware bao gồm: USB Monitor, USBDeview, Advanced USB Port Monitor, và Free USB Analyzer.
 - **Biện pháp phòng chống Keylogger và Spyware (Anti-Keyloggers / Anti-Spyware):**
   - Sử dụng trình quản lý mật khẩu tự động điền (form-filling password manager) để không phải gõ phím.
   - Sử dụng bàn phím ảo trên màn hình, phần mềm chuyển giọng nói thành văn bản (Voice-to-Text).
