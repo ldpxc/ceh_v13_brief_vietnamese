@@ -1,0 +1,12 @@
+\usepackage{fontspec}
+\usepackage{unicode-math}
+
+% fallback font cho emoji + ký tự thiếu
+\setmainfont{Noto Serif}
+\setsansfont{Noto Sans}
+\setmonofont{JetBrains Mono}
+
+\newfontfamily\emojifont{Noto Color Emoji}
+
+% map emoji
+\DeclareTextFontCommand{\emoji}{\emojifont}
