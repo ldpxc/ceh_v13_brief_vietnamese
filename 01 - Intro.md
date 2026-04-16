@@ -126,49 +126,70 @@ IoC là các manh mối, hiện vật và mẩu dữ liệu pháp y được tì
 - **Chỉ báo trên host (Host-Based Indicators) - Trang 59:** Được tìm thấy qua việc phân tích hệ thống bị nhiễm, bao gồm: tên tệp (filenames), mã băm (file hashes), khóa registry (registry keys), DLLs và mutex.
 - **Chỉ báo hành vi (Behavioral Indicators) - Trang 59:** Xác định các dấu hiệu xâm nhập bất thường như: thực thi tài liệu chứa lệnh PowerShell, yêu cầu DNS bất thường (Unusual DNS requests), đăng nhập thất bại nhiều lần, lưu lượng mạng gọi ra ngoài bất thường, hoặc thay đổi hệ thống/registry đáng ngờ.
 
-## MITRE ATT&CK — là một framework phi lợi nhuận, miễn phí, dùng để phân loại hệ thống hành vi của kẻ tấn công một cách có hệ thống và hỗ trợ chuẩn bị ứng phó.
+## 5. MITRE ATT&CK Framework (Trang 61 - 62)
 
-- **Tactics** — tại sao kẻ tấn công thực hiện hành động.
-- **Techniques** — cách kẻ tấn công đạt được mục tiêu.
-- **Subtechniques** — mô tả chi tiết hơn về hành vi đối kháng.
-- **Procedures** — cách triển khai cụ thể của kỹ thuật/subtechnique trên thực tế (in the wild).
+MITRE ATT&CK là một cơ sở kiến thức có thể truy cập toàn cầu về các chiến thuật (tactics) và kỹ thuật (techniques) của kẻ tấn công, được xây dựng dựa trên các quan sát trong thế giới thực. Nó được sử dụng làm nền tảng để phát triển các mô hình mối đe dọa (threat models) và phương pháp luận trong khu vực tư nhân, chính phủ, và cộng đồng sản phẩm/dịch vụ an ninh mạng.
 
-### Các pha/ma trận thông thường (ví dụ ATT&CK):
+MITRE ATT&CK bao gồm 3 bộ chiến thuật và kỹ thuật: Enterprise, Mobile, và PRE-ATT&CK. Trong đó, 14 danh mục chiến thuật (Tactics) của ATT&CK dành cho Enterprise được bắt nguồn từ các giai đoạn sau của chuỗi Cyber Kill Chain:
 
-- **Resource Development**
-- **Initial Access**
-- **Execution**
-- **Persistence**
-- **Privilege Escalation**
-- **Defense Evasion**
-- **Credential Access**
-- **Discovery**
-- **Lateral Movement**
-- **Collection**
-- **Command and Control**
-- **Exfiltration**
-- **Impact**
+- Reconnaissance (Trinh sát)
+- Resource Development (Phát triển tài nguyên)
+- Initial Access (Truy cập ban đầu)
+- Execution (Thực thi)
+- Persistence (Duy trì)
+- Privilege Escalation (Leo thang đặc quyền)
+- Defense Evasion (Lẩn tránh phòng thủ)
+- Credential Access (Truy cập thông tin xác thực)
+- Discovery (Khám phá)
+- Lateral Movement (Di chuyển ngang)
+- Collection (Thu thập)
+- Command and Control (Điều khiển và Chỉ huy)
+- Exfiltration (Trích xuất dữ liệu)
+- Impact (Tác động)
 
-Memorize[[https://oreil.ly/gQEcH]]m
+_(Lưu ý: Mặc dù phân đoạn này không trực tiếp định nghĩa "Subtechniques", các khái niệm cơ bản đã được định nghĩa chi tiết ở phần TTPs - Trang 53-55, trong đó Tactics là chiến lược tổng thể, Techniques là phương pháp kỹ thuật, Procedures là chuỗi các hành động thực tế)._
 
-## Mô hình Diamond:
+## 6. Mô hình Diamond (Diamond Model of Intrusion Analysis) (Trang 63 - 66)
 
-- **Adversary** — WHO (ai: APT, nhóm tội phạm mạng, v.v.)
-- **Capability** — WHAT (các công cụ: malware, exploits, ransomware)
-- **Infrastructure** — WHERE (server C2, domain độc hại, địa chỉ IP)
-- **Victim** — WHO bị nhắm đến (tổ chức, cá nhân)
+Mô hình này cung cấp một khuôn khổ để xác định các sự kiện có tương quan với nhau trong một cuộc xâm nhập, xoay quanh 4 tính năng cốt lõi tạo thành hình viên kim cương:
 
-## Bảo đảm thông tin (Information Assurance — IA) — bắt đầu từ chính sách, kết thúc ở con người; giữa hai là quản lý rủi ro.
+- **Adversary (Kẻ tấn công - WHO):** Đối thủ đứng sau cuộc tấn công. Kẻ tấn công lợi dụng khả năng (capability) nhắm vào nạn nhân để trục lợi hoặc phá hoại. Họ có thể là người trong cuộc (insiders) hoặc tổ chức đối thủ.
+- **Capability (Khả năng - HOW):** Các chiến lược, phương pháp và thủ tục liên quan đến cuộc tấn công, hay "cách thức" cuộc tấn công được thực hiện. Bao gồm cả các công cụ (malware, công cụ kỹ thuật) và các kỹ thuật từ đơn giản đến phức tạp như brute forcing hoặc ransomware.
+- **Infrastructure (Cơ sở hạ tầng - WHAT):** Phần cứng hoặc phần mềm "cái gì" mà kẻ tấn công sử dụng để kết nối và tiếp cận nạn nhân (ví dụ: máy chủ email, server C&C, địa chỉ IP).
+- **Victim (Nạn nhân - WHERE):** Mục tiêu đã bị khai thác hoặc môi trường nơi cuộc tấn công diễn ra. Nạn nhân có thể là cá nhân, tổ chức, tổ chức tài chính hoặc các thông tin mạng (IP, tên miền, email).
 
-**Quy trình:** Plan → Design → Find problems → Get resources → Plan fixes → Apply controls → Verify → Train people
+**Các tính năng bổ sung (Extended Diamond Model / Meta-Features):** Ngoài 4 yếu tố trên, mô hình còn sử dụng các tính năng meta để liên kết sự kiện: Timestamp (Thời gian), Phase (Giai đoạn của tấn công), Result (Kết quả), Direction (Hướng tấn công), Methodology (Phương pháp luận), Resource (Tài nguyên), cùng với Socio-political meta-feature (động cơ chính trị/xã hội) và Technology meta-feature (mối quan hệ công nghệ).
 
-## Chiến lược an ninh liên tục / thích ứng:
+## 7. Bảo đảm thông tin (Information Assurance — IA) (Trang 68 - 69)
 
-![[Pasted image 20251221194558.png]]
+IA là sự bảo đảm rằng tính toàn vẹn (integrity), tính sẵn sàng (availability), tính bảo mật (confidentiality), và tính xác thực (authenticity) của thông tin và hệ thống thông tin được bảo vệ trong suốt quá trình sử dụng, xử lý, lưu trữ và truyền tải.
+Bao gồm 8 quy trình cốt lõi để đạt được Bảo đảm thông tin:
 
-**RISK = threats × vulnerabilities × impact**
-**RISK = threat × vulnerability × asset value**
-**Mức độ RISK = consequence × likelihood**
+- Phát triển chính sách, quy trình và hướng dẫn nội bộ (Developing local policy, process, and guidance).
+- Thiết kế chiến lược xác thực mạng và người dùng (Designing network and user authentication strategies).
+- Xác định các lỗ hổng và mối đe dọa mạng (Identifying network vulnerabilities and threats).
+- Xác định các vấn đề và yêu cầu về tài nguyên (Identifying problem and resource requirements).
+- Tạo kế hoạch đáp ứng các yêu cầu tài nguyên (Creating plans for identified resource requirements).
+- Áp dụng các biện pháp kiểm soát bảo đảm thông tin phù hợp (Applying appropriate information assurance controls).
+- Thực hiện cấp chứng nhận và công nhận hệ thống (Performing certification and accreditation - C&A).
+- Cung cấp đào tạo về bảo đảm thông tin cho toàn bộ nhân sự (Providing information assurance training).
+
+## 8. Chiến lược an ninh liên tục / thích ứng (Continual/Adaptive Security Strategy) (Trang 70 - 71)
+
+Chiến lược bảo mật thích ứng yêu cầu các hành động dự đoán, phòng ngừa, phát hiện và ứng phó phải được thực hiện liên tục để đảm bảo phòng thủ mạng toàn diện. Quy trình này bao gồm 4 góc phần tư:
+
+- **Predict (Dự đoán):** Đánh giá Rủi ro và Lỗ hổng (Risk and Vulnerability Assessment), Phân tích bề mặt tấn công (Attack Surface Analysis), Tình báo mối đe dọa (Threat Intelligence).
+- **Protect (Bảo vệ):** Áp dụng chiến lược phòng thủ theo chiều sâu (Defense-in-depth), bảo vệ thiết bị đầu cuối, bảo vệ mạng lưới, và bảo vệ dữ liệu.
+- **Detect (Phát hiện):** Giám sát mối đe dọa liên tục (Continuous Threat Monitoring).
+- **Respond (Ứng phó):** Ứng phó sự cố (Incident Response).
+
+## 9. Công thức tính rủi ro (Risk) (Trang 73 - 74)
+
+Rủi ro là mức độ không chắc chắn hoặc dự báo về thiệt hại tiềm ẩn do một sự kiện bất lợi gây ra cho hệ thống. Mối quan hệ này được thể hiện qua các công thức sau:
+
+- **RISK = Threats × Vulnerabilities × Impact** (Rủi ro = Mối đe dọa × Lỗ hổng × Tác động) - Trang 73
+- **RISK = Threat × Vulnerability × Asset Value** (Rủi ro = Mối đe dọa × Lỗ hổng × Giá trị tài sản) - Trang 73
+- **Level of Risk = Consequence × Likelihood** (Mức độ Rủi ro = Hậu quả × Khả năng xảy ra) - Trang 74 (Thường được sử dụng để xây dựng Ma trận rủi ro - Risk Matrix).
 
 ## Tình báo mối đe dọa mạng (Cyber Threat Intelligence — CTI) — kiến thức dựa trên bằng chứng về các mối đe dọa, giúp tổ chức đưa ra quyết định an ninh tốt hơn.
 
