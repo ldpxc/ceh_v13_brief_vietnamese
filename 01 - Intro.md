@@ -77,32 +77,56 @@ Kẻ tấn công có thể tải lên, tải xuống hoặc thao tác dữ liệ
 
 ## Quản lý sự kiện và sự cố bảo mật (Security Information and Event Management — SIEM) — ví dụ: Splunk.
 
-## Cyber kill chain — các bước phổ biến:
+## 1. Cyber Kill Chain (Chuỗi tiêu diệt không gian mạng) - Trang 50-53
 
-**1. Trinh sát (Reconnaissance)** — thu thập dữ liệu, xác định lỗ hổng.\*\*
-**2. Vũ khí hóa (Weaponization)** — tạo payload độc hại sử dụng lỗ hổng, backdoor, v.v.\*\*
-**3. Giao chuyển (Delivery)** — gửi payload tới mục tiêu.\*\*
-**4. Khai thác (Exploitation)** — thực thi mã đã gửi trên hệ thống mục tiêu.\*\*
-**5. Cài đặt (Installation)** — cài đặt ứng dụng độc hại trên hệ thống.\*\*
-**6. Điều khiển và chỉ huy (Command and Control** — C2) — tạo kênh C2 để gửi/nhận dữ liệu.\*\*
-**7. Hành động theo mục tiêu (Actions on Objectives)** — thực hiện hành động để hoàn thành nhiệm vụ: đánh cắp hoặc làm hỏng dữ liệu, thiết lập botnet, v.v.\*\*
+Phương pháp luận Cyber Kill Chain là một thành phần của phòng thủ dựa trên thông tin tình báo nhằm xác định và ngăn chặn các hoạt động xâm nhập độc hại. Theo Lockheed Martin, các cuộc tấn công mạng thường diễn ra qua 7 giai đoạn:
+
+- **Trinh sát (Reconnaissance) - Trang 51:** Kẻ tấn công thu thập càng nhiều thông tin về mục tiêu càng tốt để thăm dò các điểm yếu trước khi thực sự tấn công. Các hoạt động bao gồm tìm kiếm trên Internet, kỹ nghệ xã hội (social engineering), Whois, DNS, và quét cổng/dịch vụ.
+- **Vũ khí hóa (Weaponization) - Trang 51:** Dựa trên các lỗ hổng đã được xác định, kẻ tấn công tạo ra một payload độc hại có thể phân phát được (ví dụ: malware truy cập từ xa) bằng cách sử dụng một mã khai thác (exploit) và một backdoor.
+- **Giao chuyển (Delivery) - Trang 52:** Payload đã được vũ khí hóa sẽ được truyền tải tới nạn nhân thông qua email đính kèm (phishing), USB, hoặc qua các lỗ hổng ứng dụng web (watering hole).
+- **Khai thác (Exploitation) - Trang 52:** Mã độc của kẻ tấn công được kích hoạt để khai thác lỗ hổng trong hệ điều hành, ứng dụng hoặc máy chủ trên hệ thống mục tiêu nhằm giành quyền truy cập.
+- **Cài đặt (Installation) - Trang 52 & 53:** Kẻ tấn công tải xuống và cài đặt thêm phần mềm độc hại (như backdoor) trên hệ thống mục tiêu để duy trì quyền truy cập từ xa trong thời gian dài.
+- **Điều khiển và chỉ huy (Command and Control — C2) - Trang 53:** Kẻ tấn công thiết lập một kênh giao tiếp hai chiều giữa hệ thống của nạn nhân và máy chủ C&C. Chúng sử dụng mã hóa hoặc ngụy trang qua các kênh như web traffic, email, hoặc DNS để ẩn giấu dấu vết.
+- **Hành động theo mục tiêu (Actions on Objectives) - Trang 53:** Kẻ tấn công điều khiển hệ thống nạn nhân từ xa để hoàn thành các mục tiêu cuối cùng: truy cập dữ liệu bảo mật, phá vỡ dịch vụ mạng, làm hỏng dữ liệu, hoặc dùng hệ thống làm bàn đạp tấn công hệ thống khác.
 
 ![[Pasted image 20251221190622.png]]
 
-## Xác định hành vi kẻ tấn công (Adversary behavioral identification) — nhận diện các phương pháp thường dùng của kẻ tấn công.
+---
 
-## TTPs — Tactics, Techniques, Procedures (chiến thuật, kỹ thuật, thủ tục):
+## 2. Xác định hành vi kẻ tấn công (Adversary Behavioral Identification) - Trang 56-58
 
-- **Tactics** — cách kẻ đe dọa hoạt động trong các pha khác nhau của cuộc tấn công (ví dụ APT).
-- **Techniques** — kỹ thuật cụ thể để đạt mục tiêu (thường phụ thuộc vào công cụ kỹ thuật để leo thang quyền).
-- **Procedures** — chuỗi hành động thực tế.
+Xác định hành vi của kẻ thù liên quan đến việc nhận diện các phương pháp và kỹ thuật phổ biến mà kẻ tấn công sử dụng. Các hành vi này bao gồm:
 
-## Chỉ báo xâm phạm (Indicator of Compromise — IOC):
+- **Trinh sát nội bộ (Internal Reconnaissance) - Trang 56:** Khi đã xâm nhập mạng, kẻ tấn công liệt kê các hệ thống, tiến trình, và thực thi các lệnh bất thường trong Batch scripts hoặc PowerShell để thu thập thông tin cấu hình.
+- **Sử dụng PowerShell - Trang 56:** Công cụ này bị kẻ tấn công lạm dụng để tự động hóa việc đánh cắp (exfiltration) dữ liệu và phát động các cuộc tấn công.
+- **Các hoạt động Proxy không xác định (Unspecified Proxy Activities) - Trang 57:** Kẻ tấn công tạo và cấu hình nhiều tên miền cùng trỏ về một máy chủ để luân chuyển nhanh chóng nhằm tránh bị phát hiện.
+- **Sử dụng Giao diện Dòng lệnh (Command-Line Interface) - Trang 57:** Tương tác với hệ thống mục tiêu để đọc, sửa file, tạo tài khoản và tải mã độc.
+- **HTTP User Agent - Trang 57:** Sửa đổi trường HTTP user agent để thiết lập giao tiếp với hệ thống đã bị xâm phạm và che giấu lưu lượng.
+- **Máy chủ C&C (Command and Control Server) - Trang 57:** Sử dụng các máy chủ C&C thông qua kênh mã hóa để đánh cắp, xóa dữ liệu và phát động tấn công.
+- **Sử dụng DNS Tunneling - Trang 57:** Che giấu lưu lượng độc hại bên trong các giao thức hợp lệ của mạng để giao tiếp với máy chủ C&C và qua mặt các chốt kiểm soát.
+- **Sử dụng Web Shell - Trang 57 & 58:** Tạo một shell trên trang web để giành quyền thao túng máy chủ từ xa, thực hiện chuyển file và đánh cắp dữ liệu.
+- **Chuẩn bị dữ liệu (Data Staging) - Trang 58:** Thu thập và kết hợp càng nhiều dữ liệu (nhạy cảm, cấu trúc mạng, thông tin nhân viên) càng tốt trước khi tiến hành trích xuất hoặc tiêu hủy.
 
-- Chỉ báo email: địa chỉ người gửi, subject, loại tệp đính kèm.
-- Chỉ báo mạng: URL, domain, địa chỉ IP.
-- Chỉ báo trên host: tên file, hash, khóa registry.
-- Chỉ báo hành vi: thực thi PowerShell hoặc lệnh từ xa.
+---
+
+## 3. TTPs — Tactics, Techniques, Procedures (Chiến thuật, Kỹ thuật, Thủ tục) - Trang 9 & 53-55
+
+Thuật ngữ TTPs đề cập đến các kiểu hoạt động và phương pháp gắn liền với các tác nhân đe dọa.
+
+- **Tactics (Chiến thuật) - Trang 9 & 53:** Được định nghĩa là chiến lược mà kẻ tấn công áp dụng để thực hiện cuộc tấn công từ đầu đến cuối. Nó mô tả cách kẻ đe dọa hoạt động trong các giai đoạn khác nhau để thu thập thông tin, thỏa hiệp ban đầu và di chuyển ngang.
+- **Techniques (Kỹ thuật) - Trang 9 & 54:** Là các phương pháp kỹ thuật cụ thể mà kẻ tấn công sử dụng để đạt được kết quả trung gian trong suốt cuộc tấn công. Các kỹ thuật này bao gồm sử dụng công cụ để leo thang đặc quyền, thiết lập kênh C&C và xóa dấu vết.
+- **Procedures (Thủ tục) - Trang 9 & 55:** Là cách tiếp cận có hệ thống hoặc chuỗi các hành động thực tế do kẻ tấn công thực hiện để triển khai các bước trong vòng đời của cuộc tấn công.
+
+---
+
+## 4. Chỉ báo xâm phạm (Indicator of Compromise — IoC) - Trang 58-59
+
+IoC là các manh mối, hiện vật và mẩu dữ liệu pháp y được tìm thấy trên mạng hoặc hệ thống, cho thấy một sự xâm nhập tiềm ẩn hoặc hoạt động độc hại. Chúng được chia thành 4 danh mục chính:
+
+- **Chỉ báo email (Email Indicators) - Trang 59:** Thông tin về các email lừa đảo (phishing) bao gồm địa chỉ người gửi, tiêu đề email (subject), và các loại tệp đính kèm hoặc liên kết.
+- **Chỉ báo mạng (Network Indicators) - Trang 59:** Hữu ích cho việc phát hiện Command & Control và phân phát mã độc, bao gồm: URL, tên miền (domain name), và địa chỉ IP.
+- **Chỉ báo trên host (Host-Based Indicators) - Trang 59:** Được tìm thấy qua việc phân tích hệ thống bị nhiễm, bao gồm: tên tệp (filenames), mã băm (file hashes), khóa registry (registry keys), DLLs và mutex.
+- **Chỉ báo hành vi (Behavioral Indicators) - Trang 59:** Xác định các dấu hiệu xâm nhập bất thường như: thực thi tài liệu chứa lệnh PowerShell, yêu cầu DNS bất thường (Unusual DNS requests), đăng nhập thất bại nhiều lần, lưu lượng mạng gọi ra ngoài bất thường, hoặc thay đổi hệ thống/registry đáng ngờ.
 
 ![[Pasted image 20251221191048.png]]
 
