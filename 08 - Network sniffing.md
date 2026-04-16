@@ -61,7 +61,7 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 **MAC Spoofing / MAC Duplicating** [Trang 1327 - 1331]:
 
 - Kẻ tấn công nghe lén mạng, lấy địa chỉ MAC của một máy khách hợp lệ đang kết nối và mạo danh (spoof) chính địa chỉ MAC đó trên máy của mình. Nếu thành công, kẻ tấn công sẽ nhận được mọi lưu lượng dành cho nạn nhân và có thể vượt qua tính năng lọc MAC (MAC filtering) trên các Access Point không dây.
-- Trên Windows: Người dùng có thể đổi địa chỉ MAC trong cài đặt (Network and Internet -> Ethernet Properties -> Advanced tab -> Network Address) hoặc bằng cách chỉnh sửa Windows Registry (`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class...`).
+- Trên Windows: Người dùng có thể đổi địa chỉ MAC trong cài đặt (Network and Internet -> Ethernet Properties -> Advanced tab -> Network Address) hoặc bằng cách chỉnh sửa Windows Registry tại đường dẫn: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}`. Tại đây, tạo một giá trị chuỗi (String value) mới tên là `NetworkAddress` và nhập địa chỉ MAC mới. [Trang 1329]
 - Công cụ: MAC Address Changer, SMAC, TMAC, Change MAC Address, Mac Changer, AMC.
 - Phòng ngừa: Sử dụng DHCP snooping binding table, Dynamic ARP Inspection, IP Source Guard, cấu hình Port Security trên switch, hoặc các chuẩn mã hóa như WPA3 và IEEE 802.1X.
 
@@ -92,6 +92,8 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 - **Stealing Passwords:** Đánh cắp tên người dùng và mật khẩu.
 - **DoS Attack:** Gắn nhiều địa chỉ IP vào một địa chỉ MAC duy nhất, làm quá tải lưu lượng mục tiêu.
 - Công cụ: `arpspoof`, Habu, `bettercap`, `Ettercap`, RITM, ARP Spoofer, `larp`.
+  - **Cú pháp lệnh arpspoof:** `arpspoof -i [Interface] -t [Target Host]`
+  - **Tính năng của Habu:** Là một toolkit hacking cung cấp nhiều lệnh để thực hiện các cuộc tấn công như: ARP poisoning và sniffing, DHCP discovery và starvation, Nhận diện Subdomain, Sao chép chứng chỉ (Certificate cloning), Phân tích TCP (ISN, flags), Kiểm tra Username trên mạng xã hội, và Nhận diện công nghệ Web. [Trang 1317 - 1318]
 - Phòng ngừa: Triển khai Dynamic ARP Inspection (DAI), tính năng này kiểm tra tính hợp lệ của cặp IP-MAC dựa vào cơ sở dữ liệu DHCP snooping binding table. Nếu nhận thấy ARP reply không khớp, switch sẽ loại bỏ (discard) gói tin đó.
 
 **Cấu hình Dynamic ARP Inspection (DAI) trên Switch Cisco [Trang 1320 - 1324]:**
@@ -207,6 +209,7 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
 **Các lệnh cấu hình bảo vệ DHCP trên Switch Cisco & Juniper [Trang 1307 - 1311]:**
 
 - **Bật DHCP Snooping (Cisco):** `ip dhcp snooping` (bật toàn cầu). `ip dhcp snooping vlan <số vlan>` (bật trên VLAN cụ thể). `ip dhcp snooping trust` (cấu hình cổng kết nối tới DHCP server thật là cổng đáng tin cậy). `ip dhcp snooping limit rate <số>` (giới hạn gói tin DHCP mỗi giây để chống DoS/Starvation).
+  - `no ip dhcp snooping information option`: Lệnh bổ sung dùng để vô hiệu hóa việc chèn và xóa trường option-82 trong các gói tin DHCP. [Trang 1309]
 - **MAC Limiting trên Switch Juniper (Chống Starvation):** `set interface ge-0/0/1 mac-limit 3 action drop` (Giới hạn tối đa 3 địa chỉ MAC trên giao diện, nếu vượt quá sẽ drop gói tin).
 - **DHCP Filtering (Juniper):** `config -> interface 0/11 -> <IP address> dhcp filtering trust` (Chỉ định cổng tin cậy nhận gói DHCP).
   - Công cụ: `mitm6`, Ettercap, Gobbler.

@@ -101,6 +101,14 @@ Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phá
   - `inurl:/sslvpn/Login/Login` (Tìm portal đăng nhập VPN).
   - `intitle:"index of" /etc/openvpn/` (Tìm các thư mục chứa dữ liệu cấu hình VPN).
   - `"-----BEGIN OpenVPN Static key V1-----" ext:key` (Tìm các static keys của OpenVPN lộ lọt).
+  - **Một số Google Dorks tìm kiếm VPN nâng cao khác (Bảng 2.1)** [Trang 141]:
+    - `inurl:"/sslvpn_logon.shtml" intitle:"User Authentication" "WatchGuard Technologies"` (Tìm cổng đăng nhập WatchGuard).
+    - `inurl:weblogin intitle:("USG20-VPN" | "USG20W-VPN" ...)` (Tìm lỗ hổng mật khẩu mặc định/hardcoded của Zyxel).
+    - `intext:Please Login SSL VPN inurl:remote/login intext:FortiClient` (Tìm trang đăng nhập Fortinet VPN).
+    - `intitle:"index of" "vpn-config.*"` (Lấy các tệp cấu hình vpn-config).
+    - `Index of / *.ovpn` (Tìm tệp cấu hình, chứng chỉ và keys của OpenVPN).
+    - `inurl:"/vpn/tmindex.html" vpn` (Tìm cổng đăng nhập VPN của Netscaler và Citrix Gateway).
+    - `intitle:"SSL VPN Service" + intext:"Your system administrator provided the following information..."` (Tìm trang đăng nhập Cisco ASA).
 - **Công cụ SearchSploit**: Cho phép tìm kiếm ngoại tuyến (offline) kho dữ liệu của Exploit-DB/GHDB qua dòng lệnh.
 
 ### Các kỹ thuật tìm kiếm nâng cao khác (Trang 146 - 150)
@@ -171,6 +179,27 @@ Kẻ tấn công thu thập thông tin từ các trang web tuyển dụng (như 
   - `filetype:pdf site:onion confidential` (Tìm PDF nhạy cảm).
   - `intitle:"index of" /etc/openvpn/` (Tìm thư mục VPN).
   - `inurl:config filetype:txt password` (Tìm cấu hình chứa mật khẩu).
+  - **Tìm kiếm Dark Web với các Tham số Tìm kiếm Nâng cao (Advanced Search Parameters) [Trang 174 - 176]:**
+    - Hồ sơ cá nhân (Personal profiles): `"John Doe" site:facebook.com OR site:linkedin.com`
+    - Ấn phẩm khoa học (Scientific publications): `"John Doe" site:scholar.google.com`
+    - Hồ sơ tòa án (Court records): `"John Doe" court records`
+    - Danh bạ thành viên (Member directories): `"John Doe" site:example.com "employee directory"`
+    - Hồ sơ y tế (Medical records): `"John Doe" medical records`
+    - Hồ sơ vị trí (Location records): `"John Doe" location history`
+  - **Bảng truy vấn Dark Web mở rộng (Dành cho Tor Browser) [Trang 174 - 176]:**
+    - `filetype:xlsx site:onion financial` (Định vị dữ liệu tài chính/Excel).
+    - `filetype:sql site:onion dump` (Tìm các bản dump cơ sở dữ liệu SQL).
+    - `filetype:csv site:onion email` (Tìm danh sách email).
+    - `intitle:"login credentials" filetype:docx` (Tìm tài liệu Word chứa thông tin đăng nhập).
+    - `filetype:xml inurl:config server` (Tìm tệp XML cấu hình máy chủ).
+    - `filetype:key site:onion private` (Tìm các tệp khóa riêng tư/private keys).
+    - `filetype:pdf site:onion "medical records"` (Tìm hồ sơ y tế).
+    - `filetype:ppt site:onion "business plan"` (Tìm kế hoạch kinh doanh).
+    - `filetype:py site:onion "def "` (Tìm tệp mã nguồn Python).
+    - `filetype:docx site:onion "legal document"` (Tìm tài liệu pháp lý).
+    - `filetype:pdf site:onion "bank statement"` (Tìm sao kê ngân hàng).
+    - `filetype:pdf inurl:patent confidential` (Tìm tài liệu sở hữu trí tuệ/bằng sáng chế mật).
+    - `filetype:txt inurl:exploit "security vulnerability"` (Tìm tệp văn bản chi tiết về lỗ hổng).
 
 ### Phát hiện hệ điều hành - OS detection (Trang 177 - 179)
 
@@ -199,6 +228,9 @@ Quá trình này giúp kẻ tấn công thu thập kế hoạch, chiến lược
 - **Thông tin từ dịch vụ tài chính (Financial Services)**: Dùng Google Finance, MSN Money, Yahoo Finance để theo dõi tình hình thị trường, thông cáo báo chí tài chính để tìm hiểu công ty.
 - **Hồ sơ doanh nghiệp (Business Profile Sites)**: Dùng các nền tảng như opencorporates, Crunchbase, corporationwiki để tìm địa chỉ, hệ thống nhân viên và cơ cấu phòng ban.
 - **Theo dõi mục tiêu bằng Alerts (Cảnh báo)**: Dùng Google Alerts, X Alerts, Giga Alerts để thiết lập cảnh báo thời gian thực về email hoặc SMS bất cứ khi nào tên tổ chức/nhân sự được nhắc đến trên tin tức hoặc mạng xã hội.
+  - **Theo dõi Danh tiếng Trực tuyến của Mục tiêu (Tracking the Online Reputation of the Target) [Trang 192]**:
+    - Quản lý danh tiếng trực tuyến (Online Reputation Management - ORM) là quá trình theo dõi những gì hiển thị khi ai đó tìm kiếm danh tiếng công ty trên Internet. Các tổ chức thường theo dõi phản hồi công khai để cải thiện độ tin cậy. Sự minh bạch này có thể giúp kẻ tấn công thu thập thông tin xác thực về mục tiêu.
+    - **Các công cụ theo dõi danh tiếng trực tuyến (Online Reputation Tracking Tools)**: Kẻ tấn công sử dụng các công cụ như Mention, ReviewPush, và Reputology để theo dõi các cuộc trò chuyện, thứ hạng tìm kiếm, nhận thông báo qua email khi công ty được nhắc đến và thu thập tin tức xã hội về tổ chức mục tiêu.
 - **Thu thập từ Group, Diễn đàn và Blog**: Kẻ tấn công thường tạo tài khoản giả mạo (Fake profile) tham gia vào Google Groups hoặc LinkedIn Groups của công ty để thu thập thông tin cá nhân và tổ chức bị rò rỉ (employee pictures, work location, email, v.v.).
 
 ### Kho mã nguồn công khai (Trang 194 - 195)
@@ -256,6 +288,13 @@ RIRs duy trì các cơ sở dữ liệu Whois chứa thông tin cá nhân của 
 
 ## DNS Footprinting
 
+- **Các lệnh thực thi quét DNS bằng Fierce [Trang 222 - 224]:**
+  - Quét cơ bản: `fierce --domain <target_domain>`
+  - Quét các subdomain cụ thể (như write, admin, mail): `fierce -domain <target_domain> -subdomains write admin mail`
+  - Quét các khối IP liền kề (với phạm vi 10): `fierce -domain <target_domain> -subdomains mail -traverse 10`
+  - Thử kết nối HTTP trên các subdomain đã phát hiện: `fierce --domain <target_domain> --subdomains mail --connect`
+  - Quét chi tiết toàn diện (full detailed scan): `fierce --domain <target_domain> --wide`
+
 ### Các loại bản ghi DNS (DNS Record types) (Trang 220)
 
 Thu thập thông tin DNS tiết lộ dữ liệu vùng DNS (DNS zone data) bao gồm tên miền, tên máy tính, địa chỉ IP và nhiều thông tin khác. Các bản ghi DNS giúp xác định mục tiêu:
@@ -311,6 +350,18 @@ Traceroute sử dụng giao thức ICMP và trường Time to Live (TTL) trong I
 
 ---
 
+- **Thông tin thu thập được qua các công cụ Theo dõi Email (Email Tracking) [Trang 242]:**
+  - **IP hệ thống của người nhận (Recipient's System IP address):** Cho phép theo dõi địa chỉ IP của người nhận.
+  - **Vị trí địa lý (Geolocation):** Ước tính và hiển thị vị trí người nhận trên bản đồ, tính khoảng cách từ kẻ tấn công.
+  - **Email được nhận và đọc (Email Received and Read):** Thông báo cho kẻ tấn công biết khi nào email được mở.
+  - **Thời gian đọc (Read Duration):** Thời gian người nhận dành để đọc email.
+  - **Phát hiện Proxy (Proxy Detection):** Thông tin về loại máy chủ mà người nhận đang sử dụng.
+  - **Liên kết (Links):** Kiểm tra xem người nhận đã nhấp vào các liên kết đính kèm hay chưa.
+  - **Hệ điều hành và Trình duyệt (OS and Browser info):** Thông tin giúp kẻ tấn công tìm lỗ hổng tương ứng để khai thác.
+  - **Chuyển tiếp (Forward Email):** Xác định xem email có được chuyển tiếp cho người khác hay không.
+  - **Loại thiết bị (Device Type):** Máy tính để bàn, thiết bị di động hay laptop.
+  - **Đường đi (Path Travelled):** Theo dõi các Mail Transfer Agents mà email đã đi qua.
+
 ## Theo dõi Email (Email Tracking Tools) (Trang 244 - 246)
 
 Công cụ theo dõi email:
@@ -327,6 +378,25 @@ Email Header chứa nhiều thông tin chi tiết dùng để truy vết nguồn
 - **Thông tin Thiết bị, Hệ điều hành và Trình duyệt**: Cho biết loại máy tính (laptop/mobile) và trình duyệt người nhận đang dùng để hacker tìm lỗ hổng tương ứng.
 - **Path Travelled (Đường đi)**: Lưu lại các email transfer agents (mail servers) mà email đã đi qua từ nguồn đến đích.
 - **Các nền tảng email phổ biến**: eM Client, Mailbird, Hiri, Mozilla Thunderbird, Spike, Claws Mail, Outlook, Apple Mail, ProtonMail. Kẻ tấn công trích xuất thông tin Header và dùng các công cụ phân tích tự động.
+- **Bảng thu thập thông tin thông qua hoạt động của Người dùng (What Users Do / What Attacker Gets) [Trang 249 - 250]:**
+  - Duy trì hồ sơ (Maintain profile) $\rightarrow$ Lấy được thông tin liên hệ, vị trí.
+  - Kết nối bạn bè, chat $\rightarrow$ Lấy được danh sách bạn bè, thông tin bạn bè.
+  - Chia sẻ hình ảnh, video $\rightarrow$ Biết được danh tính thành viên gia đình, sở thích.
+  - Chơi game, tham gia nhóm $\rightarrow$ Biết được sở thích (Interests).
+  - Tạo sự kiện (Create events) $\rightarrow$ Biết được các hoạt động (Activities).
+- **Bảng thu thập thông tin thông qua hoạt động của Tổ chức (What Organizations Do / What Attacker Gets) [Trang 249 - 250]:**
+  - Khảo sát người dùng (User surveys) $\rightarrow$ Lộ chiến lược kinh doanh.
+  - Quảng bá sản phẩm $\rightarrow$ Lộ hồ sơ sản phẩm.
+  - Hỗ trợ người dùng $\rightarrow$ Tạo đà cho Social engineering.
+  - Tuyển dụng (Recruitment) $\rightarrow$ Lộ thông tin về Nền tảng/Công nghệ đang dùng.
+  - Kiểm tra lý lịch nhân viên $\rightarrow$ Lộ loại hình kinh doanh.
+- **Một số công cụ Footprinting bổ sung [Trang 261]:**
+  - **Sudomy** (`https://github.com`)
+  - **whatweb** (`https://github.com`)
+  - **Raccoon** (`https://github.com`)
+  - **Orb** (`https://github.com`)
+  - **Web Check** (`https://web-check.xyz`)
+  - **OSINT.SH** (`https://osint.sh`)
 
 ---
 

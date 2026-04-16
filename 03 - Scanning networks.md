@@ -1,5 +1,20 @@
 ## Giới thiệu
 
+**Phân loại Quét mạng (Types of Scanning) [Trang 284 - 285]:**
+
+- **Port Scanning (Quét cổng):** Liệt kê các cổng và dịch vụ đang mở. Quá trình này kết nối hoặc thăm dò các cổng TCP/UDP của hệ thống mục tiêu để xem các dịch vụ có đang ở trạng thái lắng nghe (listening) hay không.
+- **Network Scanning (Quét mạng):** Quy trình xác định các máy chủ (hosts) đang hoạt động và địa chỉ IP của chúng trên mạng để chuẩn bị tấn công hoặc đánh giá bảo mật.
+- **Vulnerability Scanning (Quét lỗ hổng):** Phương pháp kiểm tra xem hệ thống có thể bị khai thác hay không bằng cách xác định các điểm yếu/lỗ hổng đã biết thông qua cơ sở dữ liệu lỗ hổng.
+
+**Mục tiêu của Quét mạng (Objectives of Network Scanning) [Trang 284 - 285]:**
+
+- Phát hiện các live hosts, địa chỉ IP và các cổng đang mở trên mạng.
+- Khám phá Hệ điều hành (OS) và kiến trúc hệ thống của mục tiêu (còn gọi là OS fingerprinting).
+- Khám phá các dịch vụ đang chạy/lắng nghe trên hệ thống mục tiêu để tìm ra lỗ hổng có thể bị khai thác.
+- Xác định các ứng dụng cụ thể hoặc phiên bản của một dịch vụ cụ thể.
+- Nhận diện các lỗ hổng trên bất kỳ hệ thống mạng nào.
+- Vẽ sơ đồ cấu trúc liên kết mạng (Network topology), bao gồm thiết bị, router, switch và sự kết nối giữa chúng.
+
 ### 1. TCP Communication Flags (Cờ giao tiếp TCP) - Trang 286-287
 
 Tiêu đề TCP chứa 6 cờ kiểm soát (mỗi cờ kích thước 1 bit) để quản lý kết nối giữa các host:
@@ -302,7 +317,10 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
 
 - **Thăm dò TTL trực tiếp (Direct TTL Probes):** Gửi một gói tin đến host bị nghi ngờ là IP giả mạo và so sánh TTL trả về với TTL của gói tin đang kiểm tra. Nếu không khớp hoặc thuộc giao thức khác, kẻ tấn công có thể đã giả mạo IP (Kỹ thuật này thành công khi kẻ tấn công và nạn nhân khác Subnet).
 - **Dựa vào số định danh IP (IP Identification Number - IPID):** Gửi gói tin dò tìm và kiểm tra IPID. Vì IPID tăng dần đều đặn, nếu giá trị IPID của gói tin đang kiểm tra không có giá trị gần với IPID phản hồi từ máy thật, chứng tỏ gói đó bị giả mạo. (Hoạt động tốt ngay cả khi hacker ở cùng Subnet).
-- **Phương pháp kiểm soát luồng TCP (TCP Flow Control Method):** Lợi dụng kích thước cửa sổ trượt (sliding window). Kẻ tấn công gửi gói tin SYN giả mạo sẽ không nhận được SYN-ACK (vì gói này chạy về máy nạn nhân thật). Khi cửa sổ luồng (window size) đã hết, nếu dữ liệu vẫn tiếp tục được gửi tới, chứng tỏ gói tin đó là giả mạo.
+  - Đảm bảo **TCP wrappers** giới hạn quyền truy cập vào mạng dựa trên tên miền hoặc địa chỉ IP.
+  - Sử dụng proxy servers để chặn các gói tin bị phân mảnh (fragmented) hoặc có định dạng sai (malformed).
+  - Triển khai **Egress filtering** (Lọc đầu ra) để kiểm soát lưu lượng gửi ra ngoài, giúp phát hiện và chặn các host nội bộ chứa mã độc đang cố quét mục tiêu bên ngoài.
+- **Banner Grabbing Countermeasures (Phòng chống bắt cờ):**d):\*\* Lợi dụng kích thước cửa sổ trượt (sliding window). Kẻ tấn công gửi gói tin SYN giả mạo sẽ không nhận được SYN-ACK (vì gói này chạy về máy nạn nhân thật). Khi cửa sổ luồng (window size) đã hết, nếu dữ liệu vẫn tiếp tục được gửi tới, chứng tỏ gói tin đó là giả mạo.
 
 ### 9. Biện pháp phòng chống quét mạng (Network Scanning Countermeasures) (Trang 408 - 421)
 
@@ -321,7 +339,16 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
   - Tắt các header trả về không cần thiết. Trên Apache, đổi cấu hình trong `httpd.conf` (ví dụ: dùng module `mod_headers`, sửa `ServerTokens Prod`, `ServerSignature Off`).
   - Đánh lừa attacker bằng cách sửa giá trị `AlternateServerName`.
   - Ẩn/Sửa đuôi mở rộng file (`.asp` thành `.htm`) bằng các chỉ thị như `mod_negotiation` (Apache).
+  - Sửa đổi giá trị **RemoveServerHeader** từ 0 thành 1 trong tệp cấu hình `UrlScan.ini` để ngăn việc tiết lộ phiên bản máy chủ.
+  - Vô hiệu hóa các phương thức HTTP không sử dụng như Connect, Put, Delete, và Options trên các web application servers.
+  - Xóa header `X-Powered-By` bằng cách sử dụng tùy chọn `customHeaders` trong phần `<system.webServer>` của tệp `web.config`.
+  - Sử dụng Transport Layer Security (TLS) cho các dịch vụ để mã hóa thông tin banner trong quá trình bắt tay, gây khó khăn cho việc lấy cờ.
 - **IP Spoofing Countermeasures (Phòng chống IP Spoofing):**
+  - Di chuyển từ IPv4 sang IPv6 và triển khai biến đổi địa chỉ IPv6 động (dynamic IPv6 address variation) bằng trình tạo địa chỉ ngẫu nhiên.
+  - Triển khai các cơ chế xác thực chứng chỉ số như xác thực chứng chỉ hai chiều (two-way auth certificate verification).
+  - Sử dụng các thiết bị giảm nhẹ rủi ro chuyên dụng cho ứng dụng, chẳng hạn như **Behemoth scrubbers** để kiểm tra gói tin sâu ở tốc độ cao (khoảng 100 triệu packets/s).
+  - Cấu hình router để xác minh các gói dữ liệu bằng chữ ký (lưu trữ data packet digests).
+  - Cấu hình switch nội bộ lập bảng địa chỉ DHCP tĩnh để lọc lưu lượng giả mạo độc hại.
   - Tuyệt đối không sử dụng các cơ chế "Xác thực dựa trên IP" (IP-based authentication).
   - Sử dụng Số thứ tự khởi tạo ngẫu nhiên (Random Initial Sequence Numbers - ISNs) để tránh hacker đoán được kết nối.
   - Thực hiện Ingress Filtering (Lọc đầu vào - chặn gói tin đi vào mạng có Source IP không hợp lệ) và Egress Filtering (Lọc đầu ra - chặn gói tin đi ra khỏi mạng mang Source IP không nằm trong mạng nội bộ).

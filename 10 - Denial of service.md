@@ -41,6 +41,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Phương thức lây nhiễm:** Ứng dụng độc hại trên Google Play Store hoặc thông qua tải xuống ẩn (drive-by downloads).
 - **Cách thức hoạt động:** Kẻ tấn công nhúng (binds) máy chủ APK độc hại vào một gói ứng dụng Android hợp pháp, mã hóa nó, gỡ bỏ các tính năng không mong muốn và tung lên các chợ ứng dụng bên thứ ba.
 - Khi người dùng bị lừa tải xuống và cài đặt, kẻ tấn công giành toàn quyền kiểm soát thiết bị, biến nó thành công cụ để thực hiện tấn công DDoS và tiêm nhiễm web (web injections).
+- **Tin tặc quảng cáo các liên kết để tải xuống Botnet (Hackers Advertise Links for Downloading Botnets)** [Trang 1479]: Tin tặc quảng cáo botnet trên các blog, công cụ tìm kiếm, trang mạng xã hội, email, v.v. bằng các liên kết tải xuống. Chúng cũng sử dụng các bản cập nhật và cảnh báo bảo mật giả mạo (như thông báo virus hoặc yêu cầu cập nhật phần mềm) để lừa nạn nhân tải xuống phần mềm độc hại. Mục đích là để lây lan nhanh chóng botnet và gia tăng quy mô của mạng lưới tấn công.
 
 ## 3. Nghiên cứu trường hợp DDoS (DDoS Case Study) [Trang 1481 - 1483]
 
@@ -85,6 +86,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Zero-day DDoS** [Trang 1493]: Khai thác các lỗ hổng DoS chưa có bản vá hoặc chưa có cơ chế phòng thủ hiệu quả. Kẻ tấn công chủ động chặn tài nguyên và đánh cắp dữ liệu trước khi nạn nhân kịp nhận ra và tung ra bản vá.
 - **NTP amplification (NTP amplification attack)** [Trang 1494 - 1495]: Kẻ tấn công dùng botnet gửi gói UDP với IP nguồn giả mạo (IP của nạn nhân) tới máy chủ NTP có bật lệnh `monlist`. Lệnh này kích hoạt phản hồi một danh sách lớn các máy khách (large response packets), làm ngập lụt mạng nạn nhân.
   - _Ví dụ lệnh kiểm tra_: `nmap -sU -pU:123 -Pn -n --script=ntp-monlist <target>`
+  - _(Biện pháp phòng chống)_ [Trang 1495]: Bảo mật và củng cố cấu hình máy chủ NTP để ngăn chặn việc khai thác lỗ hổng monlist. Giới hạn kiểm soát luồng (flow control) trong máy chủ NTP. Thường xuyên giám sát mạng để phát hiện các hành vi bất thường. Triển khai kiến trúc mạng Zero-trust. Sử dụng tường lửa để lọc các yêu cầu tới máy chủ NTP.
 - **SYN flood (SYN flood attack)** [Trang 1496 - 1498]: Lạm dụng cơ chế bắt tay 3 bước (three-way handshake) của TCP. Kẻ tấn công gửi lượng lớn SYN với IP nguồn giả. Máy chủ trả lời bằng SYN/ACK và chờ gói ACK cuối cùng (lưu trong "listen queue" ít nhất 75 giây). Hàng đợi đầy khiến máy chủ không thể nhận kết nối mới.
   - _(Bổ sung từ nguồn)_ Có các biến thể khác như SYN-ACK Flood và ACK / PUSH ACK Flood.
   - _(Biện pháp phòng chống SYN Flood)_ [Trang 1498]: Lọc gói tin (Packet filtering), cấu hình tính năng **SYN cookies** và **SynAttackProtect**. Quản trị viên cũng có thể tinh chỉnh TCP/IP stack: giảm thời gian chờ (time-out) của kết nối đang ở trạng thái “SYN RECEIVED”, giảm số lần truyền lại (retransmissions) gói ACK đầu tiên hoặc tắt hoàn toàn tính năng truyền lại.
@@ -100,8 +102,11 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Peer-to-peer DDoS** [Trang 1505 - 1506]: Không sử dụng botnet. Kẻ tấn công khai thác lỗi trên giao thức DC++ (Direct Connect), ra lệnh cho hàng ngàn máy khách đang chia sẻ file P2P ngắt kết nối mạng P2P và đồng loạt kết nối tới website của nạn nhân.
 - **Permanent Denial-of-Service (PDoS / Phlashing)** [Trang 1507]: Gây hỏng phần cứng vĩnh viễn (gọi là "bricking a system"). Kẻ tấn công gửi bản cập nhật firmware giả mạo, chứa lỗi (qua email, mạng xã hội, video). Khi nạn nhân cài đặt, thiết bị mạng (router, máy in) bị phá hủy hoặc bị chiếm quyền điều khiển từ xa hoàn toàn.
 - **TCP SACK panic** [Trang 1508]: Khai thác lỗ hổng tràn số nguyên (integer overflow) trên bộ đệm socket (SKB) của Linux. Kẻ tấn công gửi chuỗi gói SACK với giá trị MSS (Maximum segment size) cực thấp (48 bytes), khiến số lượng phân đoạn cần truyền lại vượt quá giới hạn 17 phân đoạn của bộ đệm, dẫn tới lỗi kernel panic và sập hệ thống.
+  - _(Biện pháp phòng chống)_: Triển khai vá lỗ hổng (vulnerability patching). Thiết lập quy tắc tường lửa (firewall rule) để chặn các gói tin yêu cầu có giá trị MSS thấp nhất.
 - **Distributed Reflection DDoS (DRDoS / Spoofed attack)** [Trang 1509 - 1510]: Tấn công giả mạo nguồn thông qua hàng loạt máy trung gian (zombies) và máy phản xạ (reflectors). Gửi TCP SYN (với IP nguồn là máy nạn nhân) tới reflector, reflector tin rằng nạn nhân yêu cầu kết nối nên đồng loạt dội ngược gói SYN/ACK về phía nạn nhân với băng thông khổng lồ.
+  - _(Biện pháp phòng chống)_: Tắt dịch vụ Character Generator Protocol (CHARGEN) để ngăn chặn phương thức tấn công này. Liên tục tải xuống các bản cập nhật và bản vá mới nhất cho máy chủ.
 - **Ransom DDoS (RDDoS)** [Trang 1510 - 1511]: Tấn công tống tiền. Kẻ tấn công gửi thư đe dọa (có thể kèm theo một đợt DDoS mẫu bằng botnet) yêu cầu trả tiền chuộc bằng tiền ảo để không bị đánh sập hệ thống.
+  - _(Biện pháp phòng chống)_: Triển khai các công cụ phòng thủ DDoS hiệu quả. Báo cáo ngay cho các cơ quan thực thi pháp luật và đội ngũ bảo mật sau khi nhận được thư tống tiền. Thường xuyên đánh giá mức độ chấp nhận rủi ro của tài sản (risk tolerance). Triển khai các chiến lược giảm nhẹ như BGP/DNS swing và dịch vụ bảo vệ luôn bật (always-on protection service).
 
 ## 6. Bộ công cụ tấn công (Attack Toolkits) [Trang 1512 - 1514]
 
@@ -137,6 +142,15 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Lọc hố đen (Black Hole Filtering / RTBH):** Định tuyến lưu lượng truy cập không mong muốn vào một "hố đen" (null0) tại cấp độ định tuyến thông qua giao thức BGP để loại bỏ chúng trước khi tiến vào mạng nội bộ.
 - **Dịch vụ phòng chống DDoS từ ISP:** ISP sử dụng tính năng "IP Source Guard" kết hợp cơ sở dữ liệu ràng buộc "DHCP snooping binding" để chặn botnet gửi các gói tin có IP giả mạo.
 
+**Các biện pháp bảo vệ và phát hiện chi tiết [Trang 1519 - 1522]:**
+
+- **Bảo vệ nạn nhân phụ (Protect Secondary Victims):**
+  - **Người dùng cá nhân (Individual Users):** Cần thường xuyên theo dõi bảo mật, cài đặt và cập nhật phần mềm diệt virus/anti-Trojan, tắt các dịch vụ không cần thiết, gỡ cài đặt các ứng dụng không dùng đến và quét tất cả các tệp nhận được từ bên ngoài để tránh hệ thống bị lợi dụng làm phần mềm DDoS agent.
+  - **Nhà cung cấp dịch vụ mạng (Network Service Providers):** Có thể áp dụng định giá động (dynamic pricing) cho việc sử dụng mạng để tính phí những nạn nhân phụ tiềm năng khi truy cập Internet, qua đó khuyến khích họ chủ động hơn trong việc tự bảo vệ mình khỏi việc trở thành một phần của cuộc tấn công DDoS.
+- **Phát hiện và vô hiệu hóa trình xử lý (Detect and Neutralize Handlers):** Phân tích giao thức truyền thông và mẫu lưu lượng (traffic patterns) giữa handlers và clients hoặc handlers và agents để phát hiện ra các nút mạng bị nhiễm. Do số lượng handlers (máy điều khiển) thường ít hơn rất nhiều so với agents, việc vô hiệu hóa một vài handlers có thể vô hiệu hóa hàng loạt agents.
+- **Cơ chế chi tiết của TCP Intercept:** TCP Intercept hoạt động ở 2 chế độ: Chế độ chặn chủ động (Active intercept mode) - router trực tiếp đánh chặn gói SYN, tự thực hiện bắt tay 3 bước với client thay cho server, sau khi thành công mới kết nối với server; và Chế độ theo dõi thụ động (Passive watch mode) - router chỉ quan sát kết nối đi qua, nếu kết nối không được thành lập trong vòng 30 giây, nó sẽ tự động gửi lệnh reset tới server để xóa trạng thái.
+- **Chi tiết Rate Limiting (Giới hạn tốc độ):** Kiểm soát tỷ lệ lưu lượng đi ra hoặc đi vào của thiết bị mạng. Kỹ thuật này thường được cấu hình trên phần cứng thiết bị mạng để giới hạn tỷ lệ yêu cầu ở Lớp 4 và Lớp 5 của mô hình OSI.
+
 ### 7.4. Các biện pháp phòng ngừa DoS/DDoS bổ sung [Trang 1530 - 1531]
 
 - Sử dụng mã hóa mạnh (WPA2/WPA3, AES 256).
@@ -168,9 +182,25 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Cloudflare:** Sử dụng mạng lưới 100 Tbps để chặn 87 tỷ mối đe dọa mỗi ngày, phản hồi cực nhanh dưới 3 giây bằng kỹ thuật bảo vệ qua BGP và Lớp 7.
 - **Akamai DDoS Protection:** Sử dụng cơ sở hạ tầng đám mây chuyên dụng để chặn mã độc và lưu lượng xấu ngay trên Internet trước khi chúng chạm tới tường lửa của tổ chức.
 - _(Các dịch vụ khác)_: **Stormwall PRO**, **Imperva DDoS Protection**, **Nexusguard**, **BlockDoS**, **F5 DDoS Attack Protection**, **DOSarrest**.
+
+**Phần mềm bảo vệ DoS/DDoS (DoS/DDoS Protection Tools) [Trang 1537]:**
+
+- **Anti DDoS Guardian:** Công cụ bảo vệ chống tấn công DDoS mạnh mẽ dành cho máy chủ IIS, Apache, máy chủ trò chơi, Camfrog, máy chủ mail, máy chủ FTP, VOIP PBX, SIP servers và các hệ thống tương tự. Công cụ này giám sát luồng mạng theo thời gian thực và cho phép thiết lập giới hạn với: số lượng luồng mạng, băng thông của máy khách, số lượng kết nối TCP đồng thời của máy khách và tỷ lệ kết nối TCP. Nó cũng giới hạn băng thông UDP, tỷ lệ kết nối UDP và tỷ lệ gói tin UDP.
 - Sử dụng "cognitive radios" ở lớp vật lý để chống nhiễu sóng (jamming/scrambling).
 - Triển khai hệ thống phát hiện bất thường bằng AI/ML để tự động đánh dấu các sai lệch trong hành vi lưu lượng.
 - Sử dụng mô hình phân phối máy chủ (distributed server) và dịch vụ máy chủ dùng chung (colocation) để dự phòng.
+- Cấu hình tường lửa để từ chối các lưu lượng mạng truy cập từ bên ngoài bằng giao thức Internet Control Message Protocol (ICMP).
+- Bảo mật quản trị từ xa và thường xuyên kiểm tra kết nối (connectivity testing).
+- Thực hiện xác thực đầu vào kỹ lưỡng (thorough input validation).
+- Ngăn chặn việc sử dụng các hàm lập trình không an toàn hoặc không cần thiết như `gets` và `strcpy`.
+- Sử dụng các công nghệ giám sát cấp mạng tiên tiến để giám sát vành đai mạng (network perimeter).
+- Đảm bảo các kết nối bán truy cập (semi-accessible connections) được kích hoạt với chức năng time-out một cách quyết đoán.
+- Đảm bảo các máy chủ luôn không có các điểm nghẽn (bottlenecks) và điểm lỗi.
+- Sử dụng các dịch vụ bảo vệ của bên thứ ba để tăng cường khả năng chịu tải trước các cuộc tấn công DDoS lớn.
+- Sử dụng mô hình triển khai đa đám mây (multi-cloud deployment) cho các ứng dụng chính để đảm bảo tính sẵn sàng sao lưu đúng cách.
+- Thực hiện mô phỏng mở rộng (extensive simulations) các cuộc tấn công DoS/DDoS để tránh tình trạng gia tăng đột ngột và duy trì chiến lược đối phó phù hợp.
+- Chia sẻ thông tin với các đối tác trong ngành và tận dụng nguồn cấp dữ liệu tình báo mối đe dọa (threat intelligence feeds) để cập nhật xu hướng tấn công DDoS.
+- Giới hạn hoạt động phát sóng mạng (network broadcasting).
 
 ### 7.5.
 

@@ -69,6 +69,10 @@ Kẻ tấn công thu thập lượng lớn session ID cùng lúc, phân tích th
 - **Không gian token nhỏ (Small token space):** Nếu số lượng token có thể có là quá nhỏ (vd: giới hạn 10.000 giá trị), kẻ tấn công có thể viết script brute-force toàn bộ.
 - **Thiếu giới hạn tốc độ (Lack of rate-limiting):** Không có rate-limiting cho phép kẻ tấn công thực hiện đoán (brute-force) hàng ngàn token liên tục mà không bị hệ thống chặn.
 - **Bộ sinh số ngẫu nhiên yếu (Weak PRNG):** Bộ tạo số giả ngẫu nhiên không thực sự ngẫu nhiên hoặc được tạo seed (hạt giống) kém, ví dụ như dùng thời gian hiện tại làm seed, sẽ giúp kẻ tấn công sao chép lại quy trình tạo token.
+- **Các bước thực hiện tấn công bằng kỹ thuật Brute-force / Dự đoán token [Trang 1563]:**
+  1. Kẻ tấn công thu thập Session ID hiện tại và kết nối với ứng dụng web.
+  2. Kẻ tấn công áp dụng kỹ thuật brute-force hoặc tính toán Session ID tiếp theo.
+  3. Kẻ tấn công sửa đổi giá trị hiện tại trong cookie/URL/trường biểu mẫu ẩn và giả mạo danh tính của người dùng tiếp theo.
 
 ## 10. Cướp phiên bằng Man-in-the-Middle (MITM) [Trang 1564]
 
@@ -133,6 +137,12 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 - **Session Donation Attack (Tấn công quyên tặng phiên)** [Trang 1579 - 1580]:
   - Bản chất: Nạn nhân xác thực vào phiên của kẻ tấn công.
   - Cách thức: Kẻ tấn công tự đăng nhập để lấy Session ID hợp lệ, sau đó "quyên tặng" (donate) ID này cho nạn nhân qua một liên kết. Khi nạn nhân nhấp vào và nhập thông tin (thanh toán, mật khẩu), chi tiết đó sẽ bị liên kết/ghép nối trực tiếp vào tài khoản của kẻ tấn công.
+  - **Các bước thực hiện tấn công Session Donation:**
+    1. Đầu tiên, kẻ tấn công đăng nhập vào một dịch vụ, thiết lập kết nối hợp pháp với máy chủ web đích và xóa các thông tin được lưu trữ.
+    2. Máy chủ web đích phát hành một Session ID cho kẻ tấn công.
+    3. Sau đó, kẻ tấn công "quyên tặng" (donates) Session ID của chúng cho nạn nhân và dụ nạn nhân nhấp vào nó để truy cập trang web.
+    4. Nạn nhân nhấp vào liên kết, tin rằng đó là liên kết hợp pháp. Quá trình này mở trang của máy chủ trong trình duyệt của nạn nhân với Session ID của kẻ tấn công. Cuối cùng, nạn nhân nhập thông tin của họ vào trang và lưu lại.
+    5. Kẻ tấn công lúc này có thể đăng nhập bằng chính tài khoản của chúng và lấy được toàn bộ thông tin của nạn nhân.
 
 ## 13. Ghi nhớ (Memorization)
 
@@ -261,6 +271,19 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
   - Sử dụng các giải pháp IDS hoặc phần mềm ARPwatch để giám sát chống ARP Cache Poisoning.
   - Sử dụng SFTP, FTPS, AS2 có hỗ trợ mã hóa và chứng chỉ số thay vì FTP. Tắt cơ chế nén HTTP (tránh CRIME attack).
   - Chuyển đổi các mô hình mạng Hub cũ sang Switch.
+  - **Các nguyên tắc bảo vệ chung bổ sung** [Trang 1599 - 1601]:
+    - Tránh đưa Session ID vào URL hoặc query string.
+    - Đảm bảo phần mềm bảo vệ ở cả phía client và phía server luôn ở trạng thái hoạt động và được cập nhật mới nhất.
+    - Cấu hình các quy tắc chống giả mạo (spoof rules) nội bộ và bên ngoài phù hợp trên gateway.
+    - Cập nhật thường xuyên các bản vá nền tảng để khắc phục lỗ hổng TCP/IP (ví dụ: chuỗi gói tin có thể đoán được).
+    - Sử dụng các giao thức mã hóa có sẵn trong bộ OpenSSH.
+    - Sử dụng giải pháp dựa trên Microsoft (SMB signing) để kích hoạt chữ ký lưu lượng (traffic signing).
+    - Sử dụng xác thực đa yếu tố (MFA).
+    - Giám sát hoạt động của phiên để tìm các mẫu bất thường, chẳng hạn như có nhiều lần đăng nhập đồng thời từ các vị trí địa lý khác nhau.
+    - Ràng buộc (bind) phiên với địa chỉ IP của người dùng.
+    - Tận dụng sinh trắc học hành vi (behavioral biometrics) như nhịp gõ phím, di chuyển chuột và các mẫu điều hướng để xác thực liên tục.
+    - Triển khai cơ chế challenge-response (ví dụ: CAPTCHA) khi phát hiện hoạt động đáng ngờ.
+    - Áp dụng thời gian hết hạn tuyệt đối (absolute timeout) bất kể người dùng có đang hoạt động hay không.
 - **Hướng dẫn cho Nhà phát triển Web (Web Development Guidelines):**
   - Tái tạo (Regenerate) Session ID mới ngay sau khi người dùng đăng nhập thành công (Chống Session Fixation).
   - Mã hóa dữ liệu và session key truyền tải giữa người dùng và máy chủ (Sử dụng SSL/TLS).
@@ -269,11 +292,29 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
   - Đảm bảo thuộc tính `HTTPOnly` và `Secure` flag khi gửi cookies để tránh bị kịch bản phía máy khách (như XSS) trích xuất.
   - Xác minh IP và User-Agent của request hiện tại xem có khớp với nguồn tạo phiên ban đầu không.
   - Sử dụng thuộc tính `SameSite` cookie để ngăn trình duyệt gửi cookies trong các request chéo trang (Chống CSRF).
+  - **Hướng dẫn cho Nhà phát triển Web bổ sung** [Trang 1601 - 1602]:
+    - Không tạo phiên cho người dùng chưa được xác thực trừ khi thật sự cần thiết.
+    - Triển khai xác minh thiết bị liên tục (continuous device verification) để xác định xem người dùng thiết lập phiên có còn quyền kiểm soát hay không.
+    - Triển khai xác thực dựa trên rủi ro (risk-based authentication) ở các cấp độ khác nhau trước khi cấp quyền truy cập vào thông tin nhạy cảm.
+    - Hủy các phiên được liên kết ngay trên máy chủ (server-side) thay vì chỉ phụ thuộc vào thời gian hết hạn phiên khi người dùng hủy xác thực.
+    - Đảm bảo ứng dụng web có thể chuyển hướng các yêu cầu HTTP sang HTTPS bằng cài đặt máy chủ hoặc kỹ thuật chuyển hướng.
+    - Bắt buộc yêu cầu xác thực lại (re-authentication) và tạo phiên mới trước khi cho phép người dùng thực hiện các chức năng nhạy cảm.
+    - Dựa vào các web frameworks cung cấp Session ID bảo mật cao thay vì tự xây dựng cơ chế quản lý phiên riêng.
+    - Bắt buộc sử dụng HTTPS trên tất cả các trang của ứng dụng web, không chỉ riêng trang đăng nhập.
 - **Hướng dẫn cho Người dùng Web (Web User Guidelines):**
   - Không nhấp vào link lạ trong email, luôn sử dụng HTTPS khi nhập dữ liệu nhạy cảm.
   - Sử dụng nút Log-out thay vì chỉ nhấn dấu "X" để đóng trình duyệt.
   - Xóa bộ nhớ đệm (history, offline content, cookies) ngay sau mỗi phiên giao dịch quan trọng.
   - Vô hiệu hóa tính năng tự động kết nối Wi-Fi mở (Disable auto-connect) và tránh giao dịch tài chính trên Wi-Fi công cộng. Tránh lưu mật khẩu trên trình duyệt.
+  - **Hướng dẫn cho Người dùng Web bổ sung** [Trang 1602]:
+    - Đảm bảo trang web được chứng nhận bởi các Tổ chức cấp chứng chỉ (CA) phù hợp.
+    - Xác minh và vô hiệu hóa các tiện ích bổ sung (add-ons) từ các trang web không đáng tin cậy. Chỉ bật add-ons khi thực sự cần thiết.
+    - Thực hành sử dụng mật khẩu dùng một lần (OTP) cho các giao dịch dữ liệu quan trọng (ví dụ: thẻ tín dụng).
+    - Thường xuyên cập nhật cơ sở dữ liệu chữ ký diệt virus (anti-virus signatures) để ngăn chặn việc tự động cài đặt malware đánh cắp cookie.
+    - Đảm bảo hệ điều hành, trình duyệt web và các plugin đã cài đặt luôn được cập nhật.
+    - Sử dụng các dịch vụ email và nhắn tin được mã hóa để liên lạc thông tin nhạy cảm.
+    - Thận trọng khi cấp cho các ứng dụng quyền truy cập vào thông tin hoặc tính năng nhạy cảm trên thiết bị di động.
+    - Sử dụng các trình xử lý phiên tùy chỉnh (custom session handlers) để lưu trữ và xử lý token phiên.
 
 - **HTTP Strict Transport Security (HSTS)** [Trang 1606]: Chính sách bảo mật web bảo vệ khỏi MITM. HSTS ép buộc trình duyệt web chỉ giao tiếp với máy chủ bằng giao thức HTTPS an toàn, tự động chuyển đổi các kết nối HTTP không an toàn thành HTTPS.
 - **Token Binding** [Trang 1606 - 1607]: Client tạo ra một cặp khóa public-private cho kết nối. Khi gắn Session ID (token) vào kết nối, client ký nó bằng khóa private. Ngay cả khi kẻ tấn công bắt được token, chúng không thể phát lại (reuse) nó cho một kết nối khác vì không có khóa private tương ứng.
@@ -310,4 +351,6 @@ IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo v
   - **Internet Security Association and Key Management Protocol (ISAKMP):** Phần mềm kết hợp các khái niệm xác thực, quản lý khóa và liên kết bảo mật (SA) để hai máy tính có thể mã hóa dữ liệu giao tiếp với nhau.
   - **Oakley:** Giao thức sử dụng thuật toán Diffie-Hellman để tạo master key và khóa đặc thù cho từng phiên.
   - **IPsec Policy Agent:** Dịch vụ trong Windows HĐH nhằm thực thi các chính sách IPsec.
+  - **IPsec Domain of Interpretation (DOI)** [Trang 1615]: Xác định định dạng payload, loại trao đổi và quy ước đặt tên cho thông tin bảo mật (chẳng hạn như thuật toán mã hóa hoặc chính sách bảo mật). IPsec DOI khởi tạo ISAKMP để sử dụng với IP khi IP dùng ISAKMP để đàm phán các liên kết bảo mật.
+  - **Policy (Chính sách)** [Trang 1615]: Các chính sách IPsec rất hữu ích trong việc cung cấp an ninh mạng. Chúng xác định khi nào và cách thức bảo mật dữ liệu, cũng như các phương pháp bảo mật sẽ sử dụng ở các cấp độ khác nhau trong mạng (system, domain, site, organizational unit...).
 - **Quy trình hoạt động của IPsec:** Khi một máy gửi dữ liệu, IPsec driver khớp địa chỉ với bộ lọc IP -> Báo cho ISAKMP khởi tạo đàm phán -> Đàm phán trao đổi khóa (thiết lập SA) -> Mã hóa và gửi qua mạng -> Máy nhận dùng SA và Khóa tương ứng để kiểm tra chữ ký và giải mã.
