@@ -44,13 +44,13 @@
 
 1. **Giai đoạn 1: Thu thập thông tin (Reconnaissance / Footprinting)** - Trang 47 Đây là giai đoạn chuẩn bị, trong đó kẻ tấn công thu thập càng nhiều thông tin càng tốt về mục tiêu trước khi tiến hành tấn công để tạo hồ sơ về tổ chức mục tiêu (ví dụ: dải địa chỉ IP, không gian tên, thông tin nhân viên). Kỹ thuật này được chia làm hai loại:
 
-   Footprinting thụ động (Passive reconnaissance): Kẻ tấn công không tương tác trực tiếp với mục tiêu mà dựa vào các thông tin công khai có sẵn trên internet, các thông cáo báo chí hoặc các phương pháp không tiếp xúc khác.
-   Footprinting chủ động (Active reconnaissance): Yêu cầu tương tác trực tiếp với hệ thống mục tiêu thông qua các công cụ để phát hiện cổng mở, host có thể truy cập, vị trí bộ định tuyến, lập bản đồ mạng và chi tiết về hệ điều hành cũng như ứng dụng.
+   **Footprinting thụ động (Passive reconnaissance):** Kẻ tấn công không tương tác trực tiếp với mục tiêu mà dựa vào các thông tin công khai có sẵn trên internet, các thông cáo báo chí hoặc các phương pháp không tiếp xúc khác.
+   **Footprinting chủ động (Active reconnaissance):** Yêu cầu tương tác trực tiếp với hệ thống mục tiêu thông qua các công cụ để phát hiện cổng mở, host có thể truy cập, vị trí bộ định tuyến, lập bản đồ mạng và chi tiết về hệ điều hành cũng như ứng dụng.
 
 2. **Giai đoạn Quét và Liệt kê (Scanning và Enumeration)** - Trang 47
 
-   Scanning (Quét mạng): Là phần mở rộng hợp lý của việc thu thập thông tin chủ động nhằm thăm dò sâu hơn. Scanning được sử dụng để xác định các host đang hoạt động, các cổng mở (open ports) và các dịch vụ không cần thiết đang được bật trên các host cụ thể.
-   Enumeration (Liệt kê): Liên quan đến việc tạo các kết nối tích cực (active connections) đến hệ thống mục tiêu hoặc gửi các truy vấn trực tiếp. Đây là phương pháp thăm dò xâm nhập (intrusive probing) để thu thập thông tin chi tiết như: danh sách người dùng mạng, bảng định tuyến, lỗ hổng bảo mật, người dùng được chia sẻ, nhóm, ứng dụng và banner.
+   **Scanning (Quét mạng):** Là phần mở rộng hợp lý của việc thu thập thông tin chủ động nhằm thăm dò sâu hơn. Scanning được sử dụng để xác định các host đang hoạt động, các cổng mở (open ports) và các dịch vụ không cần thiết đang được bật trên các host cụ thể.
+   **Enumeration (Liệt kê):** Liên quan đến việc tạo các kết nối tích cực (active connections) đến hệ thống mục tiêu hoặc gửi các truy vấn trực tiếp. Đây là phương pháp thăm dò xâm nhập (intrusive probing) để thu thập thông tin chi tiết như: danh sách người dùng mạng, bảng định tuyến, lỗ hổng bảo mật, người dùng được chia sẻ, nhóm, ứng dụng và banner.
 
 3. **Giai đoạn 2: Quét lỗ hổng / Phân tích lỗ hổng (Vulnerability Scanning)** - Trang 48 Giai đoạn này kiểm tra khả năng chống chịu tấn công của hệ thống hoặc ứng dụng, bao gồm các quy trình và kiểm soát bảo mật hiện tại. Kẻ tấn công thực hiện phân tích lỗ hổng để:
 
@@ -59,10 +59,10 @@
 
 4. **Khai thác hệ thống (System Hacking)** - Trang 48 & 49 Đây là giai đoạn mà quá trình hack thực sự diễn ra, sử dụng thông tin từ các bước trước đó. Giai đoạn này bao gồm các bước sau:
 
-   Giai đoạn 3: Đột nhập (Gaining Access) - Trang 48: Kẻ tấn công sử dụng các kỹ thuật như bẻ khóa mật khẩu (password cracking) và khai thác lỗ hổng (ví dụ: tràn bộ đệm - buffer overflows) để giành quyền truy cập vào hệ điều hành hoặc ứng dụng trên mục tiêu. Cơ hội thành công phụ thuộc vào kiến trúc hệ thống, cấu hình, kỹ năng của kẻ tấn công và mức độ truy cập ban đầu.
-   Leo thang đặc quyền (Escalating Privileges) - Trang 48: Sau khi truy cập thành công bằng tài khoản người dùng có đặc quyền thấp, kẻ tấn công khai thác các lỗ hổng hệ thống đã biết để nâng quyền của mình lên mức quản trị viên (administrator/root) nhằm thực hiện các thao tác hệ thống được bảo vệ và kiểm soát hoàn toàn.
-   Giai đoạn 4: Duy trì truy cập (Maintaining Access) - Trang 48: Khi đã có quyền admin/root (tức là làm chủ hệ thống), kẻ tấn công sẽ cố gắng duy trì sự kiểm soát này. Chúng có thể sử dụng hệ thống này làm bàn đạp để quét và tấn công các hệ thống khác, tải lên/tải xuống dữ liệu, sử dụng phần mềm độc hại để lấy cắp mật khẩu. Chúng cũng có thể duy trì quyền kiểm soát lâu dài bằng cách tự "vá" các lỗ hổng để ngăn những hacker khác xâm nhập.
-   Giai đoạn 5: Xóa dấu vết (Clearing Tracks) - Trang 49: Để không bị phát hiện, kẻ tấn công phải xóa mọi bằng chứng về việc hệ thống đã bị xâm phạm. Chúng thực hiện điều này bằng cách sửa đổi hoặc xóa các tệp nhật ký (logs) bằng các tiện ích xóa nhật ký (log-wiping utilities), qua đó loại bỏ hoàn toàn dấu vết về sự hiện diện của chúng.
+   **Giai đoạn 3:** Đột nhập (Gaining Access) - Trang 48: Kẻ tấn công sử dụng các kỹ thuật như bẻ khóa mật khẩu (password cracking) và khai thác lỗ hổng (ví dụ: tràn bộ đệm - buffer overflows) để giành quyền truy cập vào hệ điều hành hoặc ứng dụng trên mục tiêu. Cơ hội thành công phụ thuộc vào kiến trúc hệ thống, cấu hình, kỹ năng của kẻ tấn công và mức độ truy cập ban đầu.
+   **Leo thang đặc quyền (Escalating Privileges) - Trang 48:** Sau khi truy cập thành công bằng tài khoản người dùng có đặc quyền thấp, kẻ tấn công khai thác các lỗ hổng hệ thống đã biết để nâng quyền của mình lên mức quản trị viên (administrator/root) nhằm thực hiện các thao tác hệ thống được bảo vệ và kiểm soát hoàn toàn.
+   **Giai đoạn 4:** Duy trì truy cập (Maintaining Access) - Trang 48: Khi đã có quyền admin/root (tức là làm chủ hệ thống), kẻ tấn công sẽ cố gắng duy trì sự kiểm soát này. Chúng có thể sử dụng hệ thống này làm bàn đạp để quét và tấn công các hệ thống khác, tải lên/tải xuống dữ liệu, sử dụng phần mềm độc hại để lấy cắp mật khẩu. Chúng cũng có thể duy trì quyền kiểm soát lâu dài bằng cách tự "vá" các lỗ hổng để ngăn những hacker khác xâm nhập.
+   **Giai đoạn 5:** Xóa dấu vết (Clearing Tracks) - Trang 49: Để không bị phát hiện, kẻ tấn công phải xóa mọi bằng chứng về việc hệ thống đã bị xâm phạm. Chúng thực hiện điều này bằng cách sửa đổi hoặc xóa các tệp nhật ký (logs) bằng các tiện ích xóa nhật ký (log-wiping utilities), qua đó loại bỏ hoàn toàn dấu vết về sự hiện diện của chúng.
 
 ## Quản lý sự kiện và sự cố bảo mật (Security Information and Event Management — SIEM) — ví dụ: Splunk.
 
