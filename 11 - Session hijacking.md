@@ -134,6 +134,12 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 - **FREAK / Forbidden Attack** [Trang 1577 - 1578]:
   - Bản chất: Tấn công MITM phá vỡ mã hóa TLS.
   - Cách thức: Khai thác lỗ hổng tái sử dụng nonce mật mã (cryptographic nonce reuse) trong quá trình bắt tay TLS (đặc biệt mã hóa AES-GCM). Sau khi chiếm được phiên HTTPS, kẻ tấn công tiêm mã độc (JS) hoặc nội dung giả mạo để ép nạn nhân tiết lộ thông tin nhạy cảm.
+  - **Các bước thực hiện tấn công Forbidden (A forbidden attack involves the following steps):**
+    1. Kẻ tấn công giám sát kết nối giữa nạn nhân và máy chủ web, sau đó đánh hơi (sniffs) nonce từ các thông điệp bắt tay TLS.
+    2. Kẻ tấn công tạo các khóa xác thực bằng cách sử dụng nonce và chiếm quyền điều khiển kết nối.
+    3. Toàn bộ lưu lượng giữa nạn nhân và máy chủ web sẽ chảy qua máy của kẻ tấn công.
+    4. Kẻ tấn công tiêm mã JavaScript hoặc các trường web (web fields) vào luồng truyền tải hướng tới nạn nhân.
+    5. Nạn nhân tiết lộ các thông tin nhạy cảm như số tài khoản ngân hàng, mật khẩu và số an sinh xã hội cho kẻ tấn công.
 - **Session Donation Attack (Tấn công quyên tặng phiên)** [Trang 1579 - 1580]:
   - Bản chất: Nạn nhân xác thực vào phiên của kẻ tấn công.
   - Cách thức: Kẻ tấn công tự đăng nhập để lấy Session ID hợp lệ, sau đó "quyên tặng" (donate) ID này cho nạn nhân qua một liên kết. Khi nạn nhân nhấp vào và nhập thông tin (thanh toán, mật khẩu), chi tiết đó sẽ bị liên kết/ghép nối trực tiếp vào tài khoản của kẻ tấn công.
@@ -201,6 +207,10 @@ Tấn công cấp mạng dựa trên việc chặn các gói tin giữa client v
   - Giao thức UDP không dùng packet sequencing (số thứ tự) hay đồng bộ hóa (connectionless), nên việc sửa đổi dữ liệu cực kỳ dễ dàng mà nạn nhân không hay biết.
   - Kẻ tấn công (đã spoof IP nguồn) gửi một reply UDP giả mạo cho các request UDP của nạn nhân trước khi server hợp lệ có thể phản hồi.
   - Có thể sử dụng tấn công MITM để chặn (intercept) hoàn toàn reply thật từ server, giúp việc chiếm phiên dễ dàng hơn.
+  - **Cách thức UDP Hijacking hoạt động (How UDP Hijacking Works):**
+    - **Giả mạo địa chỉ IP nguồn (Spoofing source IP address):** Vì UDP không yêu cầu quá trình bắt tay trước khi truyền dữ liệu, kẻ tấn công có thể gửi các gói UDP với địa chỉ IP nguồn giả mạo (giả vờ là một máy chủ khác).
+    - **Chặn lưu lượng (Intercepting the traffic):** Kẻ tấn công gửi các gói UDP giả mạo đến máy khách hoặc máy chủ. Những gói này dường như đến từ một nguồn hợp pháp nhưng lại chứa dữ liệu hoặc hướng dẫn độc hại.
+    - **Thao túng giao tiếp (Manipulating the communication):** Bằng cách chèn thông tin sai lệch vào luồng dữ liệu hoặc khởi tạo các yêu cầu trái phép, kẻ tấn công có thể thao túng hành vi của ứng dụng sử dụng lưu lượng UDP.
 
 ## 15. Tấn công MITM dùng ICMP giả mạo và ARP Spoofing [Trang 1590]
 
@@ -353,4 +363,14 @@ IPsec (Internet Protocol Security) là bộ giao thức của IETF giúp bảo v
   - **IPsec Policy Agent:** Dịch vụ trong Windows HĐH nhằm thực thi các chính sách IPsec.
   - **IPsec Domain of Interpretation (DOI)** [Trang 1615]: Xác định định dạng payload, loại trao đổi và quy ước đặt tên cho thông tin bảo mật (chẳng hạn như thuật toán mã hóa hoặc chính sách bảo mật). IPsec DOI khởi tạo ISAKMP để sử dụng với IP khi IP dùng ISAKMP để đàm phán các liên kết bảo mật.
   - **Policy (Chính sách)** [Trang 1615]: Các chính sách IPsec rất hữu ích trong việc cung cấp an ninh mạng. Chúng xác định khi nào và cách thức bảo mật dữ liệu, cũng như các phương pháp bảo mật sẽ sử dụng ở các cấp độ khác nhau trong mạng (system, domain, site, organizational unit...).
-- **Quy trình hoạt động của IPsec:** Khi một máy gửi dữ liệu, IPsec driver khớp địa chỉ với bộ lọc IP -> Báo cho ISAKMP khởi tạo đàm phán -> Đàm phán trao đổi khóa (thiết lập SA) -> Mã hóa và gửi qua mạng -> Máy nhận dùng SA và Khóa tương ứng để kiểm tra chữ ký và giải mã.
+- **Các bước tham gia vào quy trình IPsec (Steps involved in the IPsec process):**
+  1. Người dùng (consumer) gửi một thông điệp đến nhà cung cấp dịch vụ (service provider).
+  2. IPsec driver của người dùng cố gắng khớp địa chỉ của gói tin gửi đi hoặc loại gói tin với bộ lọc IP.
+  3. IPsec driver thông báo cho ISAKMP để bắt đầu đàm phán bảo mật với nhà cung cấp dịch vụ.
+  4. ISAKMP của nhà cung cấp dịch vụ nhận được yêu cầu đàm phán bảo mật.
+  5. Cả hai bên bắt đầu trao đổi khóa, thiết lập Liên kết bảo mật ISAKMP (ISAKMP SA) và một khóa bí mật dùng chung.
+  6. Cả hai bên thảo luận về mức độ bảo mật cho việc trao đổi thông tin, thiết lập cả IPsec SA và khóa.
+  7. IPsec driver của người dùng chuyển các gói tin đến loại kết nối thích hợp để truyền tới nhà cung cấp dịch vụ.
+  8. Nhà cung cấp nhận được các gói tin và chuyển chúng cho IPsec driver của họ.
+  9. IPsec của nhà cung cấp sử dụng SA gửi đến (inbound SA) và khóa để kiểm tra chữ ký số và bắt đầu giải mã.
+  10. IPsec driver của nhà cung cấp chuyển các gói đã giải mã đến tầng transport của mô hình OSI để xử lý tiếp.

@@ -39,6 +39,9 @@ Các bước kẻ tấn công thường thực hiện:
 ## 3. Các kiểu sniffing (Types of Sniffing) [Trang 1273 - 1274]
 
 - **Passive sniffing (Sniffing thụ động)**: Kẻ tấn công không gửi thêm bất kỳ gói tin nào, chỉ việc lắng nghe và giám sát các gói tin. Thường được áp dụng cho môi trường hub (common collision domains). Phương pháp này mang lại lợi thế tàng hình (stealth) cực cao vì không để lại dấu vết mạng.
+  - Kẻ tấn công sử dụng các phương pháp sniffing thụ động sau để giành quyền kiểm soát mạng mục tiêu:
+    - **Compromising physical security (Xâm phạm an ninh vật lý):** Kẻ tấn công bước vào tổ chức với một chiếc laptop, cắm trực tiếp vào mạng và chụp lại các thông tin nhạy cảm.
+    - **Using a Trojan horse (Sử dụng Trojan):** Kẻ tấn công cài đặt Trojan (có tích hợp sẵn tính năng sniffing) lên máy nạn nhân để thỏa hiệp, sau đó cài đặt packet sniffer và tiến hành nghe lén.
 - **Active sniffing (Sniffing chủ động)**: Áp dụng cho mạng chuyển mạch (switch-based network). Kẻ tấn công phải tìm kiếm hoặc thu hút lưu lượng bằng cách chủ động tiêm (inject) dữ liệu vào mạng. Các kỹ thuật bao gồm: MAC flooding, DNS poisoning, ARP poisoning, DHCP attacks, Switch port stealing, và Spoofing attacks.
 
 ## 4. Các giao thức dễ bị sniffing [Trang 1276 - 1277]
@@ -64,6 +67,11 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 - Trên Windows: Người dùng có thể đổi địa chỉ MAC trong cài đặt (Network and Internet -> Ethernet Properties -> Advanced tab -> Network Address) hoặc bằng cách chỉnh sửa Windows Registry tại đường dẫn: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}`. Tại đây, tạo một giá trị chuỗi (String value) mới tên là `NetworkAddress` và nhập địa chỉ MAC mới. [Trang 1329]
 - Công cụ: MAC Address Changer, SMAC, TMAC, Change MAC Address, Mac Changer, AMC.
 - Phòng ngừa: Sử dụng DHCP snooping binding table, Dynamic ARP Inspection, IP Source Guard, cấu hình Port Security trên switch, hoặc các chuẩn mã hóa như WPA3 và IEEE 802.1X.
+  - **Retrieval of MAC Address (Truy xuất địa chỉ MAC):** Luôn truy xuất địa chỉ MAC trực tiếp từ card mạng (NIC) thay vì truy xuất từ Hệ điều hành (OS).
+  - **AAA (Authentication, Authorization, and Accounting):** Sử dụng cơ chế máy chủ AAA để lọc các địa chỉ MAC.
+  - **Network Access Control (NAC):** Sử dụng hệ thống NAC để thực thi các chính sách bảo mật trên thiết bị truy cập mạng. Nó có thể kiểm tra các dấu hiệu MAC spoofing để ngăn chặn truy cập trái phép.
+  - **Rate Limiting and Traffic Analysis (Giới hạn tốc độ và phân tích lưu lượng):** Áp dụng trên thiết bị mạng để giúp giảm nhẹ hậu quả của MAC flooding.
+  - **Regular Network Audits (Kiểm toán mạng thường xuyên):** Thường xuyên kiểm toán mạng để tìm các thiết bị lạ, các luồng lưu lượng bất thường nhằm giảm thiểu rủi ro bị khai thác.
 
 **Các lệnh Cấu hình Port Security trên Switch Cisco (Để chống MAC Spoofing/Flooding) [Trang 1296 - 1298]:**
 
@@ -73,6 +81,12 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 - `switchport port-security maximum <1-3072>`: Giới hạn số lượng MAC an toàn tối đa cho phép trên cổng (Mặc định là 1).
 - `switchport port-security violation {restrict | shutdown}`: Định nghĩa hành động khi có vi phạm. `restrict` sẽ chặn dữ liệu từ MAC lạ và gửi cảnh báo SNMP, `shutdown` sẽ tắt hẳn cổng.
 - `switchport port-security mac-address sticky`: Kích hoạt tính năng "sticky", cho phép switch tự động học các địa chỉ MAC đang kết nối và ghi thẳng vào cấu hình đang chạy (running config).
+- `switchport port-security limit rate invalid-source-mac`: Thiết lập giới hạn tỷ lệ (rate limit) cho các gói tin xấu.
+- `switchport port-security mac-address <mac_address>`: Nhập thủ công một địa chỉ MAC an toàn cho giao diện.
+- `show port-security address` (hoặc `show port-security address interface <interface_id>`): Lệnh kiểm tra và xác minh cấu hình port security.
+- `switchport port-security aging time <phút>`: Đặt thời gian lão hóa (aging time) cho cổng an toàn (Ví dụ: aging time 2).
+- `switchport port-security aging type inactivity`: Thiết lập loại lão hóa địa chỉ MAC an toàn là không hoạt động (inactivity).
+- `snmp-server enable traps port-security trap-rate <số>`: Kiểm soát tốc độ tạo cảnh báo SNMP trap (Ví dụ: trap-rate 5).
 
 **ARP Spoofing / ARP Poisoning** [Trang 1271, 1314 - 1326]:
 
@@ -95,6 +109,8 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
   - **Cú pháp lệnh arpspoof:** `arpspoof -i [Interface] -t [Target Host]`
   - **Tính năng của Habu:** Là một toolkit hacking cung cấp nhiều lệnh để thực hiện các cuộc tấn công như: ARP poisoning và sniffing, DHCP discovery và starvation, Nhận diện Subdomain, Sao chép chứng chỉ (Certificate cloning), Phân tích TCP (ISN, flags), Kiểm tra Username trên mạng xã hội, và Nhận diện công nghệ Web. [Trang 1317 - 1318]
 - Phòng ngừa: Triển khai Dynamic ARP Inspection (DAI), tính năng này kiểm tra tính hợp lệ của cặp IP-MAC dựa vào cơ sở dữ liệu DHCP snooping binding table. Nếu nhận thấy ARP reply không khớp, switch sẽ loại bỏ (discard) gói tin đó.
+  - **Lập bản đồ tĩnh (Static Mapping):** Nếu các hệ thống máy chủ trong mạng sử dụng địa chỉ IP tĩnh, DHCP snooping sẽ không khả thi. Trong tình huống này, quản trị viên phải thực hiện ánh xạ tĩnh (static mapping) liên kết địa chỉ IP với địa chỉ MAC trên VLAN để ngăn chặn tấn công.
+  - **Sử dụng các kịch bản tùy chỉnh (Custom Scripts):** Quản trị viên có thể triển khai phần mềm chạy các kịch bản tùy chỉnh để giám sát bảng ARP. Kịch bản này so sánh bảng ARP hiện tại với danh sách các cặp MAC/IP đã biết. Nếu có sự không khớp (mismatch), switch sẽ loại bỏ gói tin.
 
 **Cấu hình Dynamic ARP Inspection (DAI) trên Switch Cisco [Trang 1320 - 1324]:**
 
@@ -124,6 +140,9 @@ Kỹ thuật này cho phép kẻ tấn công vượt qua các giới hạn phân
     - `switchport access vlan <unused_id>` (Đảm bảo VLAN mặc định là VLAN không sử dụng).
     - `switchport trunk native vlan 999` (Đổi native VLAN trên các cổng trunk sang một ID không dùng).
     - `vlan dot1q tag native` (Bắt buộc phải đánh tag cho mọi native VLAN).
+    - **Các biện pháp phòng ngừa Double Tagging bổ sung:**
+      - Use Private VLANs: Cấu hình Private VLANs để cô lập các cổng với nhau trên cùng một VLAN.
+      - Regularly Audit and Monitor VLAN Configurations: Thực hiện kiểm toán thường xuyên hệ thống VLAN và cấu hình switch để đảm bảo tuân thủ chính sách bảo mật.
 
 ## 7. STP Attack (Tấn công Spanning Tree Protocol) [Trang 1336 - 1337]
 
@@ -140,6 +159,11 @@ Kỹ thuật này cho phép kẻ tấn công vượt qua các giới hạn phân
 - Bật Root Guard: `spanning-tree guard root` (Cấu hình ở interface level).
 - Bật Loop Guard: `spanning-tree guard loop`.
 - Bật UDLD: `udld { enable | disable | aggressive }`.
+  - **Các biện pháp phòng ngừa STP Attack bổ sung:**
+    - Deploy PortFast: Áp dụng PortFast cho tất cả các cổng truy cập (access ports) để giảm thời gian chờ đợi (listening) và học (learning) trạng thái STP. Tuy nhiên, phải đảm bảo BPDU Guard được bật kèm theo.
+    - Regularly update and patch network devices: Thường xuyên cập nhật phần mềm/firmware cho thiết bị mạng.
+    - Restrict network access: Giới hạn quyền truy cập vật lý vào các cổng mạng và thiết bị để ngăn chặn thay đổi cấu hình trái phép.
+    - Network segmentation: Phân đoạn mạng để giới hạn phạm vi tấn công STP bằng cách chia các miền quảng bá (broadcast domains) lớn thành các đoạn nhỏ, dễ quản lý hơn.
 
 ## 8. Thiết bị phân tích giao thức phần cứng (Hardware Protocol Analyzers / Sniffers) [Trang 1279 - 1280]
 
@@ -202,6 +226,7 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
 
 - **DHCP starvation (Tấn công cạn kiệt DHCP)** [Trang 1303]: Kẻ tấn công gửi số lượng lớn các request chứa MAC giả mạo (spoofed MACs) tới DHCP server để làm cạn kiệt (exhaust) pool địa chỉ IP. Kết quả là server không thể cấp cấu hình cho các client mới, gây ra từ chối dịch vụ (DoS).
   - Công cụ: Yersinia, `dhcpStarvation.py`, Metasploit, Hyenae, DHCPig, Gobbler.
+  - **Yersinia:** Là một công cụ mạng được thiết kế để lợi dụng các điểm yếu trong các giao thức mạng khác nhau như DHCP. Nó đóng vai trò như một framework vững chắc để phân tích và kiểm tra các hệ thống, mạng lưới đã được triển khai.
   - Phòng ngừa [Trang 1307]: Bật Port security (lệnh `switchport port-security`) để giới hạn MAC; dùng DHCP filtering.
 - **Rogue DHCP server attack (Tấn công máy chủ DHCP giả mạo)** [Trang 1305]: Là dạng tấn công MITM. Kẻ tấn công dựng một DHCP server giả. Do server giả này trả gói (DHCPOFFER) về trước server hợp lệ, client sẽ lấy cấu hình từ nó. Kẻ tấn công có thể gán default gateway hoặc máy chủ DNS độc hại cho client để điều hướng lưu lượng.
   - Hạn chế [Trang 1306]: Bật DHCP Snooping, thiết lập cổng nối tới server hợp lệ là Trusted, và đánh dấu interface kết nối tới rogue DHCP là Untrusted để chặn tin nhắn.
@@ -212,6 +237,10 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
   - `no ip dhcp snooping information option`: Lệnh bổ sung dùng để vô hiệu hóa việc chèn và xóa trường option-82 trong các gói tin DHCP. [Trang 1309]
 - **MAC Limiting trên Switch Juniper (Chống Starvation):** `set interface ge-0/0/1 mac-limit 3 action drop` (Giới hạn tối đa 3 địa chỉ MAC trên giao diện, nếu vượt quá sẽ drop gói tin).
 - **DHCP Filtering (Juniper):** `config -> interface 0/11 -> <IP address> dhcp filtering trust` (Chỉ định cổng tin cậy nhận gói DHCP).
+  - **Các lệnh kiểm tra trạng thái DHCP (Show Commands):**
+    - `show ip dhcp snooping`: Lệnh trên switch Cisco để hiển thị tất cả các VLAN đang bật tính năng DHCP snooping.
+    - `show ethernet-switching table`: Lệnh trên switch Juniper để xác minh quá trình giới hạn MAC (MAC limiting process).
+    - `show <IP address> dhcp filtering`: Lệnh trên switch Juniper để xem cấu hình DHCP filtering.
   - Công cụ: `mitm6`, Ettercap, Gobbler.
 
 ## 13. Các kỹ thuật DNS poisoning [Trang 1345 - 1353]
@@ -248,6 +277,7 @@ Mục đích là thay thế địa chỉ IP hợp pháp tại DNS level bằng I
 ## 14. Công cụ sniffing / DNS sniffing [Trang 1357 - 1364]
 
 - **Wireshark** [Trang 1357]: Chụp gói tin tương tác trên mạng, thường dùng cùng trình điều khiển WinPcap. Hỗ trợ tính năng "Follow TCP Stream" giúp kẻ tấn công xem trực tiếp mật khẩu dưới dạng văn bản thuần túy (cleartext).
+  - **Chi tiết cách thực hiện Follow TCP Stream:** Để xem luồng TCP, chọn một gói TCP trong danh sách gói tin, sau đó vào menu **Analyze -> Follow -> TCP Stream**. Công cụ sẽ hiển thị nội dung luồng theo đúng trình tự xuất hiện trên mạng và có thể hiển thị dữ liệu bắt được dưới dạng ASCII, EBCDIC, hex dump, C array hoặc raw.
 
 **Bảng Bộ lọc trong Wireshark (Display Filters)** [Trang 1360-1361]:
 

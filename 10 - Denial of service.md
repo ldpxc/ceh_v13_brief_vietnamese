@@ -4,6 +4,12 @@
 
 - **Tấn công DoS (Denial-of-Service):** Là cuộc tấn công vào máy tính hoặc mạng làm giảm, hạn chế hoặc ngăn cản quyền truy cập vào tài nguyên hệ thống của người dùng hợp pháp. Kẻ tấn công làm ngập lụt hệ thống nạn nhân bằng các yêu cầu dịch vụ hoặc lưu lượng truy cập không hợp lệ để làm quá tải tài nguyên.
 - **Mục tiêu của DoS:** Ngăn chặn người dùng hợp pháp sử dụng hệ thống, thay vì giành quyền truy cập trái phép hoặc làm hỏng dữ liệu. Các hình thức bao gồm: Tiêu thụ băng thông/tài nguyên, phá hủy vật lý các thành phần mạng, hoặc làm hỏng cấu trúc lập trình/tệp tin.
+  - **Các ví dụ về các loại hình tấn công DoS (Examples for types of DoS attacks):**
+    - Làm ngập lụt hệ thống của nạn nhân với lượng lưu lượng truy cập lớn hơn khả năng xử lý của nó.
+    - Làm ngập lụt một dịch vụ (ví dụ: Internet Relay Chat - IRC) với nhiều sự kiện hơn mức nó có thể xử lý.
+    - Làm sập ngăn xếp TCP/IP (Crashing a TCP/IP stack) bằng cách gửi các gói tin bị hỏng (corrupt packets).
+    - Làm sập một dịch vụ bằng cách tương tác với nó theo một cách không lường trước được.
+    - Làm treo hệ thống (Hanging a system) bằng cách đẩy nó vào một vòng lặp vô hạn (infinite loop).
 - **Tấn công DDoS (Distributed Denial-of-Service):** Là một cuộc tấn công DoS quy mô lớn, được phối hợp và khởi chạy gián tiếp thông qua nhiều máy tính bị xâm nhập (botnets/zombies). Máy chủ bị tấn công gọi là "nạn nhân chính" (primary victim), còn các máy bị xâm nhập dùng để tấn công gọi là "nạn nhân phụ" (secondary victims).
 
 **Tổ chức tội phạm mạng (Organized Cyber Crime Syndicates) [Trang 1471]:**
@@ -18,6 +24,8 @@ Tội phạm mạng hiện nay hoạt động theo mô hình phân cấp, có ch
 ## 1. Mạng bot (Botnets) [Trang 1470 - 1476]
 
 Botnet là một mạng lưới khổng lồ các máy tính bị lây nhiễm (zombies) được kẻ tấn công sử dụng để thực hiện các cuộc tấn công tự động qua Internet.
+
+- Có nhiều loại bot khác nhau như Internet bots, IRC bots, và chatter bots. Các ví dụ về IRC bots bao gồm: Cardinal, Sopel, Eggdrop, và EnergyMech.
 
 _(Bổ sung từ nguồn)_ **Các mục đích sử dụng botnet** [Trang 1472 - 1473]: Ngoài tấn công DDoS, botnet còn dùng để Spamming, Sniffing traffic (đánh cắp thông tin thẻ tín dụng/mật khẩu, thậm chí cướp botnet khác), Keylogging, Phát tán mã độc mới (Spreading new malware), Gian lận nhấp chuột quảng cáo (Google AdSense abuse), Tấn công mạng IRC chat (clone attacks), Thao túng các cuộc thăm dò ý kiến/game trực tuyến, Đánh cắp danh tính hàng loạt (Mass identity theft qua email mạo danh), Nhồi nhét thông tin xác thực (Credential stuffing), Đào tiền ảo (Cryptocurrency mining).
 
@@ -100,6 +108,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **UDP application layer flood attack** [Trang 1503]: Lợi dụng các giao thức lớp ứng dụng chạy trên nền UDP như CHARGEN, SNMPv2, QOTD, RPC, SSDP, CLDAP, TFTP, NetBIOS, Quake/Steam protocol, VoIP.
 - **Multi-vector DDoS** [Trang 1504]: Kết hợp đồng thời hoặc tuần tự các phương pháp tấn công Volumetric (Dung lượng) + Protocol (Giao thức) + Application layer (Lớp ứng dụng) để làm rối loạn bộ phận IT, phân tán sự tập trung khỏi giải pháp phòng thủ chính.
 - **Peer-to-peer DDoS** [Trang 1505 - 1506]: Không sử dụng botnet. Kẻ tấn công khai thác lỗi trên giao thức DC++ (Direct Connect), ra lệnh cho hàng ngàn máy khách đang chia sẻ file P2P ngắt kết nối mạng P2P và đồng loạt kết nối tới website của nạn nhân.
+  - _(Biện pháp phòng chống)_: Tấn công Peer-to-peer DDoS có thể được giảm thiểu bằng cách chỉ định các cổng cụ thể cho giao tiếp peer-to-peer. Ví dụ, việc chỉ định cổng 80 để không cho phép giao tiếp peer-to-peer sẽ giảm thiểu khả năng xảy ra các cuộc tấn công vào trang web.
 - **Permanent Denial-of-Service (PDoS / Phlashing)** [Trang 1507]: Gây hỏng phần cứng vĩnh viễn (gọi là "bricking a system"). Kẻ tấn công gửi bản cập nhật firmware giả mạo, chứa lỗi (qua email, mạng xã hội, video). Khi nạn nhân cài đặt, thiết bị mạng (router, máy in) bị phá hủy hoặc bị chiếm quyền điều khiển từ xa hoàn toàn.
 - **TCP SACK panic** [Trang 1508]: Khai thác lỗ hổng tràn số nguyên (integer overflow) trên bộ đệm socket (SKB) của Linux. Kẻ tấn công gửi chuỗi gói SACK với giá trị MSS (Maximum segment size) cực thấp (48 bytes), khiến số lượng phân đoạn cần truyền lại vượt quá giới hạn 17 phân đoạn của bộ đệm, dẫn tới lỗi kernel panic và sập hệ thống.
   - _(Biện pháp phòng chống)_: Triển khai vá lỗ hổng (vulnerability patching). Thiết lập quy tắc tường lửa (firewall rule) để chặn các gói tin yêu cầu có giá trị MSS thấp nhất.
@@ -154,6 +163,8 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 ### 7.4. Các biện pháp phòng ngừa DoS/DDoS bổ sung [Trang 1530 - 1531]
 
 - Sử dụng mã hóa mạnh (WPA2/WPA3, AES 256).
+- Đảm bảo rằng phần mềm và các giao thức luôn được cập nhật, đồng thời quét các máy móc một cách kỹ lưỡng để phát hiện bất kỳ hành vi bất thường nào.
+- Kích hoạt tính năng bảo vệ TCP SYN cookie (Enable TCP SYN cookie protection).
 - Cập nhật kernel lên phiên bản mới nhất và tắt các dịch vụ không an toàn/không sử dụng (như echo, chargen).
 - Chặn mọi gói tin gửi đến (inbound) xuất phát từ các cổng dịch vụ để chống tấn công phản xạ (reflection servers).
 - Ngăn chặn truyền gói tin có địa chỉ giả mạo ngay tại cấp độ ISP.

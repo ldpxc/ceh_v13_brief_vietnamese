@@ -81,6 +81,8 @@ Kẻ tấn công sử dụng các toán tử này để tạo ra các truy vấn
 - `phonebook:` Tìm số điện thoại dân cư và doanh nghiệp của một cá nhân hoặc tổ chức.
 - `before:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản trước một ngày nhất định (ví dụ: `before:2020-06-29`).
 - `after:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản sau một ngày nhất định.
+- `inanchor:` Giới hạn kết quả tìm kiếm chỉ những trang chứa từ khóa được chỉ định trong văn bản neo (anchor text) của các liên kết trỏ đến trang đó. (Ví dụ: [Anti-virus inanchor:Norton]).
+- `allinanchor:` Giới hạn kết quả tìm kiếm chỉ những trang chứa tất cả các từ khóa được chỉ định trong văn bản neo của các liên kết. (Ví dụ: [allinanchor: best cloud service provider]).
 
 ### Hacker có thể làm gì với Google Hacking? (Trang 135)
 
@@ -97,6 +99,7 @@ Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phá
 
 - **Khai thác Google Hacking với AI**: Kẻ tấn công có thể sử dụng các công nghệ AI (như ChatGPT hoặc ShellGPT) để tự động hóa việc tìm kiếm. Ví dụ một prompt: _"Use filetype search operator to obtain pdf files on the target website eccouncil.org and store the result in the recon1.txt file"_. AI có thể trả về các lệnh shell nâng cao (như dùng `lynx --dump` kết hợp `grep` và `cut`) để cào dữ liệu nhanh chóng.
 - **Google Hacking Database (GHDB)**: Là cơ sở dữ liệu truy vấn giúp tìm kiếm các thông tin nhạy cảm vô tình bị lộ. Các dorks thường tìm: Sensitive files, Exposed directories, Error messages, Vulnerable devices.
+- **Các danh mục của Cơ sở dữ liệu Google Hacking (Google Hacking Database Categories):** Footholds (Bàn đạp), Files Containing Usernames (Tệp chứa tên người dùng), Sensitive Directories (Thư mục nhạy cảm), Web Server Detection (Phát hiện máy chủ web), Vulnerable Files (Tệp dễ bị tổn thương), Vulnerable Servers (Máy chủ dễ bị tổn thương), Error Messages (Thông báo lỗi), Files Containing Juicy Info (Tệp chứa thông tin giá trị), Files Containing Passwords (Tệp chứa mật khẩu), Sensitive Online Shopping Info (Thông tin mua sắm trực tuyến nhạy cảm), Network or Vulnerability Data (Dữ liệu mạng hoặc lỗ hổng), Pages Containing Login Portals (Trang chứa cổng đăng nhập), Various Online Devices (Nhiều thiết bị trực tuyến), Advisories and Vulnerabilities (Cảnh báo và lỗ hổng).
 - **VPN Footprinting**: GHDB được sử dụng để tìm kiếm cấu hình và portal đăng nhập của các thiết bị VPN. Ví dụ các Google Dorks:
   - `inurl:/sslvpn/Login/Login` (Tìm portal đăng nhập VPN).
   - `intitle:"index of" /etc/openvpn/` (Tìm các thư mục chứa dữ liệu cấu hình VPN).
@@ -131,6 +134,8 @@ Bao gồm: NAPALM FTP Indexer, FreewareWeb FTP File Search, Mamont, globalfilese
 - `intitle:"Index of ftp passwords"` (Tìm tệp chứa mật khẩu).
 - `inurl:ftp -inurl:(http|https) intext:"@gmail.com" intext:subject fwd|confidential|important|CARD|cvv` (Đọc các email/dữ liệu tài chính bị lưu trữ sai cách trên FTP).
 - `"index of" /ftp/logs` (Tìm tệp tin nhật ký).
+
+- **Footprinting VoIP và VPN bằng SHODAN:** Shodan không chỉ dùng để tìm thiết bị IoT/SCADA mà còn cho phép kẻ tấn công thực hiện footprinting ở nhiều cấp độ, phát hiện các thiết bị và mạng có lỗ hổng liên quan đến VoIP và VPN.
 
 ### Tìm kiếm SCADA và IoT (Trang 154)
 
@@ -219,6 +224,9 @@ Quá trình này giúp kẻ tấn công thu thập kế hoạch, chiến lược
 - **MarketWatch / The Wall Street Transcript:** Theo dõi nhịp đập thị trường, tin tức tài chính, báo cáo ngành và ý kiến chuyên gia.
 - **Euromonitor:** Phân tích, khảo sát thị trường tiêu dùng và nhân khẩu học.
 - **The Search Monitor:** Theo dõi quảng cáo cạnh tranh, tuân thủ liên kết, chia sẻ thị phần và thương hiệu.
+- **The Wall Street Transcript:** Website và ấn phẩm trả phí xuất bản các báo cáo ngành, thể hiện quan điểm của các nhà quản lý tiền tệ và chuyên gia phân tích cổ phiếu.
+- **Experian:** Cung cấp thông tin chi tiết về các chiến lược tìm kiếm, tiếp thị liên kết, hiển thị và tiếp thị xã hội của đối thủ cạnh tranh để cải thiện kết quả chiến dịch tiếp thị.
+- **SEMRush:** Công cụ nghiên cứu từ khóa cạnh tranh. Cung cấp danh sách từ khóa Google và AdWords của bất kỳ trang web nào, cũng như danh sách đối thủ trong kết quả tìm kiếm tự nhiên và trả phí.
 - **USPTO:** Tra cứu thông tin hồ sơ bằng sáng chế và đăng ký nhãn hiệu.
 - **ABI/INFORM Global / SimilarWeb / SERanking:** Phân tích lưu lượng truy cập web, chiến lược SEO, PPC và nghiên cứu điều kiện kinh doanh tổng thể.
 
@@ -316,6 +324,8 @@ Thu thập thông tin DNS tiết lộ dữ liệu vùng DNS (DNS zone data) bao 
 - **SecurityTrails (Trang 221):** Công cụ liệt kê DNS nâng cao có khả năng tạo bản đồ DNS của mạng mục tiêu, liệt kê các bản ghi hiện tại và lịch sử (A, AAAA, NS, MX, SOA, TXT).
 - **Fierce (Trang 222):** Công cụ trinh sát DNS dùng để quét và thu thập thông tin quan trọng. Giúp liệt kê subdomain, xác định các không gian IP không liền kề và hostname được liên kết với tên miền.
 - **DNSRecon (Trang 227 - 228):** Công cụ dùng để liệt kê DNS và thực hiện thao tác Reverse DNS Lookup (tra cứu DNS ngược) bằng phương pháp brute-force trên một dải địa chỉ IP để lấy tên miền.
+- **DNSChecker:** Công cụ truy vấn máy chủ DNS để lấy thông tin chi tiết về các bản ghi DNS.
+- **zdns:** Công cụ interrogation DNS mạnh mẽ được dùng để lấy cấu trúc bản ghi chứa thông tin về DNS mục tiêu.
 - **MXToolbox (Trang 229 & 244):** Được sử dụng cho công việc Reverse Lookup để tìm DNS PTR record, và cũng được dùng làm công cụ theo dõi email (Email Tracking).
 
 ### Truy vấn DNS bằng công nghệ AI (Trang 225 - 226)
@@ -377,7 +387,7 @@ Email Header chứa nhiều thông tin chi tiết dùng để truy vết nguồn
 - **Geolocation (Vị trí địa lý)**: Dựa vào IP để tìm tọa độ trên bản đồ.
 - **Thông tin Thiết bị, Hệ điều hành và Trình duyệt**: Cho biết loại máy tính (laptop/mobile) và trình duyệt người nhận đang dùng để hacker tìm lỗ hổng tương ứng.
 - **Path Travelled (Đường đi)**: Lưu lại các email transfer agents (mail servers) mà email đã đi qua từ nguồn đến đích.
-- **Các nền tảng email phổ biến**: eM Client, Mailbird, Hiri, Mozilla Thunderbird, Spike, Claws Mail, Outlook, Apple Mail, ProtonMail. Kẻ tấn công trích xuất thông tin Header và dùng các công cụ phân tích tự động.
+- **Các nền tảng email phổ biến**: eM Client, Mailbird, Hiri, Mozilla Thunderbird, Spike, Claws Mail, SmarterMail Webmail, Outlook, Apple Mail, ProtonMail, AOL Mail, Tuta. Kẻ tấn công trích xuất thông tin Header và dùng các công cụ phân tích tự động.
 - **Bảng thu thập thông tin thông qua hoạt động của Người dùng (What Users Do / What Attacker Gets) [Trang 249 - 250]:**
   - Duy trì hồ sơ (Maintain profile) $\rightarrow$ Lấy được thông tin liên hệ, vị trí.
   - Kết nối bạn bè, chat $\rightarrow$ Lấy được danh sách bạn bè, thông tin bạn bè.
@@ -456,6 +466,16 @@ Hacker có thể yêu cầu AI viết các kịch bản tự động bằng Pyth
 - Triển khai xác thực đa yếu tố (MFA).
 - Giấu địa chỉ IP máy chủ thực đằng sau các Proxy bảo mật hoặc mạng VPN.
 - Vô hiệu hóa (Turn off) quyền truy cập và tính năng gắn thẻ địa lý (geo-tagging) trên các thiết bị di động, camera khi không cần thiết để tránh bị theo dõi (geolocation tracking).
+- Tránh liên kết chéo cấp tên miền (cross-linking) cho các tài sản quan trọng.
+- Mã hóa và bảo vệ bằng mật khẩu các thông tin nhạy cảm.
+- Triển khai CAPTCHA và giới hạn tốc độ (rate limiting) trên các dịch vụ công khai để ngăn chặn công cụ tự động thu thập thông tin ở tốc độ cao.
+- Không bật các giao thức mạng không cần thiết.
+- Luôn sử dụng bộ lọc TCP/IP và IPsec để phòng thủ theo chiều sâu (defense in depth).
+- Cấu hình Internet Information Services (IIS) để tránh rò rỉ thông tin qua quá trình banner grabbing.
+- Lưu trữ các tài liệu quan trọng như kế hoạch kinh doanh, tài liệu độc quyền ở trạng thái ngoại tuyến (offline) để tránh bị khai thác.
+- Đảm bảo không có thông tin quan trọng nào (như kế hoạch chiến lược, thông tin sản phẩm, dự báo doanh số) được hiển thị trên bảng thông báo hoặc tường.
+- Vô hiệu hóa hoặc xóa tài khoản của những nhân viên đã rời khỏi tổ chức.
+- Cấu hình máy chủ thư (mail servers) để bỏ qua các email từ các cá nhân ẩn danh.
 - Triển khai hệ thống Honeypots hoặc Honeynets để thu hút, giăng bẫy và chuyển hướng kẻ tấn công ra khỏi các hệ thống quan trọng.
 
 ## 1. Cổng (Ports) và Phân loại

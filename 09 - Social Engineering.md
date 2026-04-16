@@ -14,6 +14,12 @@
   - **Niềm tin (Trust):** Cố ý xây dựng mối quan hệ tin cậy chuyên gia - khách hàng rồi lợi dụng.
   - **Lòng tham (Greed):** Hứa hẹn phần thưởng/quà tặng không làm mà có.
 - **Yếu tố làm doanh nghiệp dễ bị tấn công:** Thiếu đào tạo bảo mật, Truy cập thông tin không được kiểm soát chặt chẽ, Nhiều chi nhánh phân tán, Thiếu chính sách bảo mật.
+  - **Tại sao Kỹ thuật xã hội lại hiệu quả? (Why is Social Engineering Effective?)** [Trang 1386]
+    - Bất chấp các chính sách bảo mật, việc ngăn chặn kỹ thuật xã hội là một thách thức vì con người là yếu tố dễ bị biến đổi và tác động nhất.
+    - Rất khó để phát hiện các nỗ lực kỹ thuật xã hội vì đây là nghệ thuật và khoa học thao túng con người.
+    - Không có phương pháp nào đảm bảo an toàn tuyệt đối 100% trước các cuộc tấn công này.
+    - Không có phần cứng hay phần mềm cụ thể nào có sẵn để bảo vệ hoàn toàn khỏi kỹ thuật xã hội.
+    - Cách tiếp cận này đối với hacker là tương đối rẻ (hoặc miễn phí) và rất dễ thực hiện.
 - **Các giai đoạn của một cuộc tấn công Social Engineering:**
   1. Nghiên cứu mục tiêu (Research the Target Company).
   2. Chọn nạn nhân (Select a Target - thường nhắm vào nhân viên bất mãn).
@@ -71,6 +77,9 @@
 - **Scareware:** Phần mềm độc hại dụ nạn nhân tải các phần mềm diệt virus lừa đảo bằng cách hiển thị cảnh báo giả mạo rằng máy tính của họ đang bị nhiễm virus nghiêm trọng.
 
 - **Mối đe dọa từ Mạng xã hội đối với Doanh nghiệp (Social Networking Threats)** [Trang 1427 - 1428]: Gây đánh cắp dữ liệu (Data Theft), Rò rỉ dữ liệu vô ý do nhân viên (Involuntary Data Leakage), Tiếp tay cho tấn công có chủ đích (Targeted Attacks), Khai thác Lỗ hổng mạng (Network Vulnerability), Phát tán mã độc (Malware Propagation), Phá hoại uy tín (Business Reputation), Tốn chi phí hạ tầng (Infrastructure Costs), và Giảm năng suất lao động (Loss of Productivity).
+  - **Spam và Phishing (Spam and Phishing):** Nhân viên sử dụng ID email công việc trên các mạng xã hội có thể nhận được thư rác và trở thành mục tiêu của lừa đảo, gây nguy hiểm cho mạng.
+  - **Sửa đổi nội dung (Modification of Content):** Nếu thiếu các biện pháp bảo mật hợp lý, các blog, kênh, nhóm và hồ sơ có thể bị giả mạo hoặc bị hack.
+  - **Trinh sát (Reconnaissance):** Kẻ tấn công thu thập thông tin về nhân viên, giám đốc và hạ tầng thông qua hồ sơ mạng xã hội để chuẩn bị cho các nỗ lực tấn công mục tiêu.
 - **QR code jacking (QRL jacking)** [Trang 1441 - 1442]: Khai thác phương thức "Đăng nhập bằng mã QR" trên các ứng dụng web để chiếm đoạt phiên (hijack login sessions). Kẻ tấn công sao chép (clone) mã QR hợp pháp, nhúng vào trang lừa đảo kèm kịch bản tự động làm mới mã. Khi nạn nhân dùng điện thoại quét mã QR này, thông tin thiết bị (IMEI, Device ID) và phiên đăng nhập sẽ tự động được gửi cho kẻ tấn công để chiếm tài khoản.
 
 **Đánh cắp danh tính (Identity Theft) [Trang 1429 - 1435]:**
@@ -85,6 +94,7 @@
   - **Tax Identity Theft (Thuế):** Lấy SSN để nộp tờ khai thuế giả và lĩnh tiền hoàn thuế của nhà nước.
   - **Identity Cloning (Nhân bản):** Sống dưới danh tính người khác để ẩn danh hoàn toàn (thường là người nhập cư trái phép).
   - **Synthetic Identity Theft (Danh tính tổng hợp):** Phức tạp nhất, kết hợp thông tin thật (như SSN) và thông tin giả (tên, ngày sinh) để tạo ra một con người hoàn toàn mới.
+  - **Social Security Identity Theft (An sinh xã hội):** Kẻ tấn công đánh cắp số An sinh xã hội (SSN) để bán cho người lao động nhập cư trái phép, lừa đảo chính phủ để mở tài khoản ngân hàng, thẻ tín dụng, hoặc xin hộ chiếu mới.
 - **Kỹ thuật thu thập thông tin để Đánh cắp danh tính:**
   - Trộm cắp vật lý (Theft of wallets, laptops), Tìm kiếm trên Internet, Social Engineering, Dumpster Diving & Shoulder Surfing, Phishing, Pharming, Hacking, Keyloggers.
   - **Skimming:** Dùng thiết bị lưu trữ đặc biệt (skimmers) gắn ẩn vào cây ATM/máy quẹt thẻ để quét trộm dữ liệu thẻ vật lý.
@@ -93,13 +103,30 @@
   - **Mail Theft and Rerouting:** Trộm thư từ trong hòm thư hoặc gửi form thay đổi địa chỉ nhận thư của nạn nhân.
   - **Social Media Mining:** Đào bới thông tin trên các trang mạng cá nhân.
   - **Data Trading on Dark Web:** Mua bán dữ liệu cá nhân hàng loạt trên chợ đen mạng.
-- **Dấu hiệu nhận biết (Indications):** Thẻ tín dụng xuất hiện giao dịch lạ, không nhận được hóa đơn tiện ích (do bị chặn thư), chủ nợ lạ gọi đòi tiền, hồ sơ y tế/thuế bị sai lệch, bị từ chối khoản vay vô cớ, hoặc nhận thông báo vi phạm giao thông không phải do mình thực hiện.
+- **Dấu hiệu nhận biết (Indications):**
+  - Xuất hiện các khoản phí lạ trên thẻ tín dụng mà bạn không nhận ra.
+  - Không còn nhận được sao kê thẻ tín dụng, ngân hàng hoặc hóa đơn tiện ích (do thư bị chặn/chuyển hướng).
+  - Nhận được cuộc gọi từ chủ nợ về một tài khoản lạ đứng tên bạn.
+  - Có nhiều vi phạm giao thông đứng tên bạn dù bạn không thực hiện.
+  - Bị tính phí cho các phương pháp điều trị y tế hoặc dịch vụ mà bạn chưa bao giờ nhận.
+  - Có nhiều hơn một tờ khai thuế được nộp dưới tên của bạn.
+  - Bị từ chối truy cập vào tài khoản của chính mình và không thể vay vốn/sử dụng dịch vụ.
+  - Hồ sơ y tế cá nhân đột nhiên xuất hiện một căn bệnh mà bạn không hề mắc phải.
+  - Nhận được thông báo dữ liệu bị xâm phạm từ một công ty nơi bạn làm việc hoặc có tài khoản.
+  - Tiền trong tài khoản ngân hàng bị rút ra không thể giải thích được.
+  - Nhận được cảnh báo hoạt động đáng ngờ từ bộ phận kiểm soát gian lận thẻ.
+  - Chính phủ từ chối trợ cấp cho bạn hoặc con bạn vì số SSN đó đang được một tài khoản khác thụ hưởng.
+  - Bảo hiểm y tế từ chối thanh toán vì ai đó đã dùng hết hạn mức quyền lợi của bạn.
+  - Mật khẩu, địa chỉ email hoặc chi tiết tài khoản bị thay đổi ngoài ý muốn.
+  - Điểm tín dụng (credit score) sụt giảm đột ngột không rõ lý do.
+  - Nhận được thông báo hầu tòa, lệnh bắt giữ hoặc tiền phạt cho những hành vi bạn không làm.
 
 **Kỹ thuật xã hội trên thiết bị di động (Mobile-based Social Engineering) [Trang 1436 - 1440]:**
 
 - **Publishing Malicious Apps (Phát hành ứng dụng độc hại):** Kẻ tấn công tạo ra một ứng dụng có giao diện và tính năng hấp dẫn nhưng chứa mã độc và tải trực tiếp lên các chợ ứng dụng (App Store/Play Store) bằng các tên tương tự phần mềm phổ biến.
 - **Repackaging Legitimate Apps (Đóng gói lại ứng dụng hợp pháp):** Kẻ tấn công tải xuống một ứng dụng game/phần mềm hợp pháp, nhúng mã độc vào bên trong, đóng gói lại và tung lên các chợ ứng dụng bên thứ ba.
 - **Fake Security Applications (Ứng dụng bảo mật giả mạo):** Dụ dỗ nạn nhân tải ứng dụng thông qua các cảnh báo pop-up giả mạo hệ thống (Ví dụ: "Máy bạn đang có virus, tải app này để quét"). Khi cài đặt, app sẽ trích xuất thông tin tài khoản ngân hàng.
+- **SMiShing (SMS Phishing):** Là hành vi sử dụng hệ thống tin nhắn văn bản SMS của điện thoại di động để lừa người dùng thực hiện các hành động tức thì, chẳng hạn như tải xuống phần mềm độc hại, truy cập trang web độc hại hoặc gọi đến một số điện thoại lừa đảo (Ví dụ: tin nhắn giả mạo ngân hàng thông báo tài khoản bị khóa và yêu cầu gọi lại số tổng đài giả để cung cấp số thẻ/PIN).
 
 **Kỹ thuật tạo Email lừa đảo bằng AI (Crafting Phishing Emails with ChatGPT) [Trang 1413 - 1417]:**
 Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để tự động hóa và nâng cấp các cuộc tấn công lừa đảo:
@@ -114,6 +141,8 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
 - **ShellPhish:** Công cụ mã nguồn mở dùng để lừa lấy thông tin đăng nhập từ nhiều nền tảng mạng xã hội (như Instagram, Facebook, Twitter, LinkedIn). Ngoài ra, nó có khả năng hiển thị địa chỉ IP công cộng, thông tin trình duyệt, tên máy chủ và định vị (geolocation) của nạn nhân.
 - **Social-Engineer Toolkit (SET):** Nền tảng mã nguồn mở bằng Python phục vụ kiểm thử xâm nhập chuyên biệt cho social engineering. Có chức năng phân loại và thực hiện các cuộc tấn công qua email, web và USB (Ví dụ: Spear-Phishing, QRCode Generator, Infectious Media).
 - _(Các công cụ bổ sung)_: **Dark-Phish**, **BLACKEYE**, **SocialFish**, **Modlishka**, **Trape**, **Gophish**, **King Phisher**, **LUCY SECURITY**, **Zphisher**.
+- **4R TIGER** [Trang 1441 - 1442]: Trình tạo mã QR cho phép sao chép mã hợp pháp (tĩnh hoặc động). Công cụ này cho phép kẻ tấn công theo dõi dữ liệu sâu (số lần quét, thời gian quét, vị trí).
+- _(Các công cụ khác)_: **QR Code Generator**, **Soti MobiControl**, **QR Code KIT**.
 
 ### 2.2. Công cụ Deepfake/AI (AI Deepfake tools) [Trang 1421 - 1422]
 
@@ -140,6 +169,18 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
   - Sử dụng Phân tích lỗ hổng (Gap analysis) và áp dụng chiến lược khắc phục (Remediation strategies).
   - Áp dụng Xác thực hai yếu tố (MFA/TFA) cho mọi truy cập nhạy cảm.
   - Phân quyền truy cập rõ ràng (Implement proper access privileges), kiểm tra lý lịch nhân sự trước khi tuyển, theo dõi sát quy trình chấm dứt hợp đồng lao động.
+  - **Các biện pháp phòng chống bổ sung (Additional Countermeasures):**
+    - Đào tạo nhân viên về các chính sách bảo mật: Nhận thức rõ các chiến thuật Kỹ thuật xã hội.
+    - Xác định thời gian phản hồi sự cố (Incidence response time) hợp lý để đối phó với nỗ lực tấn công.
+    - Đảm bảo tài nguyên chỉ dành cho người dùng được ủy quyền (Availability of resources only to authorized users).
+    - Phân loại thông tin (Scrutinize information): Phân loại tài liệu thành Tuyệt mật, Độc quyền, Sử dụng nội bộ hoặc Công khai.
+    - Thực hiện kiểm tra lý lịch và quy trình chấm dứt hợp đồng lao động chặt chẽ (để tránh mối đe dọa từ người cũ).
+    - Sử dụng nhiều lớp phòng thủ chống virus và chống lừa đảo (Anti-virus/anti-phishing defenses) ở cấp độ gateway và người dùng.
+    - Áp dụng quy trình quản lý thay đổi (Change management) được lập thành văn bản rõ ràng thay vì quy trình ad-hoc.
+    - Đảm bảo phần mềm và hệ điều hành được cập nhật và vá lỗi thường xuyên.
+    - Thực thi chính sách phần cứng và phần mềm (Hardware/Software policy): Cấm sử dụng USB cá nhân, chỉ cho phép cài phần mềm hợp pháp.
+    - Xác minh Danh tính và Ủy quyền: Nhân viên phải xác minh header email và danh tính người yêu cầu thông tin.
+    - Đảm bảo sử dụng các kênh liên lạc an toàn và được mã hóa khi chia sẻ dữ liệu nhạy cảm.
 - **Cách phòng chống Phishing chi tiết (How to Defend against Phishing Attacks) [Trang 1449]:**
   - Giáo dục cá nhân bằng cách tiến hành các chiến dịch diễn tập phishing.
   - Bật bộ lọc thư rác (spam filters) để phát hiện email từ các nguồn đáng ngờ.
@@ -155,8 +196,41 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
   - Báo cáo ngay lập tức các tài khoản mạng xã hội được xác nhận là giả mạo, hoặc khiếu nại lên cơ quan tội phạm mạng nếu tài khoản đó tống tiền.
   - Cài đặt các tiện ích mở rộng bảo mật (security extensions) uy tín để phát hiện và chặn các trang web lừa đảo.
   - Thường xuyên sao lưu dữ liệu và hệ thống để giảm thiểu tác động của cuộc tấn công thành công (ví dụ như Ransomware thường đi theo sau nỗ lực phishing).
-- **Cách phòng chống Đánh cắp danh tính (Identity Theft Countermeasures):** Tiêu hủy cẩn thận các tài liệu in chứa dữ liệu cá nhân, giữ kín SSN, theo dõi sao kê thẻ tín dụng định kỳ, làm trống hòm thư vật lý nhanh chóng, kích hoạt đóng băng tín dụng (credit freeze), không dùng Wi-Fi công cộng cho giao dịch nhạy cảm.
-- **Cách phòng chống Voice Cloning & Deepfake:** Thận trọng với mọi cuộc gọi xin tiền dù là giọng người thân, xác minh danh tính bằng các phương pháp phụ (hỏi câu hỏi bảo mật riêng). Đối với video, sử dụng công nghệ đóng dấu kỹ thuật số (Digital watermarking), blockchain để truy xuất nguồn gốc video, và áp dụng các công cụ AI phân tích sự bất nhất của video (như ánh sáng lỗi, chuyển động môi không khớp, chi tiết điểm ảnh).
+- **Cách phòng chống Đánh cắp danh tính (Identity Theft Countermeasures):**
+  - Bảo mật hoặc cắt nhỏ (shred) tất cả tài liệu chứa thông tin cá nhân.
+  - Đảm bảo tên của bạn không có trong "danh sách mục tiêu" (hit lists) của các nhà tiếp thị.
+  - Thường xuyên xem xét sao kê thẻ tín dụng và cất giữ an toàn.
+  - Không bao giờ cung cấp thông tin cá nhân qua điện thoại.
+  - Làm trống hộp thư (mailbox) nhanh chóng để giữ an toàn cho thư từ.
+  - Nghi ngờ và xác minh tất cả các yêu cầu đòi cung cấp dữ liệu cá nhân.
+  - Bảo vệ không để thông tin cá nhân bị công khai.
+  - Không hiển thị tài khoản hoặc số liên lạc trừ khi bắt buộc.
+  - Thường xuyên theo dõi các hoạt động ngân hàng trực tuyến.
+  - Không bao giờ liệt kê các thông tin nhận dạng cá nhân (tên cha, tên thú cưng, địa chỉ, nơi sinh) trên mạng xã hội.
+  - Kích hoạt xác thực hai yếu tố (2FA) trên mọi tài khoản trực tuyến.
+  - Không bao giờ dùng Wi-Fi công cộng để chia sẻ/truy cập thông tin nhạy cảm.
+  - Cài đặt tường lửa và phần mềm diệt virus trên máy tính cá nhân.
+  - Không lưu trữ thông tin tài chính trên máy tính và dùng mật khẩu mạnh.
+  - Cẩn trọng trước khi nhấp vào link trong email/tin nhắn.
+  - Chỉ nhập thông tin cá nhân trên các trang web có dấu "https".
+  - Báo cáo gian lận (fraud alerts) cho hệ thống để phòng thủ.
+  - Đóng băng tín dụng (Credit freeze) tại các cơ quan tín dụng như Equifax, Experian để chặn quyền truy cập trái phép.
+- **Cách phòng chống Voice Cloning (Voice Cloning Countermeasures):**
+  - Cẩn trọng khi nhận cuộc gọi/âm thanh không mong muốn, đặc biệt nếu họ yêu cầu thông tin nhạy cảm hoặc hành động bất thường.
+  - Xác minh danh tính người gọi bằng các phương pháp xác thực bổ sung (mật khẩu, câu hỏi bảo mật).
+  - Giáo dục người dùng về rủi ro của voice cloning và tầm quan trọng của việc hoài nghi.
+  - Triển khai sinh trắc học giọng nói hoặc công nghệ xác thực nâng cao để xác minh tính xác thực.
+  - Sử dụng công nghệ chống giả mạo (anti-spoofing) để phát hiện giọng nói nhân tạo/tổng hợp.
+  - Sử dụng các kênh liên lạc an toàn như cuộc gọi thoại được mã hóa.
+- **Cách phòng chống Deepfake (Deepfake Attack Countermeasures):**
+  - Triển khai kỹ thuật đóng dấu kỹ thuật số (digital watermarking) chèn mã ẩn vào video gốc lúc tạo.
+  - Sử dụng công nghệ Blockchain để tạo bản ghi nội dung số gốc nhằm xác minh tính xác thực.
+  - Cải thiện công nghệ nhận diện khuôn mặt để phân biệt mặt thật và mặt do AI tạo ra.
+  - Áp dụng các biện pháp bảo mật quyền riêng tư nghiêm ngặt để bảo vệ dữ liệu sinh trắc học khỏi việc bị dùng tạo deepfake.
+  - Tăng cường cơ chế báo cáo của người dùng trên MXH để nhanh chóng gắn cờ video giả mạo.
+  - Đào tạo công chúng và chuyên gia truyền thông cách đánh giá tính xác thực của nội dung số.
+  - Phát triển các công cụ AI/ML để phát hiện sự thiếu nhất quán (chuyển động mắt bất thường, ánh sáng sai lệch, khẩu hình môi bị lỗi).
+  - Sử dụng các kỹ thuật pháp y số nâng cao (phân tích nén, chi tiết cấp độ pixel, lỗi âm thanh) để kiểm tra dấu hiệu thao túng.
 
 **Bảng Mục tiêu Kỹ thuật xã hội và Chiến lược phòng thủ (Common Social Engineering Targets and Defense Strategies) [Trang 1457 - 1458]:**
 
@@ -186,12 +260,6 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
 - **Dumpsters (Thùng rác):**
   - Kỹ thuật tấn công: Dumpster diving.
   - Phòng thủ: Đặt thùng rác ở khu vực an toàn, có giám sát; cắt nhỏ (shred) các dữ liệu quan trọng và xóa từ tính (erase magnetic media) trước khi vứt bỏ.
-
-## 4. Công cụ phòng thủ và mô phỏng
-
-### 4R TIGER\*\* [Trang 1441 - 1442]: Trình tạo mã QR cho phép sao chép mã hợp pháp (tĩnh hoặc động). Công cụ này cho phép kẻ tấn công theo dõi dữ liệu sâu (số lần quét, thời gian quét, vị trí).
-
-- _(Các công cụ khác)_: **QR Code Generator**, **Soti MobiControl**, **QR Code KIT**.
 
 ## 3. Công cụ phòng thủ và mô phỏng
 

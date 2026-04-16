@@ -81,7 +81,7 @@ _(Bổ sung thêm một số công cụ quét khác theo giáo trình):_ `sx` (m
 
 Các công cụ ping sweep gửi đồng loạt nhiều ICMP ECHO đến một dải IP để tìm host đang hoạt động. Các công cụ đề cập trong tài liệu gốc:
 
-- **Angry IP Scanner**
+- **Angry IP Scanner:** Là công cụ quét cổng và địa chỉ IP sử dụng phương pháp đa luồng (multithreaded) để tăng tốc độ. Nó ping từng IP, tùy chọn phân giải hostname, xác định MAC và quét cổng. Thông qua các plugin, công cụ này thu thập thêm thông tin NetBIOS (tên máy tính, tên workgroup, người dùng Windows đang đăng nhập), nhận diện web server và hỗ trợ lưu kết quả dưới các định dạng CSV, TXT, XML hoặc danh sách IP-Port.
 - **SolarWinds Engineer’s Toolset**
 - **NetScanTools Pro**
 - **Colasoft Ping Tool**
@@ -137,6 +137,9 @@ Tài liệu phân loại các kỹ thuật quét cổng dựa trên cách thao t
   - **Xmas scan (Trang 328 - 329):** Bật đồng thời các cờ `FIN`, `URG`, `PSH`. Lệnh: `nmap -sX`. _(Tương tự, `-sF` là FIN scan, `-sN` là NULL scan không bật cờ nào)_.
   - **TCP Maimon scan (Trang 330):** Gửi gói với cờ `FIN` và `ACK`. Nếu cổng đóng, trả về `RST`; nếu cổng mở trên hệ thống chuẩn BSD, gói tin sẽ bị loại bỏ (không có phản hồi). Lệnh: `nmap -sM`.
 - **ACK flag probe scan (Trang 331 - 333):** Gửi gói `ACK` và kiểm tra thông tin header trả về (TTL hoặc trường Window) của gói `RST` để ước lượng trạng thái cổng (mở/đóng). Kỹ thuật này cũng dùng để kiểm tra hệ thống lọc của firewall (stateful firewall). Lệnh: `nmap -sA` hoặc `nmap -sW`.
+  - **TTL-Based ACK Flag Probe scanning:** Gửi hàng ngàn gói ACK tới các cổng TCP khác nhau. Nếu giá trị TTL của gói RST trả về nhỏ hơn giá trị ranh giới là 64, thì cổng đó đang **mở**.
+  - **Window-Based ACK Flag Probe scanning:** Phân tích trường window của gói RST trả về. Nếu giá trị cửa sổ (window value) khác không (non-zero), thì cổng đó đang **mở**.
+  - **Kiểm tra hệ thống lọc (Checking the Filtering Systems):** Gửi gói ACK với số sequence ngẫu nhiên. Nếu **không có phản hồi**, cổng đó đã bị lọc (có stateful firewall chặn lại). Nếu nhận được phản hồi **RST**, cổng đó không bị lọc (không có firewall).
 - **IDLE / IPID Header scan (Trang 334 - 336):** Quét hoàn toàn ẩn danh bằng cách gửi địa chỉ nguồn giả (spoofed IP). Kẻ tấn công dùng một máy trạm rảnh rỗi (zombie) làm trung gian và dựa vào sự gia tăng của số định danh IP (IPID) trên máy zombie để suy ra trạng thái cổng của mục tiêu. Lệnh Nmap: `nmap -sI <Zombie IP> <Target IP>`.
 - **UDP scan (Trang 337 - 338):** Không có bắt tay 3 bước, chỉ gửi datagram tới cổng UDP. Nếu không có phản hồi, cổng có thể mở hoặc bị lọc. Nếu nhận được lỗi ICMP port unreachable (Type 3), cổng đó đóng. Rất chậm do cơ chế giới hạn tỷ lệ phản hồi lỗi ICMP của mục tiêu. Lệnh Nmap: `nmap -sU`.
 - **SSDP / UPnP scan (Trang 343):** SSDP điều khiển giao tiếp cho tính năng Universal Plug and Play (UPnP). Kẻ tấn công sử dụng công cụ khám phá UPnP SSDP M-SEARCH để quét và phát hiện các lỗ hổng UPnP, từ đó tung đòn tấn công tràn bộ đệm hoặc DoS.
@@ -310,16 +313,27 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
 - **Các kỹ thuật kiểm tra và vượt qua tường lửa chuyên sâu (Trang 399-407):**
   - **Proxy Chaining (Chuỗi proxy):** Người dùng yêu cầu kết nối đi qua nhiều máy chủ proxy liên tiếp. Mỗi máy chủ sẽ tước bỏ thông tin định danh của người dùng trước khi chuyển cho proxy tiếp theo, khiến việc truy vết (traffic analysis) cực kỳ phức tạp.
   - **Công cụ Proxy (Proxy Tools):** Proxy Switcher, CyberGhost VPN, Burp Suite, Tor, Hotspot Shield, Proxifier, IPRoyal.
-  - **Anonymizers (Trình ẩn danh):** Đứng làm trung gian xóa bỏ mọi thông tin định danh (IP) và mã hóa HTTP/FTP. Có 2 loại: Networked Anonymizers (đa điểm, khó bị phân tích lưu lượng nhưng rủi ro bảo mật từng node) và Single-Point Anonymizers (một điểm, dễ bị phân tích lưu lượng hơn).
-  - **Công cụ vượt kiểm duyệt (Censorship Circumvention Tools):** AstrillVPN, và đặc biệt là hệ điều hành Tails (một OS chạy trên USB/SD card, sử dụng mạng Tor để ẩn danh hoàn toàn và không để lại dấu vết trên máy tính).
+  - **Lý do sử dụng Anonymizers (Why Use an Anonymizer?):**
+    - Đảm bảo quyền riêng tư bằng cách ẩn danh hoạt động lướt web.
+    - Truy cập các nội dung/website bị chính phủ giới hạn.
+    - Bảo vệ người dùng khỏi các cuộc tấn công trực tuyến (như pharming) bằng cách định tuyến lưu lượng qua máy chủ DNS được bảo vệ.
+    - Vượt qua các quy tắc kiểm duyệt của IDS và tường lửa.
+  - **Phân loại Anonymizers:**
+    - _Networked Anonymizers:_ Chuyển thông tin qua một mạng lưới gồm nhiều máy tính trung gian. Ưu điểm là làm cho việc phân tích lưu lượng trở nên phức tạp. Nhược điểm là có nguy cơ xâm phạm bảo mật ở từng node.
+    - _Single-Point Anonymizers:_ Chuyển thông tin qua một website/server duy nhất. Ưu điểm là ẩn được địa chỉ IP trực tiếp. Nhược điểm là khả năng chống lại phân tích lưu lượng tinh vi kém hơn.
+  - **Một số công cụ ẩn danh và vượt kiểm duyệt nổi bật (Censorship Circumvention Tools):**
+    - **Whonix:** Hệ điều hành desktop chạy trên máy ảo (Debian base), tự động định tuyến toàn bộ kết nối qua mạng Tor để ẩn danh và cung cấp lớp bảo vệ vững chắc chống rò rỉ IP/malware.
+    - **AstrillVPN:** Phần mềm VPN giúp vượt kiểm duyệt Internet, truy cập các ứng dụng bị chặn theo vị trí địa lý, mã hóa dữ liệu mà không lưu nhật ký truy cập (logging).
+    - **Tails:** Hệ điều hành Live OS chạy từ thẻ USB/SD. Cung cấp các công cụ mật mã hiện đại để mã hóa tệp, email và IM, lướt web ẩn danh hoàn toàn qua Tor và không để lại dấu vết trên máy tính sau khi tắt.
 
 ### 8. Kỹ thuật phát hiện IP Spoofing (IP Spoofing Detection Techniques) (Trang 414 - 417)
 
 - **Thăm dò TTL trực tiếp (Direct TTL Probes):** Gửi một gói tin đến host bị nghi ngờ là IP giả mạo và so sánh TTL trả về với TTL của gói tin đang kiểm tra. Nếu không khớp hoặc thuộc giao thức khác, kẻ tấn công có thể đã giả mạo IP (Kỹ thuật này thành công khi kẻ tấn công và nạn nhân khác Subnet).
-- **Dựa vào số định danh IP (IP Identification Number - IPID):** Gửi gói tin dò tìm và kiểm tra IPID. Vì IPID tăng dần đều đặn, nếu giá trị IPID của gói tin đang kiểm tra không có giá trị gần với IPID phản hồi từ máy thật, chứng tỏ gói đó bị giả mạo. (Hoạt động tốt ngay cả khi hacker ở cùng Subnet).
-  - Đảm bảo **TCP wrappers** giới hạn quyền truy cập vào mạng dựa trên tên miền hoặc địa chỉ IP.
-  - Sử dụng proxy servers để chặn các gói tin bị phân mảnh (fragmented) hoặc có định dạng sai (malformed).
-  - Triển khai **Egress filtering** (Lọc đầu ra) để kiểm soát lưu lượng gửi ra ngoài, giúp phát hiện và chặn các host nội bộ chứa mã độc đang cố quét mục tiêu bên ngoài.
+- **Dựa vào số định danh IP (IP Identification Number - IPID):** Người phòng thủ gửi gói probe đến source IP nghi ngờ và quan sát số IPID trả về. Vì IPID tăng dần theo mỗi gói tin được phát đi, nếu gói tin là hợp pháp, IPID phản hồi sẽ phải rất gần (lớn hơn một chút) so với IPID của gói đang kiểm tra. Nếu giá trị không sát nhau, tức là địa chỉ IP nguồn đã bị giả mạo. Phương pháp này hoạt động hiệu quả ngay cả khi hacker và mục tiêu ở cùng một Subnet.
+- **Phương pháp kiểm soát luồng TCP (TCP Flow Control Method):** Lợi dụng nguyên tắc cửa sổ trượt (sliding window) của giao thức TCP, trong đó người gửi phải ngừng truyền dữ liệu khi kích thước cửa sổ (window size) bằng 0.
+  - Kẻ tấn công gửi gói TCP giả mạo sẽ không bao giờ nhận được phản hồi SYN-ACK (do phản hồi đi về máy chủ thực) và hoàn toàn không biết thông tin về window size.
+  - Nếu mục tiêu thấy dữ liệu lưu lượng vẫn tiếp tục được gửi đến ngay cả khi kích thước cửa sổ đã cạn kiệt, các gói tin đó rất có thể bị giả mạo.
+  - Áp dụng trong Handshake: Mục tiêu có thể cố tình phản hồi gói SYN-ACK với window size thiết lập bằng 0. Nếu người gửi hợp pháp, họ sẽ chờ; nhưng kẻ giả mạo (không nhận được SYN-ACK) vẫn sẽ gửi gói ACK kèm theo dữ liệu. Điều này lập tức tố cáo đó là IP giả mạo.
 - **Banner Grabbing Countermeasures (Phòng chống bắt cờ):**d):\*\* Lợi dụng kích thước cửa sổ trượt (sliding window). Kẻ tấn công gửi gói tin SYN giả mạo sẽ không nhận được SYN-ACK (vì gói này chạy về máy nạn nhân thật). Khi cửa sổ luồng (window size) đã hết, nếu dữ liệu vẫn tiếp tục được gửi tới, chứng tỏ gói tin đó là giả mạo.
 
 ### 9. Biện pháp phòng chống quét mạng (Network Scanning Countermeasures) (Trang 408 - 421)
