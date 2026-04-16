@@ -228,94 +228,105 @@ Kỹ nghệ xã hội là quá trình phi kỹ thuật mà kẻ tấn công lừ
 - **Recon-dog (Trang 254 & 259):** Công cụ "all-in-one" cho nhu cầu thu thập thông tin cơ bản. Sử dụng API để lấy thông tin mục tiêu với các tính năng: Censys, NS lookup, Port scan, Detect CMS, Whois lookup, Detect honeypot, Find subdomains, và Reverse IP lookup.
 - **BillCipher (Trang 254 & 260):** Công cụ thu thập thông tin cho trang web hoặc địa chỉ IP (hỗ trợ Python 2, 3 và Ruby). Bao gồm nhiều tính năng: tra cứu DNS, tra cứu Whois, quét cổng, zone transfer, tìm host và reverse IP lookup.
 
-## Cổng (Ports) và phân loại
+## 1. Cổng (Ports) và Phân loại
 
-- Well‑known ports: 0–1023
-- Registered ports: 1024–49151
-- Dynamic/Private ports: 49152–65535
+_Lưu ý: Bảng dưới đây cung cấp thông tin các port quan trọng, bao gồm cả cấu hình cổng được trích xuất từ bảng "Reserved ports table" và các công cụ thực tế._
 
-Các port quan trọng:
+- `0–1023`: Well‑known ports (Cổng được biết đến nhiều)
+- `1024–49151`: Registered ports (Cổng đăng ký)
+- `49152–65535`: Dynamic/Private ports (Cổng động/riêng tư)
 
-| Port number | Protocol | Transport protocol |
-| ----------- | -------- | ------------------ |
-| 20/21       | FTP      | TCP                |
-| 22          | SSH      | TCP                |
-| 23          | Telnet   | TCP                |
-| 25          | SMTP     | TCP                |
-| 53          | DNS      | TCP và UDP         |
-| 67          | DHCP     | UDP                |
-| 69          | TFTP     | UDP                |
-| 80          | HTTP     | TCP                |
-| 88          | Kerberos | TCP                |
-| 110         | POP3     | TCP                |
-| 123         | NTP      | UDP                |
-| 135         | MS RPC   | TCP                |
-| 137–139     | NetBIOS  | TCP/UDP            |
-| 143         | IMAP     | TCP                |
-| 161/162     | SNMP     | UDP                |
-| 178         | RTSP     | TCP/UDP            |
-| 389         | LDAP     | TCP/UDP            |
-| 443         | HTTPS    | TCP                |
-| 445         | SMB      | TCP                |
-| 514         | Syslog   | UDP/TCP            |
+| Port number / Protocol | Dịch vụ (Service)                         |
+| ---------------------- | ----------------------------------------- |
+| **21/tcp**             | ftp (Lệnh FTP)                            |
+| **22/tcp**             | ssh (Secure Shell)                        |
+| **23/tcp**             | telnet                                    |
+| **25/tcp**             | SMTP (Email server)                       |
+| **53/tcp, udp**        | domain (Domain name server - DNS)         |
+| **67/udp**             | bootps (Bootp server - DHCP)              |
+| **68/udp**             | bootpc (Bootp client - DHCP)              |
+| **69/udp**             | tftp (Trivial File Transfer Protocol)     |
+| **80/tcp, udp**        | www-http (WWW)                            |
+| **88/tcp, udp**        | kerberos                                  |
+| **110/tcp**            | Pop3 (PostOffice V.3)                     |
+| **123/udp**            | ntp (Network Time Protocol)               |
+| **135/tcp**            | msrpc (Microsoft Windows RPC - theo Nmap) |
+| **137/tcp, udp**       | netbios-ns (NETBIOS Name Service)         |
+| **138/tcp, udp**       | netbios-dgm (NETBIOS Datagram Service)    |
+| **139/tcp, udp**       | netbios-ssn (NETBIOS Session Service)     |
+| **143/tcp, udp**       | imap (Internet Message Access Protocol)   |
+| **161/tcp, udp**       | snmp                                      |
+| **389/tcp, udp**       | ldap (Được xác định theo Nmap)            |
+| **443/tcp**            | https (Được xác định theo Nmap)           |
+| **445/tcp**            | kerberos-ds (Microsoft DS / SMB)          |
+| **514/tcp, udp**       | syslog/shell                              |
 
-**`CurrPorts`** hiển thị tất cả các cổng mở trên máy tính của bạn.
+**Công cụ và Lệnh liên quan:**
+
+- **`CurrPorts`**: Công cụ xem tất cả các cổng đang mở và kết nối TCP/UDP trên máy.
+- **`netstat`**: Lệnh dùng để hiển thị các kết nối mạng, bảng định tuyến và các cổng đang lắng nghe.
+- **`netstat -b`**: Hiển thị file thực thi của cổng/chương trình đang sử dụng (chỉ có trên Windows, cần quyền admin).
 
 **Trạng thái cổng (Port states):**
 
-- **`CLOSE_WAIT`** — phía từ xa đã đóng kết nối.
-- **`TIME_WAIT`** — phía của bạn đã đóng kết nối.
+- **`CLOSE_WAIT`**: Chờ ứng dụng cục bộ đóng kết nối (phía từ xa đã đóng).
+- **`TIME_WAIT`**: Chờ đủ thời gian để đảm bảo mạng không còn gói tin lạc sau khi kết nối đóng.
 
-**`netstat`** hiển thị tất cả kết nối và cổng đang lắng nghe.
-**`netstat -b`** hiển thị executable liên kết với cổng mở.
+---
 
-**IPv4** hỗ trợ unicast, multicast và broadcast.
+## 2. Giao thức IPv4 và ICMP
 
-**ICMP** Internet Control Message Protocol (lớp mạng).
-**Mã thông điệp ICMP:**
+- **IPv4**: Hỗ trợ Unicast, Multicast và Broadcast. IPv4 sử dụng các dải Private IP theo chuẩn IANA (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
+- **ICMP (Lớp mạng)**: Internet Control Message Protocol được sử dụng nhiều cho kỹ thuật Ping Sweep và Traceroute.
+  - Các mã thông điệp ICMP phổ biến (ICMP Type):
+    - **0**: Echo Reply
+    - **3**: Destination unreachable _(Đặc biệt chú trọng khi quét cổng, hệ thống có thể trả về lỗi Type 3 với các Code như 0, 1, 2, 3, 9, 10, hoặc 13)_.
+    - **4**: Source quench
+    - **5**: Redirect
+    - **8**: Echo request
+    - **11**: Time exceeded
 
-- **0**: Echo Reply
-- **3**: Destination unreachable (các mã phụ: 0: network unreachable, 1: host unreachable, 6: network unknown, 9: administratively prohibited, 13: communication administratively prohibited)
-- **4**: Source quench
-- **5**: Redirect
-- **8**: Echo request
-- **11**: Time exceeded
+---
 
-**Ping sweep** cách tốt để tìm máy còn hoạt động trong mạng, nhưng rất ồn ào (noisy).
-**Công cụ:**
+## 3. Ping Sweep và Công cụ (Trang 305, 316-317)
 
-- **Angry IP Scanner**
-- **SolarWinds Engineer’s Toolset**
-- **Network Ping**
-- **OpUtils**
-- **Superscan**
-- **Advanced IP Scanner**
-- **Pinkie**
+- **Định nghĩa**: Ping sweep (hay ICMP sweep) là kỹ thuật quét mạng cơ bản bằng cách gửi các yêu cầu ICMP ECHO tới nhiều máy chủ cùng lúc để xác định dải IP nào đang hoạt động. Tuy nhiên, phương pháp này khá chậm, "ồn ào" (noisy) và có thể bị tường lửa ngăn chặn.
+- **Công cụ quét Ping**:
+  - **Angry IP Scanner**: Quét dải IP và port, xác định MAC, hostname và thông tin NetBIOS.
+  - **SolarWinds Engineer’s Toolset**
+  - **NetScanTools Pro**
+  - **Colasoft Ping Tool**
+  - **Advanced IP Scanner**
+  - **OpUtils**
+  - _(Bổ sung)_: **Network Ping**, **Superscan**, **Pinkie** (các công cụ mở rộng thường đi kèm quét Nmap qua TOR).
 
-**Quét Nmap qua TOR**
+---
 
-**ARP**
+## 4. Kỹ thuật ARP Ping Scan (Trang 301 - 303)
 
-- ARP liên kết IP tới địa chỉ MAC trong mạng.
-- Quét ARP trong Nmap: `nmap -sn -PR 192.168.1.69`.
+- **Cách hoạt động**: Các gói tin ARP được gửi đi để khám phá thiết bị đang hoạt động trong mạng IPv4 nội bộ (LAN), ngay cả khi bị tường lửa hạn chế. Hệ điều hành phải xác định địa chỉ MAC qua ARP. Nếu máy chủ phản hồi IP với địa chỉ MAC tương ứng, nó đang "sống". ARP hiệu quả và chính xác hơn các phương pháp khác trong mạng LAN.
+- **Lệnh Nmap**: `nmap -sn -PR <Target IP>`.
+  - Tùy chọn `-PR` dùng để thực hiện quét ARP Ping.
+  - Tùy chọn `-sn` dùng để vô hiệu hóa tính năng quét cổng (port scan).
 
-Port scanners hoạt động bằng cách điều khiển các cờ TCP để xác định host hoạt động và quét cổng.
+---
 
-Các kiểu quét cổng (Port scan types):
+## 5. Các kiểu quét cổng (Port Scan Types)
 
-- **Full connect (TCP connect / full open scan)** — chạy qua three‑way handshake trên cổng, sau đó kết thúc bằng `RST`. Dễ bị phát hiện nhưng đáng tin cậy; cổng mở phản hồi `SYN/ACK`, cổng đóng trả `RST`.
-- **Stealth (half‑open / SYN scan)** — chỉ gửi `SYN`. Ít bị chú ý hơn vì không hoàn tất kết nối.
-- **Inverse TCP flag** — dùng `FIN`, `URG` hoặc `PSH` để kiểm tra cổng. Nếu cổng mở thường không có phản hồi; nếu đóng thì trả `RST/ACK`.
-- **Christmas scan (XMAS)** — bật tất cả các cờ; phản hồi tương tự inverse TCP scan. Không hiệu quả trên hệ thống Microsoft.
-- **ACK flag probe** — gửi cờ `ACK` và kiểm tra header trả về (TTL hoặc trường Window). Dùng để kiểm tra firewall (nếu trả `RST` thì không có firewall giữa bạn và host).
-- **IDLE scan** — spoof IP; cần một máy ở trạng thái idle.
+Port scanner hoạt động bằng cách điều khiển các cờ TCP (`SYN`, `ACK`, `RST`, `FIN`, `URG`, `PSH`) để xác định trạng thái cổng. Các phương pháp chuyên sâu bao gồm:
 
-**Nmap**
+- **TCP Connect / Full Open Scan (Trang 323 - 324)**: Hoàn thành quy trình bắt tay 3 bước (three-way handshake). Nmap sử dụng lệnh gọi hệ thống `connect()`. Nếu cổng mở, mục tiêu trả về `SYN/ACK`, máy quét phản hồi `ACK` rồi lập tức gửi `RST` để đóng kết nối. Đáng tin cậy nhưng dễ bị phát hiện vì tạo ra log trên máy mục tiêu. Lệnh: `nmap -sT`.
+- **Stealth Scan / Half-open / SYN Scan (Trang 325 - 326)**: Quét lén lút bằng cách cắt đứt kết nối trước khi hoàn tất bắt tay 3 bước. Kẻ tấn công gửi gói `SYN`, nếu nhận được `SYN/ACK` (cổng mở), họ lập tức gửi `RST` để hủy. Giúp vượt qua quy tắc tường lửa và không bị ghi log. Lệnh: `nmap -sS`.
+- **Inverse TCP Flag Scan (Trang 327)**: Gửi gói TCP với các cờ `FIN`, `URG`, `PSH` hoặc không có cờ nào. Nếu cổng mở, mục tiêu sẽ không có phản hồi. Nếu cổng đóng, mục tiêu trả về gói `RST/ACK`. Tránh được IDS nhưng chủ yếu hoạt động trên hệ thống Unix/BSD. Windows thường phớt lờ và báo mọi cổng đều mở. Dùng lệnh `nmap -sF`, `nmap -sN`, `nmap -sX`.
+- **XMAS Scan (Trang 328 - 329)**: Một dạng quét đảo ngược (inverse). Bật tất cả các cờ `FIN`, `URG` và `PUSH`. Tương tự như Inverse Scan, cổng mở không phản hồi, cổng đóng trả về `RST`. Không hiệu quả trên các phiên bản Microsoft Windows. Lệnh: `nmap -sX`.
+- **ACK Flag Probe Scan (Trang 331 - 333)**: Gửi gói `ACK` và kiểm tra header trả về (Trường TTL hoặc trường Window) của gói `RST` để xác định cổng mở hoặc để kiểm tra cơ chế lọc của tường lửa (stateful firewall). Nếu TTL < 64 hoặc trường Window có giá trị khác 0, cổng đó mở. Lệnh: `nmap -sA`.
+- **IDLE / IPID Header Scan (Trang 334 - 336)**: Sử dụng một máy trạm rảnh rỗi (idle zombie) để làm "bia đỡ đạn" và giả mạo IP. Kẻ tấn công đo lường số thứ tự IPID của máy zombie, sau đó gửi gói `SYN` tới mục tiêu bằng địa chỉ IP giả mạo của zombie. Nếu cổng mục tiêu mở, nó gửi `SYN/ACK` cho zombie, khiến zombie gửi `RST` và tăng IPID lên thêm một bậc. Dựa vào bước nhảy của IPID (+1 = đóng, +2 = mở), kẻ tấn công quét được mục tiêu mà không lộ IP thật. Lệnh: `nmap -sI <Zombie IP> <Target>`.
 
-**Các công cụ liên quan:**
+---
 
-- **Nmap**
-- **NetScanTools**
-- **Hping3**
+## 6. Các công cụ liên quan
 
-MIB info — cần kiểm tra.
+- **Nmap (Network Mapper) (Trang 290)**: Là công cụ quét mạng và bảo mật mạnh mẽ. Nmap cho phép cấu hình linh hoạt các gói tin TCP/UDP để khám phá máy chủ, cổng, dịch vụ, hệ điều hành (OS detection), phát hiện tường lửa và thực hiện ping sweep.
+- **Hping3 (Trang 292 - 297)**: Công cụ tạo gói tin (packet crafting tool) qua dòng lệnh. Hỗ trợ TCP, UDP, ICMP và raw-IP. Kẻ tấn công dùng Hping3 để kiểm tra tường lửa, vượt qua IDS, IP spoofing, khám phá MTU, SYN flood, ACK scan và quét lén lút (stealth/idle).
+- **NetScanTools Pro (Trang 299)**: Công cụ điều tra mạng tổng hợp (active, passive, DNS) giúp chẩn đoán, giám sát và thu thập thông tin người dùng, IP, cổng mở IPv4/IPv6.
+- **MIB Info**: _Management Information Base_ - thường được dùng trong quá trình phân tích danh sách (SNMP Enumeration).
