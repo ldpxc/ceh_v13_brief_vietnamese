@@ -40,30 +40,40 @@
 - **Phục hồi (Recovery)**: Sau khi loại bỏ các nguyên nhân gây ra sự cố, đội ngũ sẽ tiến hành khôi phục lại các hệ thống, dịch vụ, tài nguyên và dữ liệu bị ảnh hưởng. Đội ngũ ứng phó sự cố có trách nhiệm đảm bảo rằng sự cố không gây ra bất kỳ sự gián đoạn nào đối với các dịch vụ hoặc hoạt động kinh doanh của tổ chức
 - **Hoạt động sau sự cố (Post-incident activity)**: Sau khi quá trình xử lý hoàn tất, sự cố bảo mật yêu cầu phải được xem xét và phân tích bổ sung trước khi đóng lại vụ việc. Đánh giá cuối cùng này bao gồm các công việc: lập tài liệu về sự cố, đánh giá tác động của sự cố, xem xét và sửa đổi các chính sách, đóng hồ sơ điều tra và công bố thông tin về sự cố
 
-## Hành vi tấn công / Phương pháp tấn công (Hacking methodology):
+## Hành vi tấn công / Phương pháp tấn công và các giai đoạn tấn công (Hacking methodology / CEH Ethical Hacking Framework):
 
-1. **Giai đoạn 1: Thu thập thông tin (Reconnaissance / Footprinting)** - Trang 47 Đây là giai đoạn chuẩn bị, trong đó kẻ tấn công thu thập càng nhiều thông tin càng tốt về mục tiêu trước khi tiến hành tấn công để tạo hồ sơ về tổ chức mục tiêu (ví dụ: dải địa chỉ IP, không gian tên, thông tin nhân viên). Kỹ thuật này được chia làm hai loại:
+1. **Giai đoạn 1: Thu thập thông tin (Reconnaissance / Footprinting)** - Trang 47 D
+   Footprinting và reconnaissance (thu thập thông tin và do thám) cấu thành giai đoạn chuẩn bị, trong đó kẻ tấn công thu thập càng nhiều thông tin càng tốt về mục tiêu trước khi tiến hành một cuộc tấn công. Trong giai đoạn này, kẻ tấn công tạo một hồ sơ về tổ chức mục tiêu và thu được các thông tin như dải địa chỉ IP, namespace và thông tin nhân viên. Footprinting tạo điều kiện thuận lợi cho việc hack hệ thống bằng cách tiết lộ các lỗ hổng. Ví dụ: trang web của tổ chức có thể cung cấp tiểu sử nhân viên hoặc danh bạ nhân sự, mà hacker có thể sử dụng cho các kỹ thuật social engineering. Thực hiện truy vấn Whois trên web có thể cung cấp thông tin về mạng và tên miền được liên kết với một tổ chức cụ thể. Phạm vi mục tiêu của footprinting có thể bao gồm khách hàng, nhân viên, hoạt động, mạng và hệ thống của tổ chức mục tiêu.
 
-   **Footprinting thụ động (Passive reconnaissance):** Kẻ tấn công không tương tác trực tiếp với mục tiêu mà dựa vào các thông tin công khai có sẵn trên internet, các thông cáo báo chí hoặc các phương pháp không tiếp xúc khác.
-   **Footprinting chủ động (Active reconnaissance):** Yêu cầu tương tác trực tiếp với hệ thống mục tiêu thông qua các công cụ để phát hiện cổng mở, host có thể truy cập, vị trí bộ định tuyến, lập bản đồ mạng và chi tiết về hệ điều hành cũng như ứng dụng.
+Các kỹ thuật do thám được phân loại rộng rãi thành chủ động và thụ động:
 
-2. **Giai đoạn Quét và Liệt kê (Scanning và Enumeration)** - Trang 47
+- **Do thám thụ động (Passive reconnaissance):** Khi kẻ tấn công sử dụng kỹ thuật do thám thụ động, chúng không tương tác trực tiếp với mục tiêu. Thay vào đó, kẻ tấn công dựa vào thông tin có sẵn công khai, các thông cáo báo chí hoặc các phương pháp không tiếp xúc khác.
+- **Do thám chủ động (Active reconnaissance):** Mặt khác, kỹ thuật này liên quan đến các tương tác trực tiếp với hệ thống mục tiêu bằng cách sử dụng các công cụ để phát hiện các cổng mở, các host có thể truy cập, vị trí bộ định tuyến, lập bản đồ mạng, thông tin chi tiết về hệ điều hành và các ứng dụng.
 
-   **Scanning (Quét mạng):** Là phần mở rộng hợp lý của việc thu thập thông tin chủ động nhằm thăm dò sâu hơn. Scanning được sử dụng để xác định các host đang hoạt động, các cổng mở (open ports) và các dịch vụ không cần thiết đang được bật trên các host cụ thể.
+**Quét mạng (Scanning) - Trang 47**
+Scanning được sử dụng để xác định các host đang hoạt động, các cổng mở và các dịch vụ không cần thiết được bật trên các host cụ thể. Trong giai đoạn này, kẻ tấn công sử dụng các thông tin chi tiết thu thập được trong quá trình do thám để quét mạng nhằm tìm kiếm các thông tin cụ thể. Scanning là một sự mở rộng hợp lý của do thám chủ động; trên thực tế, một số chuyên gia không phân biệt scanning với do thám chủ động. Tuy nhiên, có một sự khác biệt nhỏ là scanning bao gồm việc thăm dò sâu hơn từ phía kẻ tấn công. Thông thường, các giai đoạn do thám và quét mạng đan xen vào nhau, và không phải lúc nào cũng có thể tách rời chúng.
 
-   **Enumeration (Liệt kê):** Liên quan đến việc tạo các kết nối tích cực (active connections) đến hệ thống mục tiêu hoặc gửi các truy vấn trực tiếp. Đây là phương pháp thăm dò xâm nhập (intrusive probing) để thu thập thông tin chi tiết như: danh sách người dùng mạng, bảng định tuyến, lỗ hổng bảo mật, người dùng được chia sẻ, nhóm, ứng dụng và banner.
+**Liệt kê (Enumeration) - Trang 47**
+Enumeration liên quan đến việc tạo các kết nối tích cực (active connections) đến hệ thống mục tiêu hoặc gửi các truy vấn trực tiếp. Đây là phương pháp thăm dò xâm nhập (intrusive probing) qua đó kẻ tấn công thu thập thông tin như danh sách người dùng mạng, bảng định tuyến, lỗ hổng bảo mật, người dùng được chia sẻ, nhóm, ứng dụng và các banner.
 
-3. **Giai đoạn 2: Quét lỗ hổng / Phân tích lỗ hổng (Vulnerability Scanning)** - Trang 48 Giai đoạn này kiểm tra khả năng chống chịu tấn công của hệ thống hoặc ứng dụng, bao gồm các quy trình và kiểm soát bảo mật hiện tại. Kẻ tấn công thực hiện phân tích lỗ hổng để:
+2. **Giai đoạn 2: Quét lỗ hổng (Vulnerability Scanning)** - Trang 48
+   Đánh giá lỗ hổng là quá trình kiểm tra khả năng chống chịu tấn công của một hệ thống hoặc ứng dụng, bao gồm các quy trình và kiểm soát bảo mật hiện tại của nó. Quá trình này nhận diện, đo lường và phân loại các lỗ hổng bảo mật trong hệ thống máy tính, mạng và các kênh liên lạc. Kẻ tấn công thực hiện phân tích lỗ hổng để xác định các điểm yếu bảo mật trong cơ sở hạ tầng mạng, cơ sở hạ tầng truyền thông và các hệ thống đầu cuối của tổ chức mục tiêu. Các lỗ hổng được xác định sẽ được kẻ tấn công sử dụng để thực hiện việc khai thác sâu hơn mạng mục tiêu.
 
-   Nhận diện, đo lường và phân loại các lỗ hổng bảo mật trong hệ thống máy tính, mạng và các kênh liên lạc.
-   Xác định các lỗ hổng trong cơ sở hạ tầng mạng, cơ sở hạ tầng truyền thông và các hệ thống đầu cuối của tổ chức mục tiêu để sử dụng cho việc khai thác sau này.
+3. **Giai đoạn 3: Đột nhập (Gaining Access)** - Trang 48
+   Đây là giai đoạn mà quá trình hack thực sự diễn ra. Các giai đoạn trước giúp kẻ tấn công xác định các lỗ hổng và điểm yếu bảo mật trong các tài sản CNTT của tổ chức mục tiêu. Kẻ tấn công sử dụng những thông tin này, cùng với các kỹ thuật như bẻ khóa mật khẩu và khai thác lỗ hổng bao gồm cả tràn bộ đệm, để giành quyền truy cập vào hệ thống tổ chức.
 
-4. **Khai thác hệ thống (System Hacking)** - Trang 48 & 49 Đây là giai đoạn mà quá trình hack thực sự diễn ra, sử dụng thông tin từ các bước trước đó. Giai đoạn này bao gồm các bước sau:
+Đột nhập (Gaining access) đề cập đến thời điểm mà kẻ tấn công có được quyền truy cập vào hệ điều hành (OS) hoặc các ứng dụng trên máy tính hoặc mạng. Cơ hội giành quyền truy cập thành công vào hệ thống mục tiêu của hacker phụ thuộc vào một số yếu tố, chẳng hạn như kiến trúc và cấu hình của hệ thống mục tiêu, trình độ kỹ năng của kẻ thù và mức độ truy cập ban đầu đạt được. Một khi kẻ tấn công giành được quyền truy cập vào hệ thống mục tiêu, chúng cố gắng leo thang đặc quyền để nắm quyền kiểm soát hoàn toàn. Trong quá trình này, chúng cũng xâm phạm các hệ thống trung gian được kết nối với nó.
 
-   **Giai đoạn 3:** Đột nhập (Gaining Access) - Trang 48: Kẻ tấn công sử dụng các kỹ thuật như bẻ khóa mật khẩu (password cracking) và khai thác lỗ hổng (ví dụ: tràn bộ đệm - buffer overflows) để giành quyền truy cập vào hệ điều hành hoặc ứng dụng trên mục tiêu. Cơ hội thành công phụ thuộc vào kiến trúc hệ thống, cấu hình, kỹ năng của kẻ tấn công và mức độ truy cập ban đầu.
-   **Leo thang đặc quyền (Escalating Privileges) - Trang 48:** Sau khi truy cập thành công bằng tài khoản người dùng có đặc quyền thấp, kẻ tấn công khai thác các lỗ hổng hệ thống đã biết để nâng quyền của mình lên mức quản trị viên (administrator/root) nhằm thực hiện các thao tác hệ thống được bảo vệ và kiểm soát hoàn toàn.
-   **Giai đoạn 4:** Duy trì truy cập (Maintaining Access) - Trang 48: Khi đã có quyền admin/root (tức là làm chủ hệ thống), kẻ tấn công sẽ cố gắng duy trì sự kiểm soát này. Chúng có thể sử dụng hệ thống này làm bàn đạp để quét và tấn công các hệ thống khác, tải lên/tải xuống dữ liệu, sử dụng phần mềm độc hại để lấy cắp mật khẩu. Chúng cũng có thể duy trì quyền kiểm soát lâu dài bằng cách tự "vá" các lỗ hổng để ngăn những hacker khác xâm nhập.
-   **Giai đoạn 5:** Xóa dấu vết (Clearing Tracks) - Trang 49: Để không bị phát hiện, kẻ tấn công phải xóa mọi bằng chứng về việc hệ thống đã bị xâm phạm. Chúng thực hiện điều này bằng cách sửa đổi hoặc xóa các tệp nhật ký (logs) bằng các tiện ích xóa nhật ký (log-wiping utilities), qua đó loại bỏ hoàn toàn dấu vết về sự hiện diện của chúng.
+**Leo thang đặc quyền (Escalating Privileges)** - Trang 48
+Sau khi giành được quyền truy cập vào hệ thống bằng tài khoản người dùng có đặc quyền thấp, kẻ tấn công có thể cố gắng tăng đặc quyền của mình lên mức quản trị viên để thực hiện các hoạt động hệ thống được bảo vệ, để từ đó chúng có thể tiến tới cấp độ tiếp theo của giai đoạn hack hệ thống, đó là thực thi các ứng dụng. Kẻ tấn công khai thác các lỗ hổng hệ thống đã biết để leo thang đặc quyền của người dùng.
+
+4. **Giai đoạn 4: Duy trì truy cập (Maintaining Access)** - Trang 48
+   Duy trì truy cập đề cập đến giai đoạn mà kẻ tấn công cố gắng duy trì quyền sở hữu hệ thống. Khi kẻ tấn công đã giành được quyền truy cập vào hệ thống mục tiêu với đặc quyền admin hoặc root (tức là làm chủ hệ thống), chúng có thể tùy ý sử dụng cả hệ thống và tài nguyên của nó. Kẻ tấn công có thể sử dụng hệ thống này như một bệ phóng để quét và khai thác các hệ thống khác hoặc giữ một vị thế ẩn mình và tiếp tục quá trình khai thác. Cả hai hành động này đều có thể gây ra thiệt hại đáng kể.
+
+Kẻ tấn công có thể tải lên, tải xuống hoặc thao tác dữ liệu, ứng dụng và cấu hình trên hệ thống đã bị chiếm quyền, đồng thời sử dụng phần mềm độc hại để chuyển tên người dùng, mật khẩu và bất kỳ thông tin nào khác được lưu trữ trong hệ thống. Chúng có thể duy trì quyền kiểm soát hệ thống trong một thời gian dài bằng cách đóng các lỗ hổng để ngăn chặn những hacker khác khai thác chúng. Đôi khi, trong quá trình này, kẻ tấn công có thể cung cấp một mức độ bảo vệ nhất định cho hệ thống khỏi các cuộc tấn công khác. Kẻ tấn công sử dụng các hệ thống đã bị xâm phạm để khởi chạy các cuộc tấn công tiếp theo.
+
+5. **Giai đoạn 5: Xóa dấu vết (Clearing Tracks)** - Trang 49
+   Để không bị phát hiện, điều quan trọng đối với những kẻ tấn công là phải xóa bỏ mọi bằng chứng về việc hệ thống đã bị xâm phạm. Để đạt được điều này, chúng có thể sửa đổi hoặc xóa các bản ghi nhật ký (logs) trong hệ thống bằng cách sử dụng một số tiện ích xóa nhật ký, từ đó loại bỏ tất cả bằng chứng về sự hiện diện của chúng.
 
 ## Quản lý sự kiện và sự cố bảo mật (Security Information and Event Management — SIEM) — ví dụ: Splunk.
 
