@@ -20,8 +20,9 @@
 - **Giá trị tổn thất dự kiến trong 1 năm (Annual Loss Expectancy** — ALE = SLE × ARO)
 - **Kế hoạch duy trì hoạt động (Business Continuity Plan** — BCP)
 
-## Bộ ba CIA (CIA = Confidentiality, Integrity, Availability) — ví dụ: mật khẩu, user ID, danh tính.
+## Bộ ba CIA (CIA = Confidentiality, Integrity, Availability)
 
+- **Tính Bảo mật (Confidentiality)** — mật khẩu, user ID, danh tính.
 - **Tính toàn vẹn (Integrity)** — thay đổi hoặc chỉnh sửa trái phép của dữ liệu; đảm bảo bằng hàm băm (hash function).
 - **Tính sẵn sàng (Availability)** — ví dụ: bị ảnh hưởng bởi tấn công từ chối dịch vụ (Denial of Service — DoS).
 
