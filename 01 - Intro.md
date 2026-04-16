@@ -17,7 +17,7 @@
 
 - **Tỷ lệ xảy ra hàng năm (Annual Rate of Occurrence** — ARO)
 - **Mức tổn thất đơn lẻ dự kiến (Single Loss Expectancy** — SLE)
-- ALE = SLE × ARO
+- **Giá trị tổn thất dự kiến trong 1 năm (Annual Loss Expectancy** — ALE = SLE × ARO)
 - **Kế hoạch duy trì hoạt động (Business Continuity Plan** — BCP)
 
 ## Bộ ba CIA (CIA = Confidentiality, Integrity, Availability) — ví dụ: mật khẩu, user ID, danh tính.
