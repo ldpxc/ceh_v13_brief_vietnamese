@@ -135,77 +135,98 @@ Công cụ BuzzSumo là một công cụ tìm kiếm xã hội nâng cao giúp t
 - **Sherlock:** Công cụ dòng lệnh dùng để tìm kiếm một username (tên người dùng) mục tiêu trên hàng loạt mạng xã hội khác nhau và trả về các URL đầy đủ tới hồ sơ của người đó.
 - **SocialSearcher:** Cho phép kẻ tấn công tìm kiếm nội dung và theo dõi hoạt động của mục tiêu trên mạng xã hội trong thời gian thực, đồng thời cung cấp dữ liệu phân tích chuyên sâu.
 
-## WHOIS, DNS footprinting
+## WHOIS, DNS Footprinting
 
-WHOIS
+### Tra cứu WHOIS (WHOIS Lookup) (Trang 213 - 215)
 
-- Các loại WHOIS:
-  - **Thick WHOIS** — lưu trữ đầy đủ thông tin WHOIS.
-  - **Thin WHOIS** — chỉ lưu tên máy chủ WHOIS.
-  - **Decentralized WHOIS** — thông tin được quản lý phân tán bởi các thực thể độc lập.
+Whois là một giao thức truy vấn và phản hồi được sử dụng để truy vấn các cơ sở dữ liệu lưu trữ người dùng đăng ký hoặc người được chỉ định của một tài nguyên Internet (như tên miền, khối địa chỉ IP). Có 3 mô hình dữ liệu để lưu trữ và tra cứu thông tin Whois:
 
-**Các Regional Internet Registries (RIR):**
+- **Thick WHOIS (Mô hình phân tán - Distributed Model):** Lưu trữ thông tin Whois hoàn chỉnh từ tất cả các nhà đăng ký cho một tập dữ liệu cụ thể.
+- **Thin WHOIS (Mô hình tập trung - Centralized Model):** Chỉ lưu trữ tên của máy chủ Whois của nhà đăng ký tên miền, máy chủ này sau đó mới chứa các chi tiết hoàn chỉnh về dữ liệu đang được tra cứu.
+- **Decentralized WHOIS (Mô hình phi tập trung):** Lưu trữ thông tin WHOIS hoàn chỉnh và có nhiều thực thể độc lập để quản lý cơ sở dữ liệu WHOIS.
 
-- **ARIN** — Bắc Mỹ
-- **AFRINIC** — Châu Phi
-- **APNIC** — Châu Á Thái Bình Dương
-- **RIPE** — Châu Âu
-- **LACNIC** — Mỹ Latinh và Caribe
+### Các Regional Internet Registries (RIRs) (Trang 214)
 
-**Định vị địa lý (Geolocation)** IP2Location.
+RIRs duy trì các cơ sở dữ liệu Whois chứa thông tin cá nhân của chủ sở hữu tên miền. Bao gồm:
 
-DNS
+- **ARIN (American Registry for Internet Numbers)** — Bắc Mỹ
+- **AFRINIC (African Network Information Center)** — Châu Phi
+- **APNIC (Asia Pacific Network Information Center)** — Châu Á Thái Bình Dương
+- **RIPE (Réseaux IP Européens Network Coordination Centre)** — Châu Âu
+- **LACNIC (Latin American and Caribbean Network Information Center)** — Mỹ Latinh và Caribe
 
-Các loại bản ghi DNS (DNS Record types):
+### Định vị địa lý IP (IP Geolocation) (Trang 217)
 
-| Loại bản ghi (Record type) | Nhãn (Label)        | Mô tả (Description)                                                                              |
-| -------------------------- | ------------------- | ------------------------------------------------------------------------------------------------ |
-| A                          | Address record      | Map hostname tới IPv4                                                                            |
-| AAAA                       | IPv6 address record | Map hostname tới IPv6                                                                            |
-| MX                         | Mail exchange       | Xác định mail server cho domain                                                                  |
-| NS                         | Name server         | Xác định name server có thẩm quyền                                                               |
-| CNAME                      | Canonical name      | Gán bí danh (alias) tới hostname thực sự                                                         |
-| SOA                        | Start of Authority  | Định nghĩa authority cho zone (chứa tên server chịu trách nhiệm cho các bản ghi trong namespace) |
-| SRV                        | Service record      | Chỉ định vị trí dịch vụ (ví dụ LDAP, SIP)                                                        |
-| PTR                        | Pointer record      | Reverse lookup — ánh xạ IP tới hostname (thường cho mail server)                                 |
-| RP                         | Responsible person  | Liệt kê admin/chủ sở hữu của domain                                                              |
-| HINFO                      | Host information    | Lưu trữ loại phần cứng và hệ điều hành                                                           |
-| TXT                        | Text Record         | Lưu trữ văn bản cho DKIM và SPF                                                                  |
+- IP Geolocation giúp lấy thông tin về mục tiêu như: quốc gia, khu vực/bang, thành phố, vĩ độ/kinh độ, mã ZIP, múi giờ, tốc độ kết nối, ISP (công ty lưu trữ), tên miền, mã quốc gia IDD, mã vùng, trạm thời tiết, nhà mạng di động và độ cao.
+- **Công cụ IP2Location:** Giúp kẻ tấn công xác định vị trí địa lý của người truy cập hoặc lấy thông tin qua cơ sở dữ liệu tra cứu địa chỉ IP độc quyền.
 
-**Công cụ DNS:**
+---
 
-- **Fierce** — tìm subdomain, cấu hình DNS sai, phạm vi IP, hostname, mẫu đặt tên nội bộ.
-- **DNSRecon** — liệt kê DNS, phát hiện host và subdomain.
-- **MXToolbox** — kiểm tra bản ghi MX và dịch vụ mail.
+## DNS Footprinting
 
-Traceroute
+### Các loại bản ghi DNS (DNS Record types) (Trang 220)
 
-**Công cụ:**
+Thu thập thông tin DNS tiết lộ dữ liệu vùng DNS (DNS zone data) bao gồm tên miền, tên máy tính, địa chỉ IP và nhiều thông tin khác. Các bản ghi DNS giúp xác định mục tiêu:
 
-- **NetScanToolsPro**
-- **PingPlotter**
+- **A (Address record):** Trỏ/Ánh xạ (Map) hostname tới địa chỉ IPv4.
+- **AAAA (IPv6 address record):** Trỏ hostname tới địa chỉ IPv6.
+- **MX (Mail exchange):** Trỏ tới mail server (máy chủ thư) của domain.
+- **NS (Name server):** Trỏ tới name server của máy chủ.
+- **CNAME (Canonical name):** Gán bí danh (alias) cho một host.
+- **SOA (Start of Authority):** Chỉ định quyền hạn (authority) cho một domain.
+- **SRV (Service record):** Các bản ghi dịch vụ.
+- **PTR (Pointer record):** Ánh xạ địa chỉ IP tới một hostname (thường dùng cho reverse lookup).
+- **RP (Responsible person):** Người chịu trách nhiệm (quản trị viên).
+- **HINFO (Host information):** Bản ghi thông tin host bao gồm loại CPU và hệ điều hành (OS).
+- **TXT (Text Record):** Các bản ghi văn bản không cấu trúc.
 
-**Công cụ theo dõi email:**
+### Công cụ DNS (Trang 221 - 229)
 
-- **eMailTrackerPro**
-- **IP2Location**
+- **SecurityTrails (Trang 221):** Công cụ liệt kê DNS nâng cao có khả năng tạo bản đồ DNS của mạng mục tiêu, liệt kê các bản ghi hiện tại và lịch sử (A, AAAA, NS, MX, SOA, TXT).
+- **Fierce (Trang 222):** Công cụ trinh sát DNS dùng để quét và thu thập thông tin quan trọng. Giúp liệt kê subdomain, xác định các không gian IP không liền kề và hostname được liên kết với tên miền.
+- **DNSRecon (Trang 227 - 228):** Công cụ dùng để liệt kê DNS và thực hiện thao tác Reverse DNS Lookup (tra cứu DNS ngược) bằng phương pháp brute-force trên một dải địa chỉ IP để lấy tên miền.
+- **MXToolbox (Trang 229 & 244):** Được sử dụng cho công việc Reverse Lookup để tìm DNS PTR record, và cũng được dùng làm công cụ theo dõi email (Email Tracking).
 
-## Social engineering
+---
 
-- **Eavesdropping** — nghe lén các cuộc hội thoại.
-- **Shoulder surfing** — quan sát mục tiêu bí mật.
-- **Dumpster diving** — lục thùng rác tìm thông tin.
-- **Impersonation** — giả danh người có thẩm quyền.
+## Traceroute (Traceroute Tools) (Trang 233 - 241)
 
-## Tự động hóa tác vụ footprinting
+Traceroute sử dụng giao thức ICMP và trường Time to Live (TTL) trong IP header để tìm đường đi (route) của gói tin đến host mục tiêu. Công cụ Traceroute:
 
-- **Maltego** — xác định mối quan hệ và liên kết thực tế.
-- **Recon‑ng** — framework trinh sát web mã nguồn mở.
-- **FOCA** — tìm metadata và thông tin ẩn trong tài liệu quét.
-- **subfinder** — phát hiện subdomain.
-- **OSINT Framework** — tập hợp công cụ OSINT.
-- **Recon‑dog** — dùng API để thu thập thông tin về mục tiêu.
-- **BillCipher** — tra cứu DNS, WHOIS, quét cổng, zone transfer, v.v.
+- **NetScanTools Pro (Trang 240):** Công cụ theo dõi các gói tin từ máy kẻ tấn công đến thiết bị mục tiêu qua mạng LAN hoặc Internet. Hỗ trợ traceroute bằng ICMP, UDP, hoặc TCP, giúp xác định các thiết bị trung gian và quốc gia được gán cho mỗi IP.
+- **PingPlotter (Trang 241):** Cho phép thu thập dữ liệu traceroute sử dụng gói ICMP, UDP và TCP. Tự động khám phá các network hops, theo dõi độ trễ (latency) và mất gói (packet loss) theo thời gian, hiển thị dưới dạng biểu đồ trực quan.
+
+---
+
+## Theo dõi Email (Email Tracking Tools) (Trang 244 - 246)
+
+Công cụ theo dõi email:
+
+- **eMailTrackerPro (Trang 244):** Công cụ phân tích tiêu đề email (email headers) và trích xuất thông tin như vị trí địa lý của người gửi, địa chỉ IP. Cho phép lưu lại các dấu vết để xem lại sau.
+- **IP2LOCATION’s Email Header Tracer (Trang 245):** Dịch vụ mã nguồn mở dùng để phân tích và theo dõi đường dẫn email thông qua email header. Giúp kẻ tấn công truy xuất vị trí mục tiêu và các mail servers mà email đi qua.
+
+---
+
+## Kỹ nghệ xã hội (Social Engineering) (Trang 251 - 252)
+
+Kỹ nghệ xã hội là quá trình phi kỹ thuật mà kẻ tấn công lừa nạn nhân vô tình cung cấp thông tin bảo mật.
+
+- **Eavesdropping (Nghe lén - Trang 251):** Hành vi đánh chặn thông tin liên lạc (âm thanh, video, văn bản) mà không có sự đồng ý của các bên, bao gồm cả việc đọc lén tin nhắn hay fax.
+- **Shoulder surfing (Nhìn trộm qua vai - Trang 251):** Đứng phía sau nạn nhân và bí mật quan sát các hoạt động trên máy tính như thao tác gõ phím để lấy mật khẩu, mã bảo mật, số tài khoản.
+- **Dumpster diving (Bới thùng rác - Trang 251 - 252):** Kẻ tấn công lục lọi thùng rác của công ty để tìm các thông tin giá trị như hóa đơn điện thoại, tài liệu tài chính, mã nguồn, giấy ghi chú (sticky notes).
+- **Impersonation (Mạo danh - Trang 252):** Kẻ tấn công giả mạo thành một người hợp pháp hoặc người có thẩm quyền (nhân viên giao hàng, thợ sửa chữa, khách hàng) để lừa mục tiêu tiết lộ thông tin nhạy cảm.
+
+---
+
+## Tự động hóa tác vụ footprinting (Automate Footprinting Tasks) (Trang 253 - 261)
+
+- **Maltego (Trang 253 & 255):** Công cụ tự động dùng để xác định các mối quan hệ và liên kết trong thế giới thực giữa con người, nhóm người, tổ chức, trang web, hạ tầng mạng, và tài liệu.
+- **Recon-ng (Trang 253 & 255):** Framework trinh sát web với các module độc lập và tương tác cơ sở dữ liệu, cung cấp môi trường thu thập thông tin mã nguồn mở mạnh mẽ và nhanh chóng.
+- **FOCA (Trang 254 & 256):** (Fingerprinting Organizations with Collected Archives) Công cụ chủ yếu dùng để tìm metadata (siêu dữ liệu) và thông tin ẩn trong các tài liệu (MS Office, PDF) mà nó quét. Có các tính năng: Web Search, DNS Search, IP Resolution, PTR Scanning, Bing IP, Common Names.
+- **subfinder (Trang 254 & 257):** Công cụ phát hiện subdomain, giúp kẻ tấn công tìm các subdomain hợp lệ cho trang web bằng cách sử dụng các nguồn trực tuyến thụ động.
+- **OSINT Framework (Trang 254 & 258):** Framework thu thập tình báo nguồn mở tập trung vào việc lấy thông tin từ các công cụ/tài nguyên miễn phí. Nó cung cấp một giao diện web dạng cây (tree structure) liệt kê phân loại các công cụ OSINT.
+- **Recon-dog (Trang 254 & 259):** Công cụ "all-in-one" cho nhu cầu thu thập thông tin cơ bản. Sử dụng API để lấy thông tin mục tiêu với các tính năng: Censys, NS lookup, Port scan, Detect CMS, Whois lookup, Detect honeypot, Find subdomains, và Reverse IP lookup.
+- **BillCipher (Trang 254 & 260):** Công cụ thu thập thông tin cho trang web hoặc địa chỉ IP (hỗ trợ Python 2, 3 và Ruby). Bao gồm nhiều tính năng: tra cứu DNS, tra cứu Whois, quét cổng, zone transfer, tìm host và reverse IP lookup.
 
 ## Cổng (Ports) và phân loại
 
