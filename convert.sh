@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir -p ./pdf
 
-for file in *.md; do
+for file in 09*.md; do
     filename="${file%.md}"
     echo "[+] Converting: $file -> ./pdf/$filename.pdf"
     
@@ -30,9 +30,17 @@ for file in *.md; do
         --highlight-style=tango \
         --include-in-header=<(cat << 'EOF'
 \usepackage{enumitem}
-% Chỉ tăng độ sâu danh sách (không renewlist để tránh xung đột với Pandoc)
+
 \setlistdepth{20}
-% Bỏ tightlist của Pandoc để tránh lỗi label
+
+\renewlist{itemize}{itemize}{20}
+\renewlist{enumerate}{enumerate}{20}
+
+\setlist[itemize]{label=\textbullet}
+\setlist[itemize,1]{label=\textbullet}
+\setlist[itemize,2]{label=--}
+\setlist[itemize,3]{label=*}
+
 \let\tightlist\relax
 EOF
 )
