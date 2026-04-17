@@ -1,5 +1,9 @@
 ## 1. Các khái niệm Kỹ thuật xã hội (Social Engineering Concepts)
 
+Kỹ thuật xã hội (Social Engineering) là gì? Là nghệ thuật thuyết phục mọi người tiết lộ thông tin mật. Kẻ tấn công dựa trên thực tế là con người thường không nhận thức được giá trị của thông tin mà họ có quyền truy cập và thường bất cẩn trong việc bảo vệ nó.
+
+Thu thập thông tin trước khi tấn công (Information Gathering): Trước khi tấn công mạng, kẻ tấn công thường thu thập thông tin về tổ chức mục tiêu từ các nguồn như: - Trang web chính thức của tổ chức (nơi chia sẻ ID, tên và email nhân viên). - Các quảng cáo trên phương tiện truyền thông (tiết lộ thông tin về sản phẩm, ưu đãi). - Các không gian trực tuyến như blog, diễn đàn nơi nhân viên chia sẻ thông tin cá nhân và thông tin tổ chức.
+
 **Các khía cạnh cơ bản của Social Engineering [Trang 1380 - 1386]:**
 
 - **Mục tiêu phổ biến (Common Targets):** Lễ tân và nhân viên Help-desk (Dễ bị lừa do tính chất công việc luôn sẵn sàng hỗ trợ), Nhân viên hỗ trợ kỹ thuật (Technical Support Executives), Quản trị viên hệ thống (System Administrators), Người dùng và Khách hàng (Users and Clients), Đối tác/Nhà cung cấp (Vendors), Nhân sự cấp cao (Senior Executives).
@@ -36,6 +40,7 @@
   - Đóng giả thợ sửa chữa (Repairman).
   - Đóng giả nhân vật có thẩm quyền đáng tin cậy (Trusted Authority Figure).
   - **Vishing (Voice/VoIP phishing):** Kẻ tấn công gọi điện thoại/VoIP, lạm dụng sự nhiệt tình của Help-desk hoặc giả danh sự cho phép của bên thứ ba (Third-party authorization) để lừa lấy thông tin.
+    - **Giả danh Hỗ trợ Kỹ thuật (Tech Support):** Kẻ tấn công sử dụng vishing để đóng giả làm nhân viên hỗ trợ kỹ thuật của nhà cung cấp phần mềm hoặc nhà thầu. Chúng giả vờ như đang khắc phục sự cố mạng và yêu cầu người dùng cung cấp ID và mật khẩu để "kiểm tra lỗi hệ thống".
 - **Eavesdropping (Nghe lén):** Lắng nghe trái phép các cuộc hội thoại hoặc đọc tin nhắn (âm thanh, video, văn bản).
 - **Shoulder Surfing (Nhìn trộm qua vai):** Kỹ thuật quan sát nạn nhân nhập thông tin (mật khẩu, mã PIN) từ phía sau, có thể dùng ống nhòm hoặc camera nhỏ.
 - **Dumpster Diving (Bới thùng rác):** Quá trình tìm kiếm thông tin nhạy cảm bị vứt bỏ trong thùng rác tổ chức. Các thông tin kẻ tấn công có thể thu thập bao gồm:
@@ -62,7 +67,9 @@
 - **Whaling:** Một dạng phishing "săn cá voi" nhắm vào các nhân vật quản lý cấp cao (CEO, CFO, chính trị gia) - những người có quyền truy cập vào thông tin cực kỳ giá trị của tổ chức. [Trang 1406 - 1407]
 - **Pharming (Phishing without a Lure):** Kẻ tấn công tự động chuyển hướng lưu lượng truy cập của nạn nhân từ một trang web hợp pháp sang trang web giả mạo do kẻ tấn công kiểm soát. Được thực hiện thông qua 2 cách: [Trang 1406 - 1407]
   - **DNS Cache Poisoning** (Đầu độc bộ nhớ cache DNS).
+    - _Chi tiết về DNS Cache Poisoning:_ Kẻ tấn công sửa đổi địa chỉ IP của trang web mục tiêu trên máy chủ DNS. Khi nạn nhân nhập URL hợp pháp, máy chủ DNS sẽ trả về địa chỉ IP giả mạo đã bị sửa đổi, lập tức chuyển hướng nạn nhân đến trang web lừa đảo.
   - **Host File Modification** (Sửa đổi tệp host cục bộ trên máy nạn nhân).
+    - _Chi tiết về Host File Modification:_ Kẻ tấn công gửi mã độc dưới dạng tệp đính kèm email. Khi người dùng nhấp vào, mã này thực thi và sửa đổi tệp host cục bộ trên máy tính của họ. Từ đó, mỗi khi người dùng nhập URL, tệp host đã bị xâm phạm sẽ tự động chuyển hướng lưu lượng truy cập đến trang web độc hại.
 - **Spimming (SPIM - Spam over Instant Messaging)** [Trang 1406, 1408]: Lợi dụng các nền tảng nhắn tin tức thời. Kẻ tấn công (Spimmer) dùng các mạng bot tự động để thu thập ID tin nhắn và phát tán hàng loạt tin nhắn rác chứa quảng cáo hoặc siêu liên kết độc hại nhằm thu thập chi tiết thẻ tín dụng.
 - **Clone phishing (Lừa đảo nhân bản)** [Trang 1406, 1408]: Kẻ tấn công tạo ra một bản sao (clone) gần như giống hệt một giao tiếp/email hợp pháp mà nạn nhân đã nhận trước đó. Sau đó, chúng thay thế liên kết hoặc tệp đính kèm bên trong bằng các nội dung chứa mã độc.
 - **Lừa đảo ví điện tử (E-wallet phishing)** [Trang 1406, 1408]: Nhắm vào người dùng ví điện tử. Kẻ tấn công gửi email/tin nhắn giả mạo nhà cung cấp ví hợp pháp, dụ nạn nhân nhấp vào liên kết đến trang web giả. Khi nạn nhân điền thông tin, kẻ tấn công chiếm đoạt thông tin đăng nhập và dữ liệu tài chính theo thời gian thực.
@@ -73,6 +80,7 @@
 - **Lừa qua kết quả tìm kiếm (Search engine phishing)** [Trang 1406, 1409]: Thao túng kết quả của công cụ tìm kiếm (như dùng kỹ thuật SEO, nhồi từ khóa) để đưa các trang web giả mạo lên top đầu. Khi người dùng nhấp vào kết quả thao túng, họ bị dẫn tới trang mạo danh ngân hàng hoặc chợ trực tuyến.
 - **Angler phishing** [Trang 1425]: Một trò gian lận lừa đảo nhắm vào những người dùng đang bất mãn/đăng lời phàn nàn trên mạng xã hội. Kẻ tấn công tạo tài khoản giả mạo bộ phận hỗ trợ (helpdesk) của công ty và trả lời khách hàng bằng một liên kết dịch vụ giả. Nạn nhân nhấp vào sẽ bị cài mã độc hoặc mất dữ liệu.
 - **Catfishing Attack** [Trang 1425]: Một trò lừa đảo tình cảm trực tuyến, kẻ tấn công đánh cắp danh tính để tạo hồ sơ giả mạo (trên Facebook, Instagram). Dấu hiệu: Tránh giao tiếp trực tiếp (không gọi video, biện lý do ốm/đi du lịch), dùng một ảnh đại diện trong thời gian rất dài, và cuối cùng thường xuyên xin tiền viện cớ khẩn cấp.
+- - _Duy trì một lượng lớn bạn bè (Maintains a good number of friends in their account):_ Kẻ lừa đảo thường cố gắng kết bạn với một lượng lớn người dùng (thường là người khác giới) trên tài khoản của họ để tạo độ tin cậy giả tạo.
 - **Impersonation on Facebook** [Trang 1426]: Mạo danh trên Facebook bằng cách tạo một nhóm giả mạo (ví dụ: "Nhân viên công ty XYZ") và mời các nhân viên thật tham gia để trích xuất thông tin lý lịch cá nhân.
 
 **Các kỹ thuật Kỹ thuật xã hội qua Máy tính khác (Other Techniques for Computer-based Social Engineering) [Trang 1418 - 1420]:**
@@ -190,6 +198,10 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
 ### 2.Biện pháp phòng chống (Social Engineering Countermeasures) [Trang 1444 - 1454]
 
 - **Chính sách Mật khẩu (Password Policies):** Yêu cầu đổi mật khẩu định kỳ, dùng mật khẩu dài (tối thiểu 8 ký tự) và phức tạp, khóa tài khoản sau số lần nhập sai nhất định. Tuyệt đối không dùng thông tin cá nhân (tên thú cưng, sinh nhật) làm mật khẩu, không chia sẻ hoặc viết mật khẩu ra giấy.
+  - Tránh dùng chung (chia sẻ) một tài khoản máy tính.
+  - Tránh sử dụng cùng một mật khẩu cho nhiều tài khoản khác nhau.
+  - Tránh truyền đạt/đọc mật khẩu qua điện thoại, email hoặc tin nhắn SMS.
+  - Đảm bảo khóa (lock) hoặc tắt máy tính trước khi rời khỏi bàn làm việc.
 - **Chính sách Bảo mật Vật lý (Physical Security Policies):** Cấp và kiểm tra thẻ ID nhân viên, có quy trình đón tiếp và hộ tống khách (escort visitors), trang bị máy hủy tài liệu (paper shredders) để chống bị lục thùng rác (Dumpster Diving), bố trí nhân viên bảo vệ.
 - **Chiến lược Phòng thủ và Quy trình (Defense Strategy):**
   - Tiến hành các chiến dịch diễn tập Social Engineering nội bộ (Social engineering campaign) để đánh giá phản ứng của nhân viên.

@@ -306,6 +306,7 @@ Kẻ tấn công sử dụng ChatGPT để tự động hóa:
   - **Phương pháp non-recursive**: Gửi truy vấn không đệ quy bằng `dig @<IP of DNS server> <Target domain> A +norecurse`. (Nếu không có cache, server trả về file `root.hints`).
   - **Phương pháp recursive**: Gửi đệ quy bằng `dig ... +recurse`. Đánh giá xem giá trị TTL trả về có nhỏ hơn mức khởi tạo không để xác định bản ghi đang nằm trong cache.
 - **DNSSEC Zone Walking**: Kỹ thuật lấy bản ghi nội bộ từ cấu hình DNSSEC sai (NSEC record files).
+  - _Lưu ý về NSEC3:_ Để khắc phục lỗ hổng liệt kê vùng của NSEC, quản trị viên sử dụng Next Secure version 3 (NSEC3). NSEC3 cung cấp chức năng tương tự như NSEC, nhưng nó cung cấp các tên bản ghi được băm bằng mật mã (cryptographically hashed record names) được thiết kế để ngăn chặn việc liệt kê (zone walking) các tên bản ghi có mặt trong zone.
   - **Công cụ**: LDNS (`ldns-walk @<IP> <Domain>`), DNSRecon (`dnsrecon -d <domain> -z`), nsec3map, nsec3walker, DNSwalk, Knock, Raccoon, Subfinder, Turbolist3r.
 - **OWASP AMASS**:
   - `amass enum -d <Target Domain>`
@@ -314,6 +315,14 @@ Kẻ tấn công sử dụng ChatGPT để tự động hóa:
     - Lệnh theo dõi/so sánh 2 lần quét gần nhất: `amass track -config /root/amass/config.ini -dir amass4owasp -d <Target Domain> -last 2`
     - Lệnh hiển thị kết quả từ cơ sở dữ liệu: `amass db -dir amass4owasp -list`
     - Lệnh tạo biểu đồ trực quan HTML d3-force: `amass viz -d3 -dir amass4owasp`
+    - Lệnh thực hiện liệt kê chủ động thông qua brute-forcing với một danh sách từ (wordlist) được chỉ định: `amass enum -active -d <Target Domain> -brute -w /usr/share/wordlists/amass/all.txt`
+
+**Liệt kê DNS và DNSSEC bằng Nmap (DNS and DNSSEC Enumeration using Nmap) (Trang 502 - 505):**
+
+- Liệt kê tất cả các dịch vụ khả dụng trên host mục tiêu: `nmap --script=broadcast-dns-service-discovery <Target Domain>`
+- Truy xuất tất cả các tên miền phụ (subdomains) liên kết với host mục tiêu: `nmap -T4 -p 53 --script dns-brute <Target Domain>`
+- Kiểm tra xem tính năng đệ quy DNS (DNS recursion) có được bật trên máy chủ không: `nmap -Pn -sU -p 53 --script=dns-recursion <Target IP>`
+- Liệt kê danh sách tên miền phụ bằng cách lấy các bản ghi nội bộ thông qua DNSSEC: `nmap -sU -p 53 --script dns-nsec-enum --script-args dns-nsec-enum.domains=<domain> <target>`
 
 **Liệt kê DNS bằng AI (DNS & DNS Cache Snooping using AI) (Trang 506-510):**
 

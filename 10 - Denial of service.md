@@ -10,6 +10,8 @@
     - Làm sập ngăn xếp TCP/IP (Crashing a TCP/IP stack) bằng cách gửi các gói tin bị hỏng (corrupt packets).
     - Làm sập một dịch vụ bằng cách tương tác với nó theo một cách không lường trước được.
     - Làm treo hệ thống (Hanging a system) bằng cách đẩy nó vào một vòng lặp vô hạn (infinite loop).
+    - Tác động của DoS (Impact of DoS): Bao gồm việc làm giảm uy tín (loss of goodwill), gián đoạn mạng (network outages), thiệt hại tài chính (financial losses), và gián đoạn hoạt động (operational disruptions).
+    - Mục tiêu chính của DDoS: Mục tiêu đầu tiên của một cuộc tấn công DDoS là giành quyền truy cập quản trị (administrative access) trên càng nhiều hệ thống càng tốt. Kẻ tấn công sử dụng các kịch bản tùy chỉnh để xác định các hệ thống dễ tổn thương, sau đó tải lên và chạy phần mềm DDoS trên các hệ thống này (tạo botnet) để chuẩn bị khởi chạy tấn công.
 - **Tấn công DDoS (Distributed Denial-of-Service):** Là một cuộc tấn công DoS quy mô lớn, được phối hợp và khởi chạy gián tiếp thông qua nhiều máy tính bị xâm nhập (botnets/zombies). Máy chủ bị tấn công gọi là "nạn nhân chính" (primary victim), còn các máy bị xâm nhập dùng để tấn công gọi là "nạn nhân phụ" (secondary victims).
 
 **Tổ chức tội phạm mạng (Organized Cyber Crime Syndicates) [Trang 1471]:**
@@ -20,6 +22,7 @@ Tội phạm mạng hiện nay hoạt động theo mô hình phân cấp, có ch
 - **Campaign Manager (Quản lý chiến dịch):** Sở hữu các mạng lưới liên kết (Affiliation Networks) để triển khai tấn công và đánh cắp dữ liệu.
 - **Attackers / Affiliates (Kẻ tấn công / Chi nhánh):** Phân phối mã độc trên các trang web.
 - **Stolen Data Reseller (Người bán lại dữ liệu):** Bán dữ liệu đã đánh cắp được.
+- **Cybercriminal service suppliers (Nhà cung cấp dịch vụ mạng tội phạm):** Là một phần của mạng lưới tội phạm, chuyên cung cấp các dịch vụ như phát triển mã độc, dịch vụ lưu trữ miễn nhiễm (bulletproof hosting), tạo các mã khai thác trình duyệt (browser exploits), mã hóa và đóng gói (encryption and packing).
 
 ## 1. Mạng bot (Botnets) [Trang 1470 - 1476]
 
@@ -67,14 +70,14 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - Thường nhắm vào các giao thức không giữ trạng thái (stateless) và không có tính năng tránh tắc nghẽn như NTP, DNS và SSDP. Một máy đơn lẻ không thể tạo đủ yêu cầu nên kẻ tấn công phải huy động botnet.
 - **Flood attack (tấn công tràn):** Đội quân zombie gửi lượng lớn traffic trực tiếp tới hệ thống nạn nhân để làm cạn kiệt băng thông.
 - **Amplification attack (tấn công khuếch đại):** Kẻ tấn công lợi dụng việc gửi tin nhắn tới địa chỉ IP broadcast/reflector. Phương pháp này khuếch đại lưu lượng độc hại dội về, vắt kiệt băng thông hệ thống nạn nhân.
-- _(Các kỹ thuật tiêu biểu)_: UDP flood, ICMP flood, Ping of Death, Smurf, Pulse wave, Zero-day, NTP amplification.
+- _(Các kỹ thuật tiêu biểu)_: UDP flood, ICMP flood, Ping of Death, Smurf, Pulse wave, Zero-day, NTP amplification, **Malformed IP packet flood attack**, **Spoofed IP packet flood attack**.
 
 ### 4.2. Tấn công giao thức (Protocol attacks) [Trang 1486]
 
 - Không nhằm làm cạn băng thông mà tập trung tấn công và làm cạn kiệt bảng trạng thái kết nối (connection state tables) có trên các thiết bị hạ tầng mạng như tường lửa, load balancers, và application servers.
 - Khiến thiết bị không cho phép kết nối mới vì phải chờ các kết nối cũ đáo hạn (expire) hoặc đóng lại.
 - Độ lớn được đo bằng packets-per-second (pps) hoặc connections per second (cps).
-- _(Các kỹ thuật tiêu biểu)_: SYN flood, Fragmentation attack, Spoofed session flood, ACK flood, TCP state exhaustion attack, TCP SACK panic attack.
+- _(Các kỹ thuật tiêu biểu)_: SYN flood, Fragmentation attack, Spoofed session flood, ACK flood, TCP state exhaustion attack, TCP SACK panic attack, **TCP connection flood attack**, **RST attack**.
 
 ### 4.3. Tấn công lớp ứng dụng (Application layer attacks) [Trang 1487]
 
@@ -146,6 +149,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
 - **Drop Requests (Hủy yêu cầu):** Yêu cầu máy khách giải quyết các "câu đố khó" (puzzle) tốn bộ nhớ/CPU trước khi tiếp tục (CAPTCHA/Client puzzle), giúp chặn đứng mạng lưới zombie.
 - _(Bổ sung)_ **Egress / Ingress Filtering:** Lọc gói tin IP đi ra và đi vào mạng để ngăn chặn các gói tin có địa chỉ nguồn giả mạo (spoofed addresses).
   - _(Chi tiết lợi ích Egress Filtering)_: Ngay cả khi một máy chủ web dính lỗ hổng zero-day, việc bật lọc Egress có thể cứu vãn tính toàn vẹn của hệ thống bằng cách ngăn chặn máy chủ thiết lập kết nối ngược lại (connection back) với kẻ tấn công, từ đó làm hạn chế hiệu quả của nhiều payload và ngăn kẻ tấn công truy cập sâu hơn vào mạng.
+  - _(Chi tiết lợi ích Ingress Filtering)_: Có thể gián tiếp chống lại nhiều loại hình lạm dụng mạng bằng cách làm cho lưu lượng Internet có thể truy xuất được về nguồn gốc thực sự. Nó bảo vệ chống lại các cuộc tấn công tràn ngập (flooding attacks) xuất phát từ các tiền tố hợp lệ (địa chỉ IP) và cho phép theo dấu người khởi tạo thực sự.
 - _(Bổ sung)_ **TCP Intercept & Rate Limiting:** Dùng router chặn và xác thực kết nối TCP SYN để chống SYN flood; kiểm soát tỷ lệ traffic inbound/outbound.
   Kỹ thuật phòng thủ mạng Botnet (Techniques to Defend against Botnets) [Trang 1529 - 1530]
 
@@ -160,6 +164,7 @@ Các thiết bị Android không được bảo mật đang trở thành mục t
   - **Người dùng cá nhân (Individual Users):** Cần thường xuyên theo dõi bảo mật, cài đặt và cập nhật phần mềm diệt virus/anti-Trojan, tắt các dịch vụ không cần thiết, gỡ cài đặt các ứng dụng không dùng đến và quét tất cả các tệp nhận được từ bên ngoài để tránh hệ thống bị lợi dụng làm phần mềm DDoS agent.
   - **Nhà cung cấp dịch vụ mạng (Network Service Providers):** Có thể áp dụng định giá động (dynamic pricing) cho việc sử dụng mạng để tính phí những nạn nhân phụ tiềm năng khi truy cập Internet, qua đó khuyến khích họ chủ động hơn trong việc tự bảo vệ mình khỏi việc trở thành một phần của cuộc tấn công DDoS.
 - **Phát hiện và vô hiệu hóa trình xử lý (Detect and Neutralize Handlers):** Phân tích giao thức truyền thông và mẫu lưu lượng (traffic patterns) giữa handlers và clients hoặc handlers và agents để phát hiện ra các nút mạng bị nhiễm. Do số lượng handlers (máy điều khiển) thường ít hơn rất nhiều so với agents, việc vô hiệu hóa một vài handlers có thể vô hiệu hóa hàng loạt agents.
+- **Xác định địa chỉ nguồn giả mạo (Spoofed Source Address):** Có xác suất cao là địa chỉ nguồn bị giả mạo của các gói tin tấn công DDoS sẽ không đại diện cho một địa chỉ hợp lệ của một mạng con (sub-network) nhất định. Việc xác định các địa chỉ nguồn giả mạo này cùng với sự hiểu biết về giao thức truyền thông sẽ giúp ngăn chặn tấn công hiệu quả.
 - **Cơ chế chi tiết của TCP Intercept:** TCP Intercept hoạt động ở 2 chế độ: Chế độ chặn chủ động (Active intercept mode) - router trực tiếp đánh chặn gói SYN, tự thực hiện bắt tay 3 bước với client thay cho server, sau khi thành công mới kết nối với server; và Chế độ theo dõi thụ động (Passive watch mode) - router chỉ quan sát kết nối đi qua, nếu kết nối không được thành lập trong vòng 30 giây, nó sẽ tự động gửi lệnh reset tới server để xóa trạng thái.
 - **Chi tiết Rate Limiting (Giới hạn tốc độ):** Kiểm soát tỷ lệ lưu lượng đi ra hoặc đi vào của thiết bị mạng. Kỹ thuật này thường được cấu hình trên phần cứng thiết bị mạng để giới hạn tỷ lệ yêu cầu ở Lớp 4 và Lớp 5 của mô hình OSI.
 

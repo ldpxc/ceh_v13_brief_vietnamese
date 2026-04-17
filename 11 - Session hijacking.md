@@ -3,6 +3,7 @@
 - **Cướp phiên (Session hijacking):** Là một cuộc tấn công trong đó kẻ tấn công chiếm quyền điều khiển một phiên giao tiếp Transmission Control Protocol (TCP) hợp lệ giữa hai máy tính.
 - Vì hầu hết các loại xác thực chỉ được thực hiện ở thời điểm bắt đầu của một phiên TCP, kẻ tấn công có thể giành quyền truy cập vào máy tính trong khi phiên đang diễn ra.
 - Nếu kẻ tấn công đánh cắp hoặc đoán được session ID hợp lệ, chúng có thể sử dụng nó để xác thực với máy chủ, và máy chủ sẽ phản hồi các yêu cầu của kẻ tấn công vì lầm tưởng rằng đang giao tiếp với người dùng hợp lệ.
+- Kẻ tấn công có thể sử dụng kỹ thuật cướp phiên để khởi chạy nhiều loại hình tấn công khác nhau, chẳng hạn như Man-in-the-Middle (MITM) và Denial-of-Service (DoS). Chúng cũng có thể đánh hơi các thông tin nhạy cảm và làm gián đoạn phiên kết nối để thực hiện một cuộc tấn công DoS.
 
 ## 2. Tại sao cướp phiên thành công? (Why is Session Hijacking Successful?) [Trang 1548 - 1549]
 
@@ -45,6 +46,7 @@ Có hai cấp độ cướp phiên trong mô hình OSI:
 
 - **Giả mạo (Spoofing):** Kẻ tấn công mạo danh người dùng hoặc máy khác để giành quyền truy cập. Kẻ tấn công không chiếm quyền phiên đang hoạt động mà khởi tạo một phiên kết nối hoàn toàn mới bằng thông tin đăng nhập bị đánh cắp của nạn nhân. (Cần có quyền root để tạo các gói tin thô).
 - **Chiếm (Hijacking):** Kẻ tấn công giành quyền kiểm soát một phiên đang hoạt động (existing active session). Quá trình này phụ thuộc vào việc người dùng hợp pháp đã thiết lập kết nối và xác thực từ trước.
+  - Lưu ý về các hạn chế (Limitations): Các cuộc tấn công giả mạo địa chỉ IP chỉ có thể thành công nếu hệ thống sử dụng IP để xác thực. Kẻ tấn công sẽ không thể thực hiện IP spoofing hoặc session hijacking nếu mạng có triển khai kiểm tra tính toàn vẹn trên từng gói tin (per-packet integrity checking). Tương tự, các cuộc tấn công này cũng bất khả thi nếu phiên kết nối sử dụng các phương pháp mã hóa như Secure Sockets Layer (SSL) hoặc Point-to-Point Tunneling Protocol (PPTP) vì kẻ tấn công không thể tham gia vào quá trình trao đổi khóa (key exchange).
 
 ## 8. Cướp phiên cấp ứng dụng (Application-Level Hijacking) [Trang 1558 - 1559]
 
@@ -263,6 +265,9 @@ Trong cả hai kỹ thuật này, kẻ tấn công sử dụng một packet snif
 
 ## 19. Phương pháp phát hiện Cướp phiên (Methods to detect session hijacking) [Trang 1598]
 
+- **Các triệu chứng của một cuộc tấn công cướp phiên (Symptoms of a session hijacking attack)** [Trang 1597]:
+  - Sự bùng nổ hoạt động mạng (A burst of network activity) diễn ra trong một khoảng thời gian, làm giảm hiệu suất của hệ thống.
+  - Máy chủ trở nên quá tải (Busy servers) do phải xử lý lượng lớn yêu cầu được gửi đến từ cả máy khách hợp pháp và kẻ chiếm quyền.
 - **Phương pháp Thủ công (Manual Method):** Sử dụng các phần mềm bắt gói tin (như Wireshark, SteelCentral Packet Analyzer) để giám sát traffic và tìm kiếm các dấu hiệu bất thường.
 - **Ép buộc Mục nhập ARP (Forced ARP Entry):** Thay thế địa chỉ MAC của máy bị xâm nhập bằng một MAC khác trong bộ nhớ đệm ARP của máy chủ để hạn chế lưu lượng mạng đến máy đó. Kỹ thuật này thường được áp dụng khi phát hiện: Cập nhật ARP lặp đi lặp lại (Repeated ARP updates), Các khung truyền mang địa chỉ MAC khác nhau, hoặc Bão ACK (ACK storms).
 - **Phương pháp Tự động (Automatic Method):** Sử dụng các hệ thống Phát hiện Xâm nhập (IDS) và Ngăn ngừa Xâm nhập (IPS) để đối chiếu gói tin mạng với cơ sở dữ liệu chữ ký tấn công.

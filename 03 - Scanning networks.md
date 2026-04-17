@@ -145,11 +145,20 @@ Tài liệu phân loại các kỹ thuật quét cổng dựa trên cách thao t
   - **TTL-Based ACK Flag Probe scanning:** Gửi hàng ngàn gói ACK tới các cổng TCP khác nhau. Nếu giá trị TTL của gói RST trả về nhỏ hơn giá trị ranh giới là 64, thì cổng đó đang **mở**.
   - **Window-Based ACK Flag Probe scanning:** Phân tích trường window của gói RST trả về. Nếu giá trị cửa sổ (window value) khác không (non-zero), thì cổng đó đang **mở**.
   - **Kiểm tra hệ thống lọc (Checking the Filtering Systems):** Gửi gói ACK với số sequence ngẫu nhiên. Nếu **không có phản hồi**, cổng đó đã bị lọc (có stateful firewall chặn lại). Nếu nhận được phản hồi **RST**, cổng đó không bị lọc (không có firewall).
+    - _Ưu điểm:_ Loại quét này có thể né tránh IDS trong hầu hết các trường hợp.
+    - _Nhược điểm:_ Cực kỳ chậm và chỉ có thể khai thác các hệ điều hành cũ có ngăn xếp TCP/IP bắt nguồn từ chuẩn BSD mang lỗ hổng.
 - **IDLE / IPID Header scan (Trang 334 - 336):** Quét hoàn toàn ẩn danh bằng cách gửi địa chỉ nguồn giả (spoofed IP). Kẻ tấn công dùng một máy trạm rảnh rỗi (zombie) làm trung gian và dựa vào sự gia tăng của số định danh IP (IPID) trên máy zombie để suy ra trạng thái cổng của mục tiêu. Lệnh Nmap: `nmap -sI <Zombie IP> <Target IP>`.
+  - **Quy trình thực hiện IDLE Scan (3 bước):**
+    1. **Bước 1:** Gửi gói SYN+ACK tới máy Zombie để thăm dò số IPID hiện tại của nó (Ví dụ: IPID = X). Máy Zombie sẽ phản hồi bằng gói RST chứa IPID.
+    2. **Bước 2:** Gửi gói SYN tới cổng của mục tiêu nhưng giả mạo địa chỉ IP nguồn là của máy Zombie.
+       - _Nếu cổng mục tiêu MỞ:_ Mục tiêu gửi gói SYN+ACK cho Zombie. Do Zombie không khởi tạo kết nối này, nó sẽ phản hồi bằng một gói RST, làm số IPID của nó tăng thêm 1 (thành X + 1).
+       - _Nếu cổng mục tiêu ĐÓNG:_ Mục tiêu phản hồi gói RST cho Zombie. Zombie sẽ bỏ qua gói RST này và vẫn nằm im, số IPID không thay đổi.
+    3. **Bước 3:** Kẻ tấn công gửi lại một gói SYN+ACK khác cho Zombie để thăm dò lại IPID. Nếu IPID tăng 2 bước (X + 2), cổng mục tiêu đang MỞ. Nếu IPID chỉ tăng 1 bước (X + 1), cổng mục tiêu ĐÓNG.
 - **UDP scan (Trang 337 - 338):** Không có bắt tay 3 bước, chỉ gửi datagram tới cổng UDP. Nếu không có phản hồi, cổng có thể mở hoặc bị lọc. Nếu nhận được lỗi ICMP port unreachable (Type 3), cổng đó đóng. Rất chậm do cơ chế giới hạn tỷ lệ phản hồi lỗi ICMP của mục tiêu. Lệnh Nmap: `nmap -sU`.
 - **SSDP / UPnP scan (Trang 343):** SSDP điều khiển giao tiếp cho tính năng Universal Plug and Play (UPnP). Kẻ tấn công sử dụng công cụ khám phá UPnP SSDP M-SEARCH để quét và phát hiện các lỗ hổng UPnP, từ đó tung đòn tấn công tràn bộ đệm hoặc DoS.
 - **UDP RECVFROM() và WRITE() Scanning (Trang 339):** Trên Linux, người dùng không có quyền root (non-root) có thể sử dụng kỹ thuật này. Các công cụ như Netcat thực hiện hàm `recvfrom()` trên các socket UDP không chặn; nếu nhận được lỗi `EAGAIN` hoặc `ECONNREFUSED` thì có thể suy ra trạng thái cổng.
 - **SCTP INIT Scan (Trang 339 - 340):** Giao thức SCTP hoạt động tương tự TCP/UDP (dùng cho VoIP, SS7). INIT scan tương đương với TCP SYN scan. Kẻ tấn công gửi đoạn (chunk) INIT; nếu cổng mở, nó trả về INIT+ACK; nếu cổng đóng, nó trả về ABORT. Lệnh Nmap: `nmap -sY`.
+  - _Ưu điểm:_ INIT scan có thể phân biệt rõ ràng giữa các cổng ở trạng thái open (mở), closed (đóng) và filtered (bị lọc).
 - **SCTP COOKIE ECHO Scan (Trang 341 - 342):** Kẻ tấn công gửi trực tiếp gói COOKIE ECHO. Nếu cổng mở, nó sẽ âm thầm hủy (drop) gói và không phản hồi. Nếu cổng đóng, nó trả về ABORT. Kỹ thuật này giúp vượt qua các tường lửa non-stateful. Lệnh Nmap: `nmap -sZ`.
   - _Ưu điểm:_ Quét cổng không dễ bị phát hiện (conspicuous) như quét INIT.
   - _Nhược điểm:_ Không thể phân biệt rõ ràng giữa các cổng đang mở và bị lọc, nó hiển thị đầu ra là open|filtered trong cả hai trường hợp.
@@ -293,6 +302,7 @@ Hping3 là công cụ tạo gói tin và quét mạng qua giao diện dòng lệ
   - **AIX:** 255 (Window size: 16384)
 - **Phát hiện OS với Nmap:** Sử dụng lệnh `nmap -O`.
 - **Sử dụng Nmap Scripting Engine (NSE) cho OS:** Bật bằng tùy chọn `-sC` hoặc `--script`. Ví dụ sử dụng giao thức SMB: `nmap --script smb-os-discovery.nse 10.10.1.22`.
+- **OS Discovery bằng Unicornscan:** Có thể xác định hệ điều hành của máy mục tiêu bằng cách quan sát giá trị TTL trong kết quả quét. Cú pháp: `#unicornscan <target IP address>`. Ví dụ: Nếu giá trị ttl thu được sau khi quét là 128, hệ điều hành có khả năng cao là Microsoft Windows.
 - **IPv6 Fingerprinting:** Quét OS trên nền mạng IPv6 dùng lệnh: `nmap -6 -O <target>`.
 - **Active Banner Grabbing (Bắt cờ chủ động):** Gửi các gói TCP được thiết kế đặc biệt (malformed packets) đến host mục tiêu. Vì mỗi hệ điều hành (OS) có cách triển khai ngăn xếp TCP/IP khác nhau, phản hồi nhận được (như ISN, cờ TCP) sẽ là duy nhất, giúp xác định OS.
   - **Test 1:** Gửi gói TCP với cờ SYN và ECN-Echo được bật tới một cổng TCP mở.
@@ -323,9 +333,15 @@ Mặc dù IDS/Tường lửa ngăn chặn các lưu lượng độc hại, kẻ 
 2. **Source Routing:** Chỉ định đường đi lỏng lẻo hoặc nghiêm ngặt cho gói tin qua các router cụ thể để né các node chứa tường lửa.
 3. **Source Port Manipulation (Thao túng cổng nguồn):** Lợi dụng việc tường lửa thường cấu hình cho phép dữ liệu từ các cổng quen thuộc (như port 80, 53, 20). Nmap dùng tùy chọn `-g` hoặc `--source-port`.
 4. **IP Address Decoy (Mồi nhử IP):** Tạo ra hàng loạt IP giả mạo quét cùng lúc với IP thật để làm nhiễu log tường lửa. Lệnh Nmap: `nmap -D RND:10 <target>` hoặc chỉ định IP cụ thể.
+   - Có thể sử dụng tùy chọn `ME` để định vị trí IP thật của bạn trong danh sách các IP mồi nhử. Ví dụ: `nmap -D decoy1,decoy2,ME... [target]`. Lệnh này đặt IP thật ở vị trí thứ 3. Nếu không chỉ định `ME`, Nmap sẽ tự động chèn IP thật của bạn vào một vị trí ngẫu nhiên bất kỳ.
 5. **IP Address Spoofing (Giả mạo địa chỉ IP):** Thay đổi địa chỉ IP nguồn để có vẻ như gói tin đến từ một người dùng hợp pháp khác. Hping3 được dùng bằng lệnh: `hping3 www.certifiedhacker.com -a 7.7.7.7`.
 6. **MAC Address Spoofing (Giả mạo địa chỉ MAC):** Thay đổi địa chỉ MAC để vượt qua các tường lửa lọc MAC nội bộ. Lệnh Nmap: `nmap -sT -Pn --spoof-mac 0 <target>`.
+   - Để giả mạo địa chỉ MAC theo một nhà cung cấp cụ thể, sử dụng lệnh: `nmap -sT -Pn --spoof-mac [Vendor] [Target IP]`.
 7. **Creating Custom Packets (Tạo gói tin tùy chỉnh):** Sử dụng các công cụ như Colasoft Packet Builder hoặc NetScanTools Pro để tạo các gói tin ở cấp độ mã Hex/ASCII né chữ ký IDS.
+   - **Ví dụ công cụ Colasoft Packet Builder có 3 giao diện hiển thị chính để thao tác:**
+     - _Packet List:_ Hiển thị danh sách tất cả các gói tin đã được tạo lập.
+     - _Hex Editor:_ Trình bày dữ liệu gói tin dưới dạng giá trị thập lục phân (hexadecimal) và ký tự ASCII để cho phép chỉnh sửa.
+     - _Decode Editor:_ Cho phép chỉnh sửa các trường của gói tin (như length, byte order, offsets) trực tiếp qua các hộp thoại mà không cần nhớ vị trí hệ hex.
 8. **Randomizing Host Order (Ngẫu nhiên hóa thứ tự Host):** Quét hàng ngàn IP theo một trật tự xáo trộn (thay vì tuần tự) để hệ thống giám sát không phát hiện ra mẫu quét. Lệnh: `nmap --randomize-hosts <target>`.
 9. **Sending Bad Checksums (Gửi Checksum lỗi):** Gửi gói tin có checksum TCP/UDP sai. Nếu nhận được phản hồi, chứng tỏ IDS/Firewall đã bỏ qua việc kiểm tra tính toàn vẹn. Lệnh Nmap: `nmap --badsum <target>`.
 10. **Proxy Servers:** Định tuyến lưu lượng qua các máy chủ trung gian để ẩn giấu IP thực sự của kẻ tấn công hoặc kết hợp Proxy Chaining (chuỗi proxy).
