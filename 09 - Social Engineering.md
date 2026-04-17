@@ -1,3 +1,5 @@
+### CEHv13 - Module 09 - Social Engineering
+
 ## 1. Các khái niệm Kỹ thuật xã hội (Social Engineering Concepts)
 
 Kỹ thuật xã hội (Social Engineering) là gì? Là nghệ thuật thuyết phục mọi người tiết lộ thông tin mật. Kẻ tấn công dựa trên thực tế là con người thường không nhận thức được giá trị của thông tin mà họ có quyền truy cập và thường bất cẩn trong việc bảo vệ nó.
@@ -6,8 +8,20 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
 
 **Các khía cạnh cơ bản của Social Engineering [Trang 1380 - 1386]:**
 
-- **Mục tiêu phổ biến (Common Targets):** Lễ tân và nhân viên Help-desk (Dễ bị lừa do tính chất công việc luôn sẵn sàng hỗ trợ), Nhân viên hỗ trợ kỹ thuật (Technical Support Executives), Quản trị viên hệ thống (System Administrators), Người dùng và Khách hàng (Users and Clients), Đối tác/Nhà cung cấp (Vendors), Nhân sự cấp cao (Senior Executives).
-- **Tác động đối với Tổ chức (Impact on an Organization):** Thiệt hại kinh tế (Economic Losses), Tổn hại uy tín (Damage to Goodwill), Mất quyền riêng tư (Loss of Privacy), Nguy cơ khủng bố (Dangers of Terrorism), Kiện tụng và Trọng tài (Lawsuits and Arbitration), Bị buộc đóng cửa tạm thời hoặc vĩnh viễn (Temporary or Permanent Closure).
+- **Mục tiêu phổ biến (Common Targets):**
+  - **Lễ tân và Nhân viên Help-desk (Receptionists and Help-Desk Personnel):** Kẻ tấn công thường nhắm mục tiêu vào nhân viên bàn dịch vụ bằng cách lừa họ tiết lộ thông tin bí mật về tổ chức. Kẻ tấn công trước tiên giành được sự tin tưởng của cá nhân đó, sau đó thao túng họ. Nhân viên lễ tân và help-desk có thể dễ dàng chia sẻ thông tin nếu họ cảm thấy mình đang làm vậy để giúp đỡ khách hàng.
+  - **Nhân viên Hỗ trợ Kỹ thuật (Technical Support Executives):** Kẻ tấn công có thể liên hệ với nhân viên hỗ trợ kỹ thuật để lấy thông tin nhạy cảm bằng cách giả vờ là quản lý cấp cao, khách hàng, nhà cung cấp hoặc các nhân vật khác.
+  - **Quản trị viên Hệ thống (System Administrators):** Quản trị viên hệ thống chịu trách nhiệm duy trì hệ thống. Do đó, họ có thể có thông tin quan trọng như loại và phiên bản hệ điều hành cũng như mật khẩu quản trị viên, điều này có thể giúp kẻ tấn công lập kế hoạch tấn công.
+  - **Người dùng và Khách hàng (Users and Clients):** Kẻ tấn công có thể tiếp cận người dùng và khách hàng của tổ chức mục tiêu, giả vờ là nhân viên hỗ trợ kỹ thuật để trích xuất thông tin nhạy cảm.
+  - **Đối tác/Nhà cung cấp (Vendors of the Target Organization):** Kẻ tấn công cũng có thể nhắm mục tiêu vào các nhà cung cấp của tổ chức để thu thập thông tin quan trọng hỗ trợ cho việc thực hiện các cuộc tấn công.
+  - **Nhân sự Cấp cao (Senior Executives):** Kẻ tấn công cũng có thể tiếp cận các giám đốc điều hành cấp cao từ nhiều phòng ban khác nhau như Tài chính, Nhân sự và các CxO để lấy thông tin quan trọng về tổ chức.
+- **Tác động đối với Tổ chức (Impact on an Organization):**
+  - **Thiệt hại Kinh tế (Economic Losses):** Các đối thủ cạnh tranh có thể sử dụng kỹ thuật xã hội để đánh cắp thông tin nhạy cảm như kế hoạch phát triển và chiến lược tiếp thị của công ty mục tiêu, dẫn đến tổn thất kinh tế.
+  - **Tổn hại Uy tín (Damage to Goodwill):** Uy tín rất quan trọng để thu hút khách hàng. Các cuộc tấn công Kỹ thuật xã hội có thể làm hỏng uy tín đó do rò rỉ dữ liệu nhạy cảm của tổ chức.
+  - **Mất Quyền riêng tư (Loss of Privacy):** Quyền riêng tư là mối quan tâm lớn đối với các tổ chức lớn. Nếu một tổ chức không thể duy trì quyền riêng tư của các bên liên quan hoặc khách hàng, mọi người có thể mất niềm tin vào công ty và ngừng hợp tác kinh doanh. Hậu quả là tổ chức có thể đối mặt với thua lỗ.
+  - **Nguy cơ Khủng bố (Dangers of Terrorism):** Các phần tử khủng bố và chống đối xã hội gây ra mối đe dọa cho tài sản của tổ chức (con người và tài sản). Kẻ khủng bố có thể sử dụng Kỹ thuật xã hội để thiết lập sơ đồ thâm nhập vào mục tiêu.
+  - **Kiện tụng và Trọng tài (Lawsuits and Arbitration):** Các vụ kiện và trọng tài dẫn đến sự chú ý tiêu cực của công chúng đối với một tổ chức và ảnh hưởng đến hiệu suất kinh doanh.
+  - **Bị buộc Đóng cửa Tạm thời hoặc Vĩnh viễn (Temporary or Permanent Closure):** Các cuộc tấn công Kỹ thuật xã hội có thể dẫn đến mất uy tín. Các vụ kiện và trọng tài có thể buộc tổ chức và các hoạt động kinh doanh phải đóng cửa tạm thời hoặc vĩnh viễn.
 - **Các hành vi/Tâm lý dễ bị lợi dụng (Behaviors Vulnerable to Attacks):**
   - **Thẩm quyền (Authority):** Kẻ tấn công giả danh người có thẩm quyền (Giám đốc, Quản trị mạng).
   - **Sự dọa dẫm (Intimidation):** Bắt nạt, dọa nạt để ép buộc nạn nhân làm theo ý muốn.
@@ -17,6 +31,14 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
   - **Sự quen thuộc/Yêu thích (Familiarity/Liking):** Thuyết phục thông qua việc giả dạng người quen.
   - **Niềm tin (Trust):** Cố ý xây dựng mối quan hệ tin cậy chuyên gia - khách hàng rồi lợi dụng.
   - **Lòng tham (Greed):** Hứa hẹn phần thưởng/quà tặng không làm mà có.
+  - **Ví dụ về Thẩm quyền (Authority):** Kẻ tấn công tự xưng là giám đốc hoặc quản trị viên mạng và yêu cầu cung cấp thông tin bảo mật để xử lý “sự cố khẩn cấp”.
+  - **Ví dụ về Sự dọa dẫm (Intimidation):** Kẻ tấn công nói với nạn nhân rằng họ sẽ bị kỷ luật, mất việc hoặc chịu phạt nếu không cung cấp thông tin ngay lập tức.
+  - **Ví dụ về Sự đồng thuận (Consensus/Social Proof):** Kẻ tấn công nói “Mọi người ở bộ phận khác đều đã gửi thông tin này rồi” để khiến nạn nhân làm theo.
+  - **Ví dụ về Sự khan hiếm (Scarcity):** Kẻ tấn công gửi thông báo rằng chỉ còn vài suất truy cập hoặc ưu đãi ưu tiên, buộc nạn nhân hành động vội vàng.
+  - **Ví dụ về Sự khẩn cấp (Urgency):** Kẻ tấn công cảnh báo về một sự cố bảo mật ngay lập tức và yêu cầu nạn nhân thay đổi mật khẩu hoặc gửi mã OTP trong vài phút.
+  - **Ví dụ về Sự quen thuộc/Yêu thích (Familiarity/Liking):** Kẻ tấn công giả vờ là đồng nghiệp hoặc bạn học cũ, nhờ vả hỗ trợ trên tinh thần thân thiết.
+  - **Ví dụ về Niềm tin (Trust):** Kẻ tấn công xây dựng mối quan hệ bằng cách đóng vai chuyên gia hữu ích, sau đó lợi dụng để lấy thông tin đăng nhập.
+  - **Ví dụ về Lòng tham (Greed):** Kẻ tấn công hứa tặng quà hoặc thưởng lớn nếu nạn nhân tiết lộ mật khẩu hoặc mở tệp đính kèm.
 - **Yếu tố làm doanh nghiệp dễ bị tấn công:** Thiếu đào tạo bảo mật, Truy cập thông tin không được kiểm soát chặt chẽ, Nhiều chi nhánh phân tán, Thiếu chính sách bảo mật.
   - **Tại sao Kỹ thuật xã hội lại hiệu quả? (Why is Social Engineering Effective?)** [Trang 1386]
     - Bất chấp các chính sách bảo mật, việc ngăn chặn kỹ thuật xã hội là một thách thức vì con người là yếu tố dễ bị biến đổi và tác động nhất.
@@ -39,8 +61,15 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
   - Đóng giả nhân viên nội bộ, khách hàng hoặc đối tác (Internal employee, client, vendor).
   - Đóng giả thợ sửa chữa (Repairman).
   - Đóng giả nhân vật có thẩm quyền đáng tin cậy (Trusted Authority Figure).
+    - **Ví dụ về Thẩm quyền (Authority):** Kẻ tấn công gọi cho nạn nhân và tự xưng là quản trị viên mạng. Chúng thông báo về một sự cố bảo mật và yêu cầu nạn nhân cung cấp thông tin đăng nhập để "bảo vệ dữ liệu". Sau khi có được thông tin, chúng đánh cắp dữ liệu nhạy cảm.
   - **Vishing (Voice/VoIP phishing):** Kẻ tấn công gọi điện thoại/VoIP, lạm dụng sự nhiệt tình của Help-desk hoặc giả danh sự cho phép của bên thứ ba (Third-party authorization) để lừa lấy thông tin.
     - **Giả danh Hỗ trợ Kỹ thuật (Tech Support):** Kẻ tấn công sử dụng vishing để đóng giả làm nhân viên hỗ trợ kỹ thuật của nhà cung cấp phần mềm hoặc nhà thầu. Chúng giả vờ như đang khắc phục sự cố mạng và yêu cầu người dùng cung cấp ID và mật khẩu để "kiểm tra lỗi hệ thống".
+      - **Ví dụ Lạm dụng Help-desk:** Một người đàn ông gọi cho bộ phận trợ giúp, nói rằng anh ta quên mật khẩu và nếu lỡ hạn chót dự án quảng cáo này, sếp sẽ sa thải anh ta. Nhân viên thấy thương hại và nhanh chóng đặt lại mật khẩu.
+      - **Ví dụ Sự cho phép của bên thứ ba:** "Chào bạn, tôi là John, tôi đã nói chuyện với ông XYZ tuần trước trước khi ông ấy đi nghỉ và ông ấy nói rằng bạn có thể cung cấp cho tôi thông tin này khi ông ấy đi vắng. Bạn giúp tôi được không?"
+      - **Ví dụ Giả danh Hỗ trợ Kỹ thuật:**
+        - _Kẻ tấn công:_ "Chào bạn, tôi là Mike từ bộ phận hỗ trợ kỹ thuật. Một số người trong văn phòng bạn báo cáo mạng đang bị chậm. Có đúng vậy không?"
+        - _Nhân viên:_ "Vâng, dạo này mạng có vẻ chậm."
+        - _Kẻ tấn công:_ "Chà, chúng tôi vừa chuyển bạn sang máy chủ mới. Bạn đưa mật khẩu đây để tôi kiểm tra lại dịch vụ nhé. Đảm bảo từ giờ mạng sẽ nhanh hơn."
 - **Eavesdropping (Nghe lén):** Lắng nghe trái phép các cuộc hội thoại hoặc đọc tin nhắn (âm thanh, video, văn bản).
 - **Shoulder Surfing (Nhìn trộm qua vai):** Kỹ thuật quan sát nạn nhân nhập thông tin (mật khẩu, mã PIN) từ phía sau, có thể dùng ống nhòm hoặc camera nhỏ.
 - **Dumpster Diving (Bới thùng rác):** Quá trình tìm kiếm thông tin nhạy cảm bị vứt bỏ trong thùng rác tổ chức. Các thông tin kẻ tấn công có thể thu thập bao gồm:
@@ -59,8 +88,11 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
 - **Honey Trap (Bẫy tình):** Giả vờ là một người hấp dẫn trên mạng để thiết lập mối quan hệ tình cảm nhằm lấy thông tin mật.
 - **Baiting (Mồi nhử):** Để lại thiết bị lưu trữ vật lý (như USB chứa mã độc) ở nơi dễ thấy (bãi xe, thang máy). Nạn nhân cắm USB vào máy sẽ bị nhiễm mã độc.
 - **Quid Pro Quo:** Gọi điện ngẫu nhiên giả làm hỗ trợ kỹ thuật, đề nghị khắc phục sự cố để đổi lấy thông tin đăng nhập.
+  - _Chi tiết Quid Pro Quo:_ Kẻ tấn công thu thập ngẫu nhiên số điện thoại của nhân viên rồi gọi từng số, đóng giả là bộ phận IT. Khi tìm thấy một người dùng đang thực sự gặp sự cố máy tính, kẻ tấn công đề nghị giúp đỡ, sau đó yêu cầu nạn nhân gõ một loạt lệnh đặc biệt để cài đặt mã độc vào máy tính.
 - **Elicitation (Gợi mở):** Khéo léo thu thập thông tin thông qua các cuộc trò chuyện bình thường và mất cảnh giác.
+  - _Chi tiết Elicitation:_ Kẻ tấn công dẫn dắt các cuộc hội thoại cực kỳ tự nhiên. Ví dụ: Nếu mục tiêu là lấy username và mật khẩu, nhưng cuộc trò chuyện chỉ tiết lộ "sở thích" của nạn nhân, kẻ tấn công sẽ dựa vào "sở thích" đó để khéo léo moi thêm thông tin.
 - **Bait and Switching (Mồi và Tráo):** Đưa ra ưu đãi hấp dẫn qua link/file, khi nạn nhân nhấp vào sẽ bị điều hướng sang việc cài đặt mã độc.
+  - _Chi tiết Bait and Switching:_ Ví dụ, khi nạn nhân đang duyệt web, kẻ tấn công gửi một cửa sổ bật lên cung cấp một sản phẩm với giá cực rẻ. Khi nạn nhân nhấp vào liên kết để mua, kẻ tấn công xâm phạm quyền riêng tư của thiết bị hoặc buộc nạn nhân thực hiện giao dịch, sau đó thông báo sản phẩm "đã hết hàng".
 
 - **Kỹ thuật xã hội trên máy tính (Computer-based social engineering)** [Trang 1388, 1401]: Dựa trên máy tính và hệ thống Internet để thực hiện các cuộc tấn công thay vì tương tác vật lý. Các kỹ thuật điển hình bao gồm: Phishing, Spam email, tấn công qua cửa sổ Pop-up, Scareware, sử dụng video Deepfake và nhân bản giọng nói (Voice Cloning).
 - **Spear Phishing:** Tấn công lừa đảo nhắm mục tiêu vào các cá nhân hoặc một nhóm nhỏ cụ thể trong một tổ chức. Sử dụng nội dung được cá nhân hóa cao để lừa nạn nhân tiết lộ dữ liệu nhạy cảm. [Trang 1406 - 1407]
@@ -82,12 +114,16 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
 - **Catfishing Attack** [Trang 1425]: Một trò lừa đảo tình cảm trực tuyến, kẻ tấn công đánh cắp danh tính để tạo hồ sơ giả mạo (trên Facebook, Instagram). Dấu hiệu: Tránh giao tiếp trực tiếp (không gọi video, biện lý do ốm/đi du lịch), dùng một ảnh đại diện trong thời gian rất dài, và cuối cùng thường xuyên xin tiền viện cớ khẩn cấp.
 - - _Duy trì một lượng lớn bạn bè (Maintains a good number of friends in their account):_ Kẻ lừa đảo thường cố gắng kết bạn với một lượng lớn người dùng (thường là người khác giới) trên tài khoản của họ để tạo độ tin cậy giả tạo.
 - **Impersonation on Facebook** [Trang 1426]: Mạo danh trên Facebook bằng cách tạo một nhóm giả mạo (ví dụ: "Nhân viên công ty XYZ") và mời các nhân viên thật tham gia để trích xuất thông tin lý lịch cá nhân.
+  - _Hậu quả (Consequence):_ Người dùng tham gia nhóm và vô tình cung cấp các thông tin lý lịch cá nhân của họ như ngày sinh, nền tảng giáo dục, lịch sử việc làm, hoặc tên của vợ/chồng. Bằng cách sử dụng chi tiết của bất kỳ nhân viên nào trong số này, kẻ tấn công có thể dễ dàng thỏa hiệp một cơ sở được bảo vệ (secured facility) để giành quyền truy cập vật lý vào tòa nhà tổ chức.
 
 **Các kỹ thuật Kỹ thuật xã hội qua Máy tính khác (Other Techniques for Computer-based Social Engineering) [Trang 1418 - 1420]:**
 
 - **Pop-Up Windows (Cửa sổ bật lên):** Các cửa sổ giả mạo cảnh báo lỗi hệ điều hành hoặc yêu cầu xác thực lại, dụ người dùng nhấp vào để tải mã độc (trojans/spyware).
+  - _Chi tiết Pop-Up Windows:_ Cửa sổ bật lên dụ dỗ người dùng nhấp vào nút bằng cách cảnh báo về một sự cố (như hiển thị thông báo lỗi hệ điều hành/ứng dụng rất thực tế), hoặc yêu cầu xác thực lại kết nối mạng do bị gián đoạn. Khi người dùng làm theo, chương trình độc hại sẽ cài đặt. (Ví dụ: Cửa sổ "VIRUS ALERT FROM MICROSOFT" giả mạo yêu cầu gọi đến số điện thoại lừa đảo).
+  - _Ví dụ DocuSign/Microsoft phishing:_ Kẻ tấn công tạo cửa sổ hoặc email giả mạo DocuSign/Microsoft 365 yêu cầu người dùng xác thực lại tài khoản bằng cách nhập mật khẩu, mã OTP hoặc nhấp vào liên kết. Khi người dùng làm theo, thông tin đăng nhập bị thu thập và dùng để xâm phạm email hoặc tệp doanh nghiệp.
 - **Hoax Letters (Thư lừa bịp):** Cảnh báo giả mạo về một mối đe dọa virus không có thật, khiến tổ chức hoang mang và lãng phí tài nguyên mạng.
 - **Chain Letters (Thư dây chuyền):** Email hứa hẹn tặng quà, tiền hoặc dọa dẫm mang lại xui xẻo nếu người dùng không tiếp tục chuyển tiếp (forward) thư cho người khác.
+  - _Chi tiết Chain Letters:_ Phổ biến nhất là các câu chuyện thuyết phục về mặt cảm xúc, mô hình lừa đảo kim tự tháp "làm giàu nhanh chóng" (get-rich-quick), niềm tin tâm linh hoặc những lời đe dọa mang tính mê tín dị đoan về sự xui xẻo nếu người dùng "phá vỡ chuỗi" (break the chain) và không chuyển tiếp thư.
 - **Instant Chat Messenger (Tin nhắn tức thời):** Trò chuyện trực tuyến để moi móc thông tin cá nhân (như ngày sinh, tên thời con gái của mẹ) nhằm làm dữ liệu bẻ khóa tài khoản.
 - **Spam Email (Thư rác):** Gửi hàng loạt email không mong muốn nhằm thu thập dữ liệu hoặc lừa tải tệp đính kèm độc hại (thường bị giấu phần mở rộng file).
 - **Scareware:** Phần mềm độc hại dụ nạn nhân tải các phần mềm diệt virus lừa đảo bằng cách hiển thị cảnh báo giả mạo rằng máy tính của họ đang bị nhiễm virus nghiêm trọng.
@@ -132,6 +168,10 @@ Thu thập thông tin trước khi tấn công (Information Gathering): Trước
   - **Social Security Identity Theft (An sinh xã hội):** Kẻ tấn công đánh cắp số An sinh xã hội (SSN) để bán cho người lao động nhập cư trái phép, lừa đảo chính phủ để mở tài khoản ngân hàng, thẻ tín dụng, hoặc xin hộ chiếu mới.
 - **Kỹ thuật thu thập thông tin để Đánh cắp danh tính:**
   - Trộm cắp vật lý (Theft of wallets, laptops), Tìm kiếm trên Internet, Social Engineering, Dumpster Diving & Shoulder Surfing, Phishing, Pharming, Hacking, Keyloggers.
+  - **Chi tiết một số kỹ thuật thu thập công nghệ cao:**
+    - **Pharming:** Kẻ tấn công chuyển hướng kết nối giữa địa chỉ IP và máy chủ đích. Chúng có thể sử dụng đầu độc bộ nhớ cache (cache poisoning) để sửa đổi địa chỉ Internet thành địa chỉ của một trang web giả mạo.
+    - **Hacking (Thỏa hiệp hệ thống người dùng):** Kẻ tấn công thỏa hiệp hệ thống người dùng và thông tin bộ định tuyến bằng cách sử dụng các thiết bị nghe lén (listening devices) như sniffers và scanners để truy cập, giải mã kho dữ liệu khổng lồ nhằm đánh cắp danh tính.
+    - **Keyloggers và Trình đánh cắp mật khẩu (Malware):** Lây nhiễm máy tính nạn nhân bằng trojan, virus để ghi lại thao tác bàn phím (keystrokes) nhằm đánh cắp mật khẩu. Chúng cũng có thể gửi các biểu mẫu giả mạo (ví dụ: biểu mẫu của Sở Thuế vụ - IRS) qua email để dụ nạn nhân điền dữ liệu.
   - **Skimming:** Dùng thiết bị lưu trữ đặc biệt (skimmers) gắn ẩn vào cây ATM/máy quẹt thẻ để quét trộm dữ liệu thẻ vật lý.
   - **Pretexting:** Mạo danh quản lý các tổ chức tài chính dùng lời nói ngọt ngào thuyết phục nạn nhân giao thông tin.
   - **Wardriving:** Lái xe đi tìm các mạng Wi-Fi không bảo mật để đánh cắp dữ liệu thiết bị kết nối vào đó.
@@ -168,6 +208,9 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
 
 - **Tạo nội dung đánh lừa (Deceptive emails):** Dùng AI để sinh ra các thông điệp có giọng điệu khẩn cấp, ngôn ngữ chuẩn xác (loại bỏ hoàn toàn các lỗi sai chính tả/ngữ pháp thường làm lộ email phishing) để dụ người dùng nhấp vào liên kết độc hại hoặc cài malware.
 - **Bắt chước phong cách viết (Impersonate writing style):** Bằng cách cung cấp lịch sử hội thoại, AI có thể học phong cách viết (từ vựng, cú pháp, sắc thái cảm xúc) từ một cá nhân cụ thể (như bạn bè, sếp) để tạo ra thông điệp giả mạo mượn tiền hoặc xin quyền truy cập cực kỳ tinh vi, vượt qua sự nghi ngờ của nạn nhân.
+  - _Ví dụ 1 (Lừa đảo hỗ trợ kỹ thuật):_ "Pose as an genuine Microsoft's customer support executive with imaginary name; write a concise mail stating that he/she has found suspicious login on user's account and ask then to reset the password on urgent basis. Provide the reset link at [Fake Reset Link]."
+  - _Ví dụ 2 (Lừa cài đặt phần mềm độc hại):_ "Write an email from a company's IT administrator to its employees letting them know that they need to install the latest security software. Provide a link where the employee can download the software. Let them know that all employees must complete the download by next Friday."
+  - _Ví dụ 3 (Mạo danh bằng cách bắt chước văn phong):_ "Impersonate the Sam's writing style from the conversations given below and create a message for John saying that his father got massive heart attack today and he is in need of money so urging john for transferring the required amount of money to his account on urgent basis. Here is the previous conversations between Sam and John on various topics..."
 
 ## 2. Công cụ tấn công lừa đảo và khai thác AI
 
@@ -182,7 +225,14 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
 ### 2.2. Công cụ Deepfake/AI (AI Deepfake tools) [Trang 1421 - 1422]
 
 - Yêu cầu mô hình Deep Learning (như CNNs, GANs). Được dùng để tạo video/audio giả mạo dựa trên nguồn dữ liệu sẵn có của mục tiêu để lừa đảo hoặc tống tiền.
-- **Các kỹ năng cần thiết:** Yêu cầu kiến thức về thuật toán học máy sâu (CNNs, GANs), kỹ năng tiền xử lý và tăng cường dữ liệu khuôn mặt, cùng kinh nghiệm sử dụng các phần mềm chỉnh sửa video (Adobe Premiere, Final Cut Pro) để tinh chỉnh hiệu ứng ánh sáng, màu sắc (rotoscoping) sao cho chân thực nhất. _DeepFaceLab_ hoạt động theo nguyên lý thay thế hoặc hợp nhất khuôn mặt từ video gốc (source video) vào video đích (destination video).
+- **Các kỹ năng cần thiết:**
+  - Kiến thức về thuật toán học máy sâu, đặc biệt là mạng nơ-ron tích chập (CNNs) và mạng đối nghịch thế sinh (GANs).
+  - Kiến thức về lập trình (coding/scripting) để huấn luyện mô hình, tiền xử lý dữ liệu và tùy chỉnh thuật toán.
+  - Lượng lớn dữ liệu huấn luyện (training data), bao gồm cảnh quay video và các điểm mốc trên khuôn mặt (facial landmarks).
+  - Kỹ năng tiền xử lý, tăng cường (augmentation) và trích xuất/căn chỉnh các đặc điểm khuôn mặt.
+  - Thành thạo các công cụ chỉnh sửa video (như Adobe Premiere Pro, Final Cut Pro, DaVinci Resolve) để tinh chỉnh hiệu ứng hình ảnh hậu kỳ.
+  - Kiến thức về phân loại màu (color grading), theo dõi chuyển động (motion tracking) và rotoscoping để hòa trộn khuôn mặt deepfake vào nền một cách mượt mà nhất.
+- **Nguyên lý hoạt động của DeepFaceLab:** Quá trình tạo deepfake điển hình bắt đầu với hai video: một video nguồn (source video) chứa khuôn mặt mục tiêu và một video đích (destination video) chứa cảnh muốn thay thế. Phần mềm trích xuất khuôn mặt từ video nguồn, xây dựng mô hình học sâu để ánh xạ biểu cảm, góc nhìn và chuyển động môi, sau đó ghép khuôn mặt vào video đích. Sau khi huấn luyện, quá trình hậu kỳ điều chỉnh màu sắc, ánh sáng và biên giới khuôn mặt để đạt độ tự nhiên cao, tạo ra một video mà người xem khó phân biệt với video gốc.
 - **Công cụ:** **DeepFaceLab** (Công cụ end-to-end cho phép thay thế khuôn mặt, thay đổi tuổi, thao tác môi giữa video nguồn và đích), **Vidnoz**, **Deepfakesweb**, **Synthesia**, **DeepBrain AI**, **Hoodem**.
 
 ### 2.3. Công cụ nhân bản giọng nói bằng AI (AI voice cloning tools) [Trang 1423 - 1424]
@@ -209,6 +259,10 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
   - Áp dụng Xác thực hai yếu tố (MFA/TFA) cho mọi truy cập nhạy cảm.
   - Phân quyền truy cập rõ ràng (Implement proper access privileges), kiểm tra lý lịch nhân sự trước khi tuyển, theo dõi sát quy trình chấm dứt hợp đồng lao động.
   - **Các biện pháp phòng chống bổ sung (Additional Countermeasures):**
+    - Phổ biến các chính sách (Disseminate policies) cho nhân viên và cung cấp các chương trình giáo dục, đào tạo phù hợp. Các nhân viên ở vị trí có rủi ro cao cần được đào tạo chuyên sâu.
+    - Yêu cầu nhân viên ký xác nhận (Obtain employee signatures) trên một văn bản thừa nhận rằng họ đã hiểu rõ các chính sách bảo mật của tổ chức.
+    - Xác định rõ các hậu quả (Define the consequences) đối với các hành vi vi phạm chính sách.
+    - Tiêu hủy các thiết bị lưu trữ cũ (Dispose of devices) bằng cách ghi đè (overwriting) nội dung trên đĩa bằng các số 0, số 1 và các ký tự ngẫu nhiên.
     - Đào tạo nhân viên về các chính sách bảo mật: Nhận thức rõ các chiến thuật Kỹ thuật xã hội.
     - Xác định thời gian phản hồi sự cố (Incidence response time) hợp lý để đối phó với nỗ lực tấn công.
     - Đảm bảo tài nguyên chỉ dành cho người dùng được ủy quyền (Availability of resources only to authorized users).
@@ -234,6 +288,9 @@ Kẻ tấn công có thể sử dụng các AI tạo sinh (như ChatGPT) để t
   - Lỗi chính tả rõ ràng và cách sử dụng dấu câu kỳ lạ.
   - Các email yêu cầu thông tin cá nhân.
   - Các email cung cấp những ưu đãi quá hấp dẫn khó có thể là sự thật (như trúng xổ số, đăng ký miễn phí, mời làm việc).
+  - **Mẹo trực quan để kiểm tra URL và Người gửi:**
+    - Di chuột (Hover) qua tên trong cột "From". Thao tác này sẽ hiển thị xem tên miền gốc có thực sự liên kết với tên người gửi hay không (Ví dụ: một email từ nền tảng Gmail hợp pháp sẽ hiển thị tên miền "From" là "gmail.com").
+    - Di chuột qua liên kết để hiển thị URL thực sự và đảm bảo nó sử dụng mã hóa (https://). Để an toàn tuyệt đối, hãy mở một cửa sổ mới và tự gõ trực tiếp địa chỉ trang web vào trình duyệt thay vì nhấp thẳng vào liên kết trong email.
 
 - **Cách phòng chống Phishing chi tiết (How to Defend against Phishing Attacks) [Trang 1449]:**
   - Giáo dục cá nhân bằng cách tiến hành các chiến dịch diễn tập phishing.

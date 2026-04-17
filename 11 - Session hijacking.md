@@ -1,3 +1,5 @@
+### CEHv13 - Module 11 - Session Hijacking
+
 ## 1. Khái niệm Cướp phiên (Session Hijacking) [Trang 1547]
 
 - **Cướp phiên (Session hijacking):** Là một cuộc tấn công trong đó kẻ tấn công chiếm quyền điều khiển một phiên giao tiếp Transmission Control Protocol (TCP) hợp lệ giữa hai máy tính.
@@ -22,6 +24,9 @@ Quá trình cướp phiên được chia thành ba giai đoạn chính:
 
 - **Theo dõi kết nối (Tracking the connection):** Kẻ tấn công dùng network sniffer để theo dõi nạn nhân, hoặc dùng công cụ như Nmap để quét mạng tìm mục tiêu có chuỗi TCP dễ dự đoán. Sau đó, chúng chụp lại các số thứ tự (sequence number) và số xác nhận (acknowledgment number - ACK).
 - **Phá đồng bộ kết nối (Desynchronizing the connection):** Xảy ra khi số thứ tự của máy chủ không khớp với số ACK của máy khách. Để thực hiện, kẻ tấn công gửi dữ liệu null (null data) đến máy chủ để làm tăng số SEQ/ACK của máy chủ mà máy khách không biết. Một cách khác là gửi cờ đặt lại (RST flag) hoặc cờ kết thúc (FIN flag) để ngắt kết nối phía máy chủ và tạo một kết nối mới với số thứ tự khác, đưa cả hai vào trạng thái mất đồng bộ nhưng vẫn được thiết lập.
+  - **Sử dụng cờ RST:** Kẻ tấn công chờ gói SYN/ACK từ server gửi cho host. Khi phát hiện gói này, kẻ tấn công lập tức gửi một gói RST và một gói SYN với các tham số giống hệt (như số cổng) nhưng với số thứ tự khác cho server. Server nhận được gói RST sẽ đóng kết nối với mục tiêu và khởi tạo một kết nối mới dựa trên gói SYN với số thứ tự mới trên cùng cổng. Sau khi mở kết nối mới, server gửi gói SYN/ACK cho mục tiêu để xác nhận. Kẻ tấn công phát hiện gói này (không cần chặn) và gửi gói ACK cho server. Lúc này, server ở trạng thái ESTABLISHED (đã thiết lập). Mục đích là để mục tiêu vẫn duy trì giao tiếp và chuyển sang trạng thái ESTABLISHED khi nhận được gói SYN/ACK đầu tiên từ server. Hậu quả là cả server và mục tiêu đều ở trạng thái ESTABLISHED nhưng bị mất đồng bộ.
+  - **Sử dụng cờ FIN:** Kẻ tấn công cũng có thể dùng cờ FIN, nhưng điều này sẽ khiến server phản hồi bằng gói ACK, làm lộ cuộc tấn công thông qua hiện tượng "bão ACK" (ACK storm). Sự không khớp trong các số SEQ/ACK dẫn đến lưu lượng mạng dư thừa khi cả server và mục tiêu đều cố gắng xác minh đúng số thứ tự. Vì các gói tin này không mang dữ liệu, việc truyền lại sẽ không xảy ra nếu gói bị mất. Tuy nhiên, vì TCP sử dụng IP, việc mất một gói tin duy nhất sẽ kết thúc cuộc hội thoại không mong muốn giữa server và mục tiêu.
+  - **Lưu ý về bước phá đồng bộ:** Kẻ tấn công có thể thêm bước phá đồng bộ vào chuỗi tấn công cướp phiên để đánh lừa host mục tiêu. Nếu không phá đồng bộ, kẻ tấn công tiêm dữ liệu vào server trong khi vẫn giấu danh tính bằng cách giả mạo địa chỉ IP. Tuy nhiên, kẻ tấn công phải đảm bảo rằng server cũng phản hồi lại host mục tiêu.
 - **Tiêm gói tin của kẻ tấn công (Injecting attacker's packet):** Sau khi ngắt kết nối giữa máy chủ và mục tiêu, kẻ tấn công có thể tiêm dữ liệu vào mạng hoặc tích cực tham gia như một kẻ trung gian (Man-in-the-Middle - MITM), đọc và tiêm dữ liệu theo ý muốn.
 
 ## 4. Phân tích gói tin trong cướp phiên cục bộ (Packet Analysis of a Local Session Hijack) [Trang 1552]
@@ -47,6 +52,11 @@ Có hai cấp độ cướp phiên trong mô hình OSI:
 - **Giả mạo (Spoofing):** Kẻ tấn công mạo danh người dùng hoặc máy khác để giành quyền truy cập. Kẻ tấn công không chiếm quyền phiên đang hoạt động mà khởi tạo một phiên kết nối hoàn toàn mới bằng thông tin đăng nhập bị đánh cắp của nạn nhân. (Cần có quyền root để tạo các gói tin thô).
 - **Chiếm (Hijacking):** Kẻ tấn công giành quyền kiểm soát một phiên đang hoạt động (existing active session). Quá trình này phụ thuộc vào việc người dùng hợp pháp đã thiết lập kết nối và xác thực từ trước.
   - Lưu ý về các hạn chế (Limitations): Các cuộc tấn công giả mạo địa chỉ IP chỉ có thể thành công nếu hệ thống sử dụng IP để xác thực. Kẻ tấn công sẽ không thể thực hiện IP spoofing hoặc session hijacking nếu mạng có triển khai kiểm tra tính toàn vẹn trên từng gói tin (per-packet integrity checking). Tương tự, các cuộc tấn công này cũng bất khả thi nếu phiên kết nối sử dụng các phương pháp mã hóa như Secure Sockets Layer (SSL) hoặc Point-to-Point Tunneling Protocol (PPTP) vì kẻ tấn công không thể tham gia vào quá trình trao đổi khóa (key exchange).
+    - **Blind session hijacking (Cướp phiên mù):** Để hiểu cướp phiên mù, điều quan trọng là phải hiểu khả năng dự đoán số thứ tự. Các số thứ tự TCP cung cấp kiểm soát luồng và tính toàn vẹn dữ liệu. Các phân đoạn TCP cung cấp Số thứ tự khởi tạo (ISN) không bắt đầu từ số 0 cho mỗi phiên. Nền tảng của cướp phiên mù dựa trên khả năng dự đoán hoặc đoán các số thứ tự của kẻ tấn công. Kẻ tấn công không thể giả mạo một host đáng tin cậy trên một mạng khác và quan sát các gói tin trả lời vì không có tuyến đường (route) nào để các gói tin quay lại địa chỉ IP của kẻ tấn công. Hơn nữa, kẻ tấn công không thể đầu độc bộ nhớ cache ARP vì các bộ định tuyến không phát sóng ARP qua Internet. Do không thể quan sát phản hồi, kẻ tấn công phải đoán trước các phản hồi từ nạn nhân và ngăn chặn host gửi gói TCP/RST cho nạn nhân. Phương pháp này đặc biệt hữu ích khi khai thác mối quan hệ tin cậy giữa người dùng và các máy từ xa.
+    - **So sánh Spoofing và Hijacking:**
+      - Trong trường hợp IP spoofing mà không có cướp phiên, việc đoán số thứ tự là không cần thiết vì không có phiên nào đang mở hiện tại với địa chỉ IP đó.
+      - Trong một cuộc cướp phiên, lưu lượng chỉ quay lại kẻ tấn công nếu sử dụng "định tuyến nguồn" (source routing) - tức là người gửi chỉ định tuyến đường mà gói IP phải đi đến đích, sau đó kẻ tấn công đánh hơi (sniffs) lưu lượng khi nó đi qua máy mình.
+      - Trong "spoofing phiên", thông tin xác thực bắt được sẽ dùng để thiết lập một phiên mới. Ngược lại, "cướp phiên chủ động" (active hijacking) sẽ làm lu mờ một phiên đã tồn tại từ trước. Hậu quả là người dùng hợp pháp có thể mất quyền truy cập hoặc chức năng bình thường của phiên làm việc (ví dụ: Telnet) vì kẻ tấn công đã cướp phiên và hành động với các đặc quyền của họ. Do hầu hết các cơ chế xác thực chỉ được thực thi lúc bắt đầu phiên, kẻ tấn công có thể dễ dàng truy cập vào máy mục tiêu mà không cần xác thực khi phiên đang diễn ra.
 
 ## 8. Cướp phiên cấp ứng dụng (Application-Level Hijacking) [Trang 1558 - 1559]
 
@@ -135,6 +145,13 @@ Các bước thực hiện tấn công Man-in-the-Browser [Trang 1565 - 1566]:
 - **CRIME Attack** [Trang 1575 - 1576]:
   - Bản chất: Compression Ratio Info-Leak Made Easy - rò rỉ dữ liệu qua nén.
   - Cách thức: Khai thác lỗ hổng trong tính năng nén dữ liệu (thuật toán DEFLATE) của các giao thức SSL/TLS, SPDY và HTTPS. Kẻ tấn công tiêm ký tự ngẫu nhiên, theo dõi độ dài/kích thước cookie được mã hóa để suy đoán giá trị thực sự của authentication cookie.
+    1. Kẻ tấn công sử dụng các kỹ thuật Kỹ nghệ xã hội (Social Engineering) để lừa nạn nhân nhấp vào một liên kết độc hại, từ đó tiêm mã độc vào hệ thống hoặc chuyển hướng nạn nhân đến một trang web lừa đảo.
+    2. Nếu nạn nhân đã thiết lập sẵn kết nối HTTPS với một ứng dụng web bảo mật, kẻ tấn công sẽ đánh hơi (sniff) lưu lượng HTTPS của nạn nhân bằng các kỹ thuật như ARP spoofing.
+    3. Thông qua việc đánh hơi, kẻ tấn công bắt được giá trị cookie từ các thông điệp HTTPS.
+    4. Kẻ tấn công gửi nhiều yêu cầu HTTPS đến ứng dụng web với cookie đó được gắn thêm (prepended) một vài ký tự ngẫu nhiên.
+    5. Sau đó, kẻ tấn công giám sát lưu lượng giữa nạn nhân và ứng dụng web để thu thập giá trị đã nén và mã hóa của cookie.
+    6. Kẻ tấn công phân tích độ dài của cookie và dự đoán giá trị thực sự của cookie xác thực, từ đó mạo danh nạn nhân để đánh cắp các thông tin mật (như thẻ tín dụng, mật khẩu).
+    - **Công cụ khai thác:** Kẻ tấn công thường sử dụng công cụ như **CrimeCheck** để phát hiện xem máy chủ web có bật TLS hay nén HTTP hay không, từ đó xác định mục tiêu có dễ bị tổn thương bởi CRIME attack hay không.
 - **FREAK / Forbidden Attack** [Trang 1577 - 1578]:
   - Bản chất: Tấn công MITM phá vỡ mã hóa TLS.
   - Cách thức: Khai thác lỗ hổng tái sử dụng nonce mật mã (cryptographic nonce reuse) trong quá trình bắt tay TLS (đặc biệt mã hóa AES-GCM). Sau khi chiếm được phiên HTTPS, kẻ tấn công tiêm mã độc (JS) hoặc nội dung giả mạo để ép nạn nhân tiết lộ thông tin nhạy cảm.
@@ -335,6 +352,7 @@ Các cuộc tấn công cướp phiên thường diễn ra âm thầm, giảm hi
 
 - **HTTP Strict Transport Security (HSTS)** [Trang 1606]: Chính sách bảo mật web bảo vệ khỏi MITM. HSTS ép buộc trình duyệt web chỉ giao tiếp với máy chủ bằng giao thức HTTPS an toàn, tự động chuyển đổi các kết nối HTTP không an toàn thành HTTPS.
 - **Token Binding** [Trang 1606 - 1607]: Client tạo ra một cặp khóa public-private cho kết nối. Khi gắn Session ID (token) vào kết nối, client ký nó bằng khóa private. Ngay cả khi kẻ tấn công bắt được token, chúng không thể phát lại (reuse) nó cho một kết nối khác vì không có khóa private tương ứng.
+  - **Chi tiết cơ chế Token Binding:** Client tạo ra một cặp khóa công khai-bí mật (public-private key pair) cho mỗi kết nối đến máy chủ từ xa. Khi client kết nối với máy chủ, nó tạo ra một chữ ký (signature) bằng cách sử dụng khóa bí mật và gửi chữ ký này cùng với khóa công khai của nó cho máy chủ. Máy chủ xác minh chữ ký bằng khóa công khai của client. Điều này đảm bảo rằng thông điệp được gửi bởi một client xác thực vì chỉ có client đó mới sở hữu khóa bí mật tương ứng. Ngay cả khi kẻ tấn công bắt được chữ ký, chúng cũng không thể tái tạo lại chữ ký hoặc sử dụng lại nó cho một kết nối khác. Đối với mỗi kết nối mới, một cặp khóa công khai-bí mật mới sẽ được tạo và sử dụng.
 - **Công cụ hỗ trợ ngăn chặn (Prevention Tools)** [Trang 1616 - 1618]:
   - **Checkmarx One (SAST):** Công cụ phân tích mã nguồn tĩnh (Source-code analysis solution) giúp phát hiện và sửa các lỗ hổng kỹ thuật, lỗi logic mã nguồn mở (CxOSA) từ sớm để chống cướp phiên.
   - **Fiddler:** Web debugging proxy ghi lại toàn bộ traffic HTTP(S), cho phép giải mã HTTPS và thao túng request bằng kỹ thuật giải mã MITM để debug và pentest.

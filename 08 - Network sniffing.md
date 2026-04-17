@@ -1,3 +1,5 @@
+### CEHv13 - Module 08 - Sniffing
+
 ## 1. Ghi nhận gói tin (Packet Sniffing) [Trang 1269]
 
 Ghi nhận gói tin là quá trình giám sát và bắt giữ toàn bộ các gói dữ liệu đi qua một mạng cụ thể bằng ứng dụng phần mềm hoặc thiết bị phần cứng.
@@ -25,6 +27,12 @@ Các bước kẻ tấn công thường thực hiện:
 
 - **Ethernet chia sẻ (Shared Ethernet)**: Mọi host được kết nối trên một bus đơn (sử dụng hub) và phải cạnh tranh băng thông. Hub truyền dữ liệu đến tất cả các cổng; do đó, việc chỉ cần đặt NIC ở chế độ promiscuous sẽ giúp bắt được mọi gói tin rất dễ dàng. Phương pháp sniffing trong môi trường này mang tính thụ động và rất khó bị phát hiện.
 - **Ethernet chuyển mạch (Switched Ethernet)**: Các host kết nối thông qua switch thay vì hub. Switch duy trì một bảng CAM (Content Addressable Memory) để ánh xạ địa chỉ MAC với cổng vật lý tương ứng. Nó chỉ gửi gói tin đến đúng máy đích. Do đó, việc đặt NIC ở chế độ promiscuous không còn hiệu quả trực tiếp, nhưng kẻ tấn công vẫn có thể dùng các phương pháp chủ động để đánh lừa switch.
+
+Cấu trúc chi tiết của Địa chỉ MAC (MAC Address):
+Một địa chỉ MAC bao gồm 48 bit được chia thành hai phần, mỗi phần chứa 24 bit.
+Phần đầu tiên chứa số ID của tổ chức sản xuất bộ điều hợp mạng và được gọi là Mã định danh duy nhất của tổ chức (OUI - Organizationally Unique Identifier).
+Phần tiếp theo chứa số sê-ri được gán cho bộ điều hợp mạng (NIC specific).
+Địa chỉ MAC chứa các số thập lục phân gồm 12 chữ số, được chia thành ba hoặc sáu nhóm. Ví dụ: với địa chỉ MAC D4-BE-D9-14-C8-29, sáu chữ số đầu (D4BED9) biểu thị nhà sản xuất (Dell, Inc.), và sáu chữ số tiếp theo (14C829) biểu thị số sê-ri của bộ điều hợp.
 
 **Bảng CAM và Cách thức hoạt động (CAM Table & How it works) [Trang 1286 - 1289]:**
 
@@ -65,6 +73,21 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 
 - Kẻ tấn công nghe lén mạng, lấy địa chỉ MAC của một máy khách hợp lệ đang kết nối và mạo danh (spoof) chính địa chỉ MAC đó trên máy của mình. Nếu thành công, kẻ tấn công sẽ nhận được mọi lưu lượng dành cho nạn nhân và có thể vượt qua tính năng lọc MAC (MAC filtering) trên các Access Point không dây.
 - Trên Windows: Người dùng có thể đổi địa chỉ MAC trong cài đặt (Network and Internet -> Ethernet Properties -> Advanced tab -> Network Address) hoặc bằng cách chỉnh sửa Windows Registry tại đường dẫn: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}`. Tại đây, tạo một giá trị chuỗi (String value) mới tên là `NetworkAddress` và nhập địa chỉ MAC mới. [Trang 1329]
+  - **Các bước chi tiết thực hiện thay đổi địa chỉ MAC trên Windows 11:**
+    Method 1: Thay đổi thông qua giao diện (Nếu NIC hỗ trợ clone MAC):
+    Mở Control Panel, điều hướng tới Network and Internet -> Networking and Sharing Center.
+    Nhấp vào Ethernet và sau đó chọn Properties trong cửa sổ Ethernet Status.
+    Trong cửa sổ Ethernet Properties, nhấp vào nút Configure và chọn tab Advanced.
+    Dư mục "Property", tìm và nhấp chọn Network Address (hoặc Locally Administered Address).
+    Ở phía bên phải, dưới mục "Value", nhập địa chỉ MAC mới mà bạn muốn gán (lưu ý: không gõ dấu ":" ở giữa các số) và nhấp OK.
+    Gõ lệnh ipconfig/all hoặc net config rdr trong command prompt để xác minh thay đổi. Khởi động lại hệ thống nếu cần.
+    Method 2: Thay đổi thông qua Registry:
+    Nhấn Win + R, gõ regedit để mở Registry Editor.
+    Điều hướng tới: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}.
+    Tìm các sub-keys có 4 chữ số (0000, 0001, 0002...). Kiểm tra khóa "DriverDesc" bên trong để tìm đúng giao diện mạng mục tiêu.
+    Nhấp chuột phải vào sub-key đó, tạo một giá trị chuỗi (String Value) mới tên là NetworkAddress.
+    Nhập địa chỉ MAC mới vào trường "Value data" và nhấp OK.
+    Disable và sau đó Re-enable (tắt và bật lại) giao diện mạng đó, hoặc khởi động lại hệ thống.
 - Công cụ: MAC Address Changer, SMAC, TMAC, Change MAC Address, Mac Changer, AMC.
 - Phòng ngừa: Sử dụng DHCP snooping binding table, Dynamic ARP Inspection, IP Source Guard, cấu hình Port Security trên switch, hoặc các chuẩn mã hóa như WPA3 và IEEE 802.1X.
   - **Retrieval of MAC Address (Truy xuất địa chỉ MAC):** Luôn truy xuất địa chỉ MAC trực tiếp từ card mạng (NIC) thay vì truy xuất từ Hệ điều hành (OS).
@@ -80,6 +103,13 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
 - `switchport port-security`: Kích hoạt port security.
 - `switchport port-security maximum <1-3072>`: Giới hạn số lượng MAC an toàn tối đa cho phép trên cổng (Mặc định là 1).
 - `switchport port-security violation {restrict | shutdown}`: Định nghĩa hành động khi có vi phạm. `restrict` sẽ chặn dữ liệu từ MAC lạ và gửi cảnh báo SNMP, `shutdown` sẽ tắt hẳn cổng.
+  - Một vi phạm bảo mật (security violation) xảy ra khi:
+    Khi một cổng được cấu hình là cổng an toàn (secure port), và số lượng địa chỉ MAC an toàn tối đa đã đạt đến giới hạn.
+    Khi địa chỉ MAC của máy đang cố gắng truy cập cổng không khớp với bất kỳ địa chỉ MAC an toàn nào đã được xác định.
+    Khi số lượng địa chỉ MAC an toàn tối đa trên cổng được thiết lập, các địa chỉ MAC an toàn có thể được thêm vào bảng địa chỉ (address table) theo ba cách:
+    Bạn có thể cấu hình thủ công tất cả các địa chỉ MAC an toàn bằng lệnh cấu hình giao diện.
+    Bạn có thể cho phép cổng cấu hình động (dynamically configure) các địa chỉ MAC an toàn của các thiết bị được kết nối.
+    Bạn có thể cấu hình thủ công một số địa chỉ và cho phép các địa chỉ còn lại được cấu hình động.
 - `switchport port-security mac-address sticky`: Kích hoạt tính năng "sticky", cho phép switch tự động học các địa chỉ MAC đang kết nối và ghi thẳng vào cấu hình đang chạy (running config).
 - `switchport port-security limit rate invalid-source-mac`: Thiết lập giới hạn tỷ lệ (rate limit) cho các gói tin xấu.
 - `switchport port-security mac-address <mac_address>`: Nhập thủ công một địa chỉ MAC an toàn cho giao diện.
@@ -98,6 +128,7 @@ Lý do chính kẻ tấn công nhắm vào các giao thức này là để đán
   - Chỉ hệ thống có IP khớp với IP đích mới trả lời bằng một gói tin ARP reply.
   - Thông điệp ARP reply sau đó được đọc bởi switch. Switch thêm mục nhập vào bảng MAC của nó và chuyển tiếp thông điệp đến máy đích (tức là máy đã gửi yêu cầu ARP ban đầu).
   - Hơn nữa, máy này cập nhật IP và MAC của máy đích vào bảng ARP của nó, và bây giờ quá trình giao tiếp có thể diễn ra.
+  - _Ví dụ minh họa cách thức hoạt động của ARP:_ Xét hai máy tính A (IP: 194.54.67.10, MAC: 00:1b:48:64:42:e4) và B (IP: 192.54.67.15, MAC: 00-14-20-01-23-47) trong cùng mạng. Nếu truy vấn của máy A được diễn đạt bằng ngôn ngữ giao tiếp đơn giản, nó sẽ như sau: _"Hello, who is 192.54.67.15? This is 194.54.67.10. My MAC address is 00:1b:48:64:42:e4. I need your MAC address."_ Máy A gửi gói tin yêu cầu phát sóng (broadcast) này. Khi nhận được yêu cầu, máy B cập nhật bảng ARP cache của nó với thông tin của máy A, sau đó mới gửi lại gói tin ARP reply.
 - Bởi vì giao thức ARP không giữ trạng thái (stateless) và không xác thực, một máy tính hoàn toàn có thể gửi gói ARP reply ngay cả khi không hề có ai hỏi.
 - Kẻ tấn công gửi các gói ARP giả (forged) để liên kết địa chỉ MAC của chúng với địa chỉ IP của một host khác (thường là Default Gateway). Máy nạn nhân sẽ lưu mục sai lệch này vào bộ nhớ đệm (ARP cache), khiến toàn bộ lưu lượng bị chuyển hướng sang máy kẻ tấn công. Kỹ thuật này mở đường cho tấn công MITM (Man-in-the-Middle), DoS, VoIP Call Tapping và Session Hijacking.
 
@@ -259,6 +290,7 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
   - Công cụ: Yersinia, `dhcpStarvation.py`, Metasploit, Hyenae, DHCPig, Gobbler.
   - **Yersinia:** Là một công cụ mạng được thiết kế để lợi dụng các điểm yếu trong các giao thức mạng khác nhau như DHCP. Nó đóng vai trò như một framework vững chắc để phân tích và kiểm tra các hệ thống, mạng lưới đã được triển khai.
   - Phòng ngừa [Trang 1307]: Bật Port security (lệnh `switchport port-security`) để giới hạn MAC; dùng DHCP filtering.
+  - _Cơ chế bảo vệ DHCP Starvation bằng Port Security:_ Việc bật port security giúp thiết lập giới hạn số lượng địa chỉ MAC tối đa trên cổng của switch. Khi vượt quá giới hạn này, switch sẽ tự động loại bỏ (drop) các yêu cầu địa chỉ MAC tiếp theo (các gói tin) đến từ các nguồn bên ngoài, qua đó bảo vệ an toàn cho máy chủ DHCP khỏi bị cạn kiệt tài nguyên.
 - **Rogue DHCP server attack (Tấn công máy chủ DHCP giả mạo)** [Trang 1305]: Là dạng tấn công MITM. Kẻ tấn công dựng một DHCP server giả. Do server giả này trả gói (DHCPOFFER) về trước server hợp lệ, client sẽ lấy cấu hình từ nó. Kẻ tấn công có thể gán default gateway hoặc máy chủ DNS độc hại cho client để điều hướng lưu lượng.
   - Hạn chế [Trang 1306]: Bật DHCP Snooping, thiết lập cổng nối tới server hợp lệ là Trusted, và đánh dấu interface kết nối tới rogue DHCP là Untrusted để chặn tin nhắn.
 
@@ -266,7 +298,16 @@ Quá trình giao tiếp DHCP sử dụng nhiều loại tin nhắn (IPv4/IPv6):
 
 - **Bật DHCP Snooping (Cisco):** `ip dhcp snooping` (bật toàn cầu). `ip dhcp snooping vlan <số vlan>` (bật trên VLAN cụ thể). `ip dhcp snooping trust` (cấu hình cổng kết nối tới DHCP server thật là cổng đáng tin cậy). `ip dhcp snooping limit rate <số>` (giới hạn gói tin DHCP mỗi giây để chống DoS/Starvation).
   - `no ip dhcp snooping information option`: Lệnh bổ sung dùng để vô hiệu hóa việc chèn và xóa trường option-82 trong các gói tin DHCP. [Trang 1309]
-- **MAC Limiting trên Switch Juniper (Chống Starvation):** `set interface ge-0/0/1 mac-limit 3 action drop` (Giới hạn tối đa 3 địa chỉ MAC trên giao diện, nếu vượt quá sẽ drop gói tin).
+  - **Cấu hình chi tiết DHCP Snooping trên Switch Cisco:**
+    - Cấu hình DHCP snooping ở chế độ global: `Switch(config)# ip dhcp snooping`
+    - Cấu hình DHCP snooping cho một VLAN cụ thể: `Switch(config)# ip dhcp snooping vlan 10`
+    - _Lưu ý:_ Nếu switch chỉ hoạt động ở layer 2, bạn phải áp dụng lệnh `ip dhcp snooping trust` lên các giao diện layer 2 để chỉ định (designate) các uplink interfaces đó là cổng đáng tin cậy.
+    - Bảng liên kết DHCP snooping (DHCP snooping binding table) sẽ chứa thông tin các máy khách DHCP đáng tin cậy cùng IP tương ứng của chúng. Để xem bảng này, thực thi lệnh: `Switch(config)# show ip dhcp snooping binding`. Kết quả sẽ hiển thị các trường: MAC Address, IP Address, Lease (sec), Type, VLAN, và Interface.
+- **MAC Limiting trên Switch Juniper (Chống Starvation):**
+  - Bước 1: Chạy lệnh sau để cấu hình giới hạn MAC là 3 trên giao diện ge-0/0/1 của thiết bị đầu tiên và chỉ định hành động hủy gói tin nếu vượt quá giới hạn: `set interface ge-0/0/1 mac-limit 3 action drop`
+  - Bước 2: Chạy lệnh tương tự để cấu hình giới hạn MAC là 3 trên giao diện ge-0/0/2 của thiết bị thứ hai: `set interface ge-0/0/2 mac-limit 3 action drop`
+  - Bước 3: Thực thi lệnh show (ví dụ: `show interface ge-0/0/1.0 { mac-limit 3 action drop; }`) để xem lại kết quả cấu hình giới hạn MAC vừa thiết lập.
+  - Bước 4: Chạy lệnh `show ethernet-switching table` để xác minh quá trình giới hạn MAC đang hoạt động trên switch.
 - **Bật DHCP Filtering toàn cầu cho switch (Juniper):**
   - `config`
   - `<IP address> dhcp filtering`

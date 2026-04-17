@@ -7,14 +7,15 @@ for file in *.md; do
     
     tmpfile=$(mktemp)
     
-    # Thay emoji và một số ký tự đặc biệt hay gây warning
+    # Xử lý emoji, mũi tên và backslash (rất quan trọng cho registry, \x, đường dẫn Windows)
     sed 's/🟢/[OK]/g;
          s/🔴/[FAIL]/g;
          s/🟡/[WARN]/g;
          s/🔵/[INFO]/g;
          s/🟣/[NOTE]/g;
          s/🟠/[ORANGE]/g;
-         s/→/-->/g' "$file" > "$tmpfile"
+         s/→/-->/g;
+         s/\\/\\textbackslash{}/g' "$file" > "$tmpfile"
     
     pandoc "$tmpfile" \
         -f markdown \
@@ -26,7 +27,15 @@ for file in *.md; do
         -V mainfont="Noto Serif" \
         -V sansfont="Noto Sans" \
         -V monofont="JetBrains Mono" \
-        --highlight-style=tango
+        --highlight-style=tango \
+        --include-in-header=<(cat << 'EOF'
+\usepackage{enumitem}
+% Chỉ tăng độ sâu danh sách (không renewlist để tránh xung đột với Pandoc)
+\setlistdepth{20}
+% Bỏ tightlist của Pandoc để tránh lỗi label
+\let\tightlist\relax
+EOF
+)
     
     rm "$tmpfile"
 done

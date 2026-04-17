@@ -1,3 +1,5 @@
+### CEHv13 - Module 02 - Footprinting and Reconnaissance
+
 ## Mạng TCP/IP
 
 ### 1. Giao thức UDP (User Datagram Protocol) - Trang 319 & 337
@@ -62,6 +64,12 @@ Thu thập dấu vết (Footprinting) là quá trình thu thập thông tin về
 - **Mục tiêu**: Xây dựng chiến lược tấn công, tìm ra điểm yếu nhất trong hệ thống bảo mật (weakest link) và xây dựng cơ sở dữ liệu thông tin về mục tiêu.
 - **Mối đe dọa (Footprinting Threats)**: Kỹ nghệ xã hội (Social Engineering), Tấn công hệ thống và mạng (System and Network Attacks), Rò rỉ thông tin (Information Leakage), Mất quyền riêng tư (Privacy Loss), Gián điệp doanh nghiệp (Corporate Espionage), Thất thoát doanh thu (Business Loss).
 
+### Cách thức hoạt động của Footprinting qua công cụ tìm kiếm (Trang 131)
+
+Các công cụ tìm kiếm là nguồn chính cung cấp thông tin trọng yếu về một tổ chức mục tiêu. Chúng sử dụng các phần mềm tự động, tức là các trình thu thập thông tin (crawlers), để liên tục quét các trang web đang hoạt động và thêm kết quả thu xuất được vào chỉ mục (index) của công cụ tìm kiếm, sau đó lưu trữ trong một cơ sở dữ liệu khổng lồ.
+
+Khi người dùng truy vấn chỉ mục, nó sẽ trả về danh sách các Trang kết quả của công cụ tìm kiếm (SERPs). Những kết quả này bao gồm các trang web, video, hình ảnh và nhiều loại tệp khác nhau được xếp hạng và hiển thị theo mức độ liên quan. Nhiều công cụ tìm kiếm có thể trích xuất thông tin của tổ chức mục tiêu như: nền tảng công nghệ, chi tiết nhân viên, trang đăng nhập (login pages), cổng mạng nội bộ (intranet portals), thông tin liên hệ, v.v. Thông tin này giúp kẻ tấn công thực hiện kỹ nghệ xã hội (social engineering) và các loại tấn công hệ thống nâng cao khác.
+
 ### Google advanced search operators (Toán tử tìm kiếm nâng cao của Google) (Trang 132 - 134)
 
 Kẻ tấn công sử dụng các toán tử này để tạo ra các truy vấn phức tạp nhằm trích xuất thông tin nhạy cảm hoặc bị ẩn.
@@ -82,7 +90,10 @@ Kẻ tấn công sử dụng các toán tử này để tạo ra các truy vấn
 - `before:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản trước một ngày nhất định (ví dụ: `before:2020-06-29`).
 - `after:` Lọc kết quả tìm kiếm chỉ bao gồm nội dung được xuất bản sau một ngày nhất định.
 - `inanchor:` Giới hạn kết quả tìm kiếm chỉ những trang chứa từ khóa được chỉ định trong văn bản neo (anchor text) của các liên kết trỏ đến trang đó. (Ví dụ: [Anti-virus inanchor:Norton]).
-- `allinanchor:` Giới hạn kết quả tìm kiếm chỉ những trang chứa tất cả các từ khóa được chỉ định trong văn bản neo của các liên kết. (Ví dụ: [allinanchor: best cloud service provider]).
+- `allinanchor:` Giới hạn kết quả trả về chỉ những trang chứa tất cả các từ khóa được chỉ định trong văn bản neo (anchor text) của các liên kết. (Ví dụ: [allinanchor: best cloud service provider]).
+- **Lưu ý khi sử dụng toán tử:**
+  - Không nhập bất kỳ khoảng trắng nào giữa toán tử và truy vấn (Ví dụ: operator: search_term).
+  - Theo tài liệu của Google, "bạn không thể kết hợp tìm kiếm link: với tìm kiếm từ khóa thông thường". Ngoài ra, khi bạn kết hợp link: với một toán tử nâng cao khác, Google có thể không trả về tất cả các trang khớp.
 
 ### Hacker có thể làm gì với Google Hacking? (Trang 135)
 
@@ -94,11 +105,14 @@ Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phá
 - Mã nguồn ứng dụng web, thông tin phiên bản phần mềm.
 - Thiết bị IoT và bảng điều khiển (control panels) không được bảo vệ.
 - Các trang web bị ẩn (Intranet, dịch vụ VPN).
+- **Ví dụ thực tế về Toán tử nâng cao của Google:** Sử dụng cú pháp: [intitle:intranet inurl:intranet +intext:"human resources"]
+  - Lệnh này được sử dụng để tìm kiếm các thông tin nhạy cảm về tổ chức mục tiêu và nhân viên của họ. Kẻ tấn công sử dụng thông tin thu thập được này để thực hiện các cuộc tấn công kỹ nghệ xã hội (social engineering attacks).
 
 ### Footprinting bằng AI & Cơ sở dữ liệu Google Hacking (GHDB) (Trang 137 - 143)
 
 - **Khai thác Google Hacking với AI**: Kẻ tấn công có thể sử dụng các công nghệ AI (như ChatGPT hoặc ShellGPT) để tự động hóa việc tìm kiếm. Ví dụ một prompt: _"Use filetype search operator to obtain pdf files on the target website eccouncil.org and store the result in the recon1.txt file"_. AI có thể trả về các lệnh shell nâng cao (như dùng `lynx --dump` kết hợp `grep` và `cut`) để cào dữ liệu nhanh chóng.
   - **Cú pháp lệnh shell nâng cao (Sử dụng trình duyệt Lynx):**
+
     ```bash
     lynx --dump "http://www.google.com/search?q=site:eccouncil.org+filetype:pdf" | grep "http" | cut -d "=" -f2 | grep -o "http[^&]*" > recon1.txt
     ```
@@ -108,6 +122,7 @@ Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phá
     - `| cut -d "=" -f2`: Tách mỗi dòng sử dụng dấu "=" làm dấu phân cách và chọn trường thứ hai.
     - `| grep -o "http[^&]*"`: Tìm kiếm các mẫu bắt đầu bằng "http" theo sau là bất kỳ ký tự nào ngoại trừ `&`.
     - `> recon1.txt`: Chuyển hướng đầu ra cuối cùng vào tệp có tên `recon1.txt` để lưu trữ.
+
 - **Google Hacking Database (GHDB)**: Là cơ sở dữ liệu truy vấn giúp tìm kiếm các thông tin nhạy cảm vô tình bị lộ. Các dorks thường tìm: Sensitive files, Exposed directories, Error messages, Vulnerable devices.
 - **Các danh mục của Cơ sở dữ liệu Google Hacking (Google Hacking Database Categories):** Footholds (Bàn đạp), Files Containing Usernames (Tệp chứa tên người dùng), Sensitive Directories (Thư mục nhạy cảm), Web Server Detection (Phát hiện máy chủ web), Vulnerable Files (Tệp dễ bị tổn thương), Vulnerable Servers (Máy chủ dễ bị tổn thương), Error Messages (Thông báo lỗi), Files Containing Juicy Info (Tệp chứa thông tin giá trị), Files Containing Passwords (Tệp chứa mật khẩu), Sensitive Online Shopping Info (Thông tin mua sắm trực tuyến nhạy cảm), Network or Vulnerability Data (Dữ liệu mạng hoặc lỗ hổng), Pages Containing Login Portals (Trang chứa cổng đăng nhập), Various Online Devices (Nhiều thiết bị trực tuyến), Advisories and Vulnerabilities (Cảnh báo và lỗ hổng).
 - **VPN Footprinting**: GHDB được sử dụng để tìm kiếm cấu hình và portal đăng nhập của các thiết bị VPN. Ví dụ các Google Dorks:
@@ -127,7 +142,11 @@ Bằng cách sử dụng các toán tử Google, kẻ tấn công có thể phá
 ### Các kỹ thuật tìm kiếm nâng cao khác (Trang 146 - 150)
 
 - **Google Advanced Search & Advanced Image Search**: Bằng cách truy cập `https://www.google.com/advanced_search` hoặc `advanced_image_search`, kẻ tấn công có thể lọc chính xác theo từ khóa, màu sắc, tên miền, loại tệp tin mà không cần nhớ cú pháp toán tử phức tạp.
+  - **Cách thực hiện:** Để thực hiện tìm kiếm nâng cao trong Google, hãy nhấp vào **Settings** ở dưới cùng bên phải của trang chủ Google, sau đó chọn **Advanced search** trong menu hoặc trực tiếp nhập `https://www.google.com/advanced_search` vào thanh địa chỉ.
+  - Mặc định, các giá trị khác nhau được nối với nhau bằng "and" (tất cả đều phải khớp), ngoại trừ các tập hợp, khối và định dạng được nối với nhau bằng "or" (bất kỳ giá trị nào khớp).
+  - Với **Google Advanced Image Search**, kẻ tấn công có thể tinh chỉnh theo nhiều cách: tìm kiếm dựa trên màu sắc hình ảnh, tên miền, loại tệp, kích thước, từ khóa, v.v. để lấy hình ảnh của mục tiêu, vị trí, nhân viên.
 - **Reverse Image Search (Tìm kiếm hình ảnh ngược)**: Cho phép theo dõi nguồn gốc hình ảnh, hồ sơ và vị trí (sử dụng Google Image Search, TinEye, Yahoo/Bing Image Search).
+  - **Cách thực hiện:** Để thực hiện tìm kiếm hình ảnh ngược trong Google, hãy nhập `https://www.google.com/imghp` vào thanh địa chỉ. Bạn có thể tải một hình ảnh lên hoặc dán URL của hình ảnh vào công cụ. Hệ thống sẽ xác minh chỉ mục và hiển thị tất cả các vị trí trực tuyến chứa hình ảnh đó.
 - **Video Search Engines**: Lấy thông tin từ các video bị lộ, sử dụng công cụ như YouTube Metadata, YouTube DataViewer, MW Metadata, EZGif, và VideoReverser.com để đảo ngược video, phân tích thời gian, thumbnail và trích xuất text/thông tin bị ẩn trong các khung hình video.
 
 ### Meta search engines (Công cụ tìm kiếm Meta) (Trang 151 - 152)
@@ -227,7 +246,25 @@ Kẻ tấn công sử dụng các công cụ để xác định hệ điều hà
 
 - **Các phương pháp thu thập (Approaches):**
   - Direct Approach (Tiếp cận trực tiếp): Kỹ thuật thu thập thông tin từ các triển lãm thương mại, tấn công kỹ nghệ xã hội (social engineering) vào nhân viên và khách hàng, v.v.
-  - Indirect Approach (Tiếp cận gián tiếp): Thu thập thông tin thông qua các tài nguyên trực tuyến (website công ty, mạng xã hội, báo cáo, cơ sở dữ liệu pháp lý...).
+  - Indirect Approach (Tiếp cận gián tiếp): Thu thập thông tin thông qua các tài nguyên trực tuyến. Các kỹ thuật tiếp cận gián tiếp bao gồm:
+    - Trang web công ty và quảng cáo tuyển dụng (Company websites and employment ads)
+    - Các luồng hỗ trợ và đánh giá (Support threads and reviews)
+    - Công cụ tìm kiếm, Internet và cơ sở dữ liệu trực tuyến
+    - Các bài đăng trên mạng xã hội (Social media postings)
+    - Thông cáo báo chí và báo cáo thường niên
+    - Tạp chí thương mại, hội nghị và báo chí
+    - Bằng sáng chế và nhãn hiệu (Patent and trademarks)
+    - Danh mục sản phẩm và các cửa hàng bán lẻ
+    - Báo cáo phân tích và quy định
+    - Phỏng vấn khách hàng và nhà cung cấp
+    - Đại lý, nhà phân phối và nhà cung cấp
+    - Các blog và ấn phẩm chuyên ngành
+    - Cơ sở dữ liệu pháp lý (ví dụ: LexisNexis)
+    - Cơ sở dữ liệu thông tin doanh nghiệp (ví dụ: D&B Hoovers)
+    - Các bài đăng tuyển dụng trực tuyến
+    - Hồ sơ tài chính (Financial filings)
+    - Giải pháp công nghệ (ví dụ: Crunchbase)
+    - Phân tích sở hữu trí tuệ
 - **Các câu hỏi định hướng (Competitive Intelligence):** When did it begin? (Khi nào công ty bắt đầu?), How did it develop? (Phát triển như thế nào?), Who leads it? (Ai lãnh đạo?), Where is it located? (Vị trí các chi nhánh ở đâu?).
 
 Quá trình này giúp kẻ tấn công thu thập kế hoạch, chiến lược kinh doanh của tổ chức từ các nguồn:
@@ -364,6 +401,7 @@ Hacker có thể kết hợp ChatGPT và công cụ dnsrecon để tự động 
 
 - Xác định dải IP giúp kẻ tấn công lập bản đồ mạng mục tiêu (network topology), tìm ra máy chủ nào đang sống và các thiết bị kiểm soát mạng.
 - Sử dụng cơ sở dữ liệu của các Regional Internet Registry (như ARIN Whois database) để lấy dải IP, mặt nạ mạng (subnet mask).
+  - **Cách truy vấn:** Người dùng có thể truy cập trang web của ARIN (`https://www.arin.net/about/welcome/region`) và nhập địa chỉ IP của máy chủ vào hộp văn bản **SEARCH Site or Whois**. Việc này sẽ trả về phạm vi mạng (network range) của mạng mục tiêu. Các máy chủ DNS được thiết lập không đúng cách sẽ tạo cơ hội tốt để kẻ tấn công có được danh sách các máy nội bộ trong mạng.
 - Dải IP Private (IANA dự trữ): `10.0.0.0/8`, `172.16.0.0/12` và `192.168.0.0/16`. Kẻ tấn công cố gắng lần theo traceroute để lấy các địa chỉ IP nội bộ của Gateway (router).
 
 ---
@@ -458,7 +496,14 @@ Kỹ nghệ xã hội là quá trình phi kỹ thuật mà kẻ tấn công lừ
 
 - **Maltego (Trang 253 & 255):** Công cụ tự động dùng để xác định các mối quan hệ và liên kết trong thế giới thực giữa con người, nhóm người, tổ chức, trang web, hạ tầng mạng, và tài liệu.
 - **Recon-ng (Trang 253 & 255):** Framework trinh sát web với các module độc lập và tương tác cơ sở dữ liệu, cung cấp môi trường thu thập thông tin mã nguồn mở mạnh mẽ và nhanh chóng.
-- **FOCA (Trang 254 & 256):** (Fingerprinting Organizations with Collected Archives) Công cụ chủ yếu dùng để tìm metadata (siêu dữ liệu) và thông tin ẩn trong các tài liệu (MS Office, PDF) mà nó quét. Có các tính năng: Web Search, DNS Search, IP Resolution, PTR Scanning, Bing IP, Common Names.
+  - **Mẹo bổ sung:** Kẻ tấn công có thể sử dụng module `recon/domains-hosts/brute_hosts` trong công cụ Recon-ng để trích xuất danh sách các máy chủ (hosts) liên kết với URL mục tiêu.
+- **FOCA (Trang 254 & 256):** (Fingerprinting Organizations with Collected Archives) Công cụ chủ yếu dùng để tìm metadata (siêu dữ liệu) và thông tin ẩn trong các tài liệu mà nó quét (đặc biệt là Microsoft Office, Open Office hoặc PDF). Các tính năng chính bao gồm:
+  - Web Search: Tìm kiếm các máy chủ và tên miền thông qua các URL liên kết với tên miền chính. Mỗi liên kết được phân tích để trích xuất thông tin host và domain mới.
+  - DNS Search: Kiểm tra từng domain để xác định các host name được cấu hình trong các máy chủ NS, MX và SPF.
+  - IP Resolution: Phân giải từng host name bằng cách so sánh với DNS để lấy địa chỉ IP. Thực hiện phân tích đối chiếu với DNS nội bộ của tổ chức.
+  - PTR Scanning: Tìm thêm các máy chủ trong cùng một phân đoạn của một địa chỉ đã xác định thông qua quét nhật ký PTR.
+  - Bing IP: Khởi chạy FOCA như một quá trình tìm kiếm các tên miền mới liên kết với từng địa chỉ IP đã được phát hiện.
+  - Common Names: Thực hiện tấn công từ điển (dictionary attacks) vào DNS.
 - **subfinder (Trang 254 & 257):** Công cụ phát hiện subdomain, giúp kẻ tấn công tìm các subdomain hợp lệ cho trang web bằng cách sử dụng các nguồn trực tuyến thụ động.
 - **OSINT Framework (Trang 254 & 258):** Framework thu thập tình báo nguồn mở tập trung vào việc lấy thông tin từ các công cụ/tài nguyên miễn phí. Nó cung cấp một giao diện web dạng cây (tree structure) liệt kê phân loại các công cụ OSINT.
   - **Các ký hiệu (indicators) của công cụ trên OSINT Framework:**
@@ -466,17 +511,37 @@ Kỹ nghệ xã hội là quá trình phi kỹ thuật mà kẻ tấn công lừ
     - **(D)** - Là một Google Dork.
     - **(R)** - Công cụ yêu cầu đăng ký tài khoản (Requires registration).
     - **(M)** - Cho biết URL có chứa cụm từ tìm kiếm và bản thân URL đó phải được chỉnh sửa thủ công.
-- **Recon-dog (Trang 254 & 259):** Công cụ "all-in-one" cho nhu cầu thu thập thông tin cơ bản. Sử dụng API để lấy thông tin mục tiêu với các tính năng: Censys, NS lookup, Port scan, Detect CMS, Whois lookup, Detect honeypot, Find subdomains, và Reverse IP lookup.
+- **Recon-dog (Trang 254 & 259):** Công cụ "all-in-one" cho nhu cầu thu thập thông tin cơ bản. Sử dụng API để lấy thông tin mục tiêu. Các tính năng cốt lõi:
+  - Censys: Sử dụng censys.io để thu thập lượng thông tin khổng lồ về một địa chỉ IP.
+  - NS lookup: Thực hiện tra cứu máy chủ phân giải tên miền (name server).
+  - Port scan: Quét các cổng TCP phổ biến nhất.
+  - Detect CMS: Có thể phát hiện hơn 400+ hệ thống quản trị nội dung.
+  - Whois lookup: Thực hiện tra cứu Whois.
+  - Detect honeypot: Sử dụng shodan.io để kiểm tra xem mục tiêu có phải là một honeypot hay không.
+  - Find subdomains: Sử dụng findsubdomains.com để tìm các tên miền phụ.
+  - Reverse IP lookup: Thực hiện tra cứu IP ngược để tìm các tên miền liên kết với một IP.
+  - Detect technologies: Sử dụng wappalyzer.com để phát hiện hơn 1000+ công nghệ.
+  - All: Chạy toàn bộ các tiện ích trên nhắm vào mục tiêu.
 - **BillCipher (Trang 254 & 260):** Công cụ thu thập thông tin cho trang web hoặc địa chỉ IP (hỗ trợ Python 2, 3 và Ruby). Bao gồm nhiều tính năng: tra cứu DNS, tra cứu Whois, quét cổng, zone transfer, tìm host và reverse IP lookup.
 
 ### Các công cụ OSINT được hỗ trợ bởi AI (AI-Powered OSINT Tools) (Trang 262 - 268)
 
 AI giúp tự động hóa quá trình cào dữ liệu web (Web Scraping), nhận dạng mẫu (Pattern Recognition), tóm tắt nội dung (Content Summarization), phân tích cảm xúc (Sentiment Analysis), nhận dạng hình ảnh (Image Recognition - bao gồm Face Recognition, Metadata Analysis, Reverse Image Search), và phát hiện AI (AI Detection).
 
-Lợi ích của AI trong OSINT (Benefits): Cải thiện hiệu quả tự động hóa (Improved Efficiency), mở rộng phạm vi phân tích (Greater Scope), tăng cường khả năng hiển thị các mối quan hệ ẩn (Enhanced Visibility), và tăng cường an toàn cho điều tra viên (Increased Investigator Safety) thông qua quá trình ẩn danh.
+Lợi ích của việc tích hợp AI trong OSINT (Benefits of Integrating AI in OSINT): - Cải thiện Hiệu quả (Improved Efficiency): AI nâng cao hiệu quả OSINT bằng cách tự động hóa các tác vụ như cào dữ liệu web (web scraping) và trích xuất dữ liệu, giúp đẩy nhanh quá trình. Điều này cho phép điều tra viên tập trung vào phân tích và ra quyết định cấp cao hơn. - Phạm vi lớn hơn (Greater Scope): AI mở rộng phạm vi OSINT bằng cách phân tích lượng dữ liệu khổng lồ từ surface web, deep web và dark web. Khả năng xử lý các tập dữ liệu lớn và xác định kết nối cho phép phát hiện các mẫu (patterns) và mối quan hệ ẩn khó phát hiện thủ công. - Tăng cường khả năng hiển thị (Enhanced Visibility): AI kết nối hàng tỷ điểm dữ liệu dường như không liên quan thành các mạng lưới thông tin mạch lạc, cho phép điều tra viên nhanh chóng xác định các hoạt động đáng ngờ. Các công cụ AI trình bày các mạng lưới này dưới dạng giao diện đồ họa thân thiện với người dùng. - Tăng cường an toàn cho điều tra viên (Increased Investigator Safety): AI hỗ trợ ẩn danh và tự động hóa các cuộc điều tra. Nó giảm thiểu rủi ro làm lộ danh tính của điều tra viên. Các công cụ AI có thể tiến hành điều tra kỹ lưỡng mà không cần sự can thiệp trực tiếp của con người vào các môi trường nguy hiểm như dark web.
 
-- **Taranis AI**: Nền tảng OSINT nâng cao giúp gom nhặt, phân tích các tin tức phi cấu trúc và xuất ra báo cáo (PDF).
-- **OSS Insight**: Phân tích kho dữ liệu khổng lồ của GitHub bằng tính năng truy vấn bằng ngôn ngữ tự nhiên (GPT-Powered). Theo dõi hoạt động của nhà phát triển, kho lưu trữ và xu hướng Web3/AI.
+- **Taranis AI:** Nền tảng OSINT nâng cao nguồn mở sử dụng NLP và AI để gom nhặt, phân tích các tin tức phi cấu trúc. Các tính năng cốt lõi:
+  - **Advanced OSINT Capabilities:** Tìm kiếm trên nhiều nguồn dữ liệu (bao gồm cả websites) để thu thập tin bài phi cấu trúc và cung cấp nguồn cấp dữ liệu tình báo phong phú.
+  - **AI-Enhanced Analysis:** Nâng cao các bài báo thu thập được, đảm bảo nội dung chất lượng cao và có liên quan thông qua AI và NLP.
+  - **Multi-Format Output:** Tạo ra nhiều loại sản phẩm đầu ra (bao gồm báo cáo có cấu trúc và tệp PDF) được tùy chỉnh để đáp ứng nhu cầu thông tin cụ thể.
+  - **Seamless Publishing:** Nền tảng cho phép dễ dàng xuất bản các sản phẩm tình báo đã hoàn thiện, đảm bảo phổ biến thông tin kịp thời đến các bên liên quan.
+- **OSS Insight:** Phân tích kho dữ liệu khổng lồ của GitHub (hơn 5 tỷ sự kiện) để cung cấp cái nhìn sâu sắc về hệ sinh thái mã nguồn mở. Các tính năng cốt lõi:
+  - **GPT-Powered Data Exploration:** Cho phép truy vấn dữ liệu GitHub bằng ngôn ngữ tự nhiên, tạo truy vấn SQL và trình bày kết quả trực quan mà không yêu cầu kỹ năng SQL nâng cao.
+  - **Technical Fields Analytics:** Quản lý và phân tích các bộ sưu tập GitHub trong các lĩnh vực kỹ thuật (web frameworks, AI, Web3) để xác định các công nghệ mới nổi và lỗ hổng tiềm ẩn.
+  - **Developer Analytics:** Theo dõi số liệu năng suất của nhà phát triển (commits, pull requests, code contributions) để đánh giá độ tin cậy và xác định các điểm yếu do rủi ro nội bộ hoặc đóng góp thấp.
+  - **Repository Analytics:** Đánh giá các số liệu của kho lưu trữ (độ phổ biến, tần suất cập nhật, mức độ tương tác) để xác định các kho lưu trữ dễ bị tấn công do mã lỗi thời hoặc ít người quản lý.
+  - **Compare Projects:** Dễ dàng so sánh số liệu giữa các dự án GitHub khác nhau (mức độ hoạt động, hiệu quả xử lý sự cố...) để nhắm mục tiêu chiến lược.
+  - **Tầm quan trọng trong OSINT:** Cung cấp dữ liệu theo thời gian thực và dữ liệu lịch sử (GHArchive), kết hợp cùng khả năng truy vấn AI để tìm kiếm các lỗ hổng phần mềm hoặc vector tấn công.
 - **Các công cụ OSINT AI bổ sung**:
   - **DorkGPT / DorkGenius**: Trợ lý AI tự động tạo các câu lệnh Google Dorks chính xác.
   - **Google Word Sniper**: Tinh chỉnh truy vấn Google để tìm thông tin bị ẩn sâu.
